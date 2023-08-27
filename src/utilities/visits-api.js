@@ -9,6 +9,10 @@ export function create(visit) {
   return axiosRequest(BASE_URL, "POST", visit);
 }
 
+export function update(visit) {
+  return axiosRequest(`${BASE_URL}/${visit._id}`, "PUT", visit);
+}
+
 export async function getById(id) {
   return await axiosRequest(`${BASE_URL}/${id}`);
 }
