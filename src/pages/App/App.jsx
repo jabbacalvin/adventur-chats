@@ -10,6 +10,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import VisitPage from "../VisitPage/VisitPage";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
+
 export default function App() {
   const [user, setUser] = useState(getUser());
 
