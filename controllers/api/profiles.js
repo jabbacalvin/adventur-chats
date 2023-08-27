@@ -4,7 +4,7 @@ const Location = require("../../models/location");
 module.exports = {
   index,
   update,
-  show,
+  showOne,
 };
 
 function index(req, res) {
@@ -62,7 +62,7 @@ async function update(req, res) {
   }
 }
 
-async function show(req, res) {
+async function showOne(req, res) {
   try {
     const profile = await Profile.findById(req.params.id)
       .populate("profilePics")

@@ -8,6 +8,7 @@ module.exports = {
   create,
   login,
   checkToken,
+  createJWT,
 };
 
 function checkToken(req, res) {
@@ -38,7 +39,13 @@ async function create(req, res) {
     const newProfile = await Profile.create(req.body);
     req.body.profile = newProfile._id;
     let newUser = await User.create(req.body);
-    newUser = await newUser.populate("profile");
+    newUser = await newUser.populate({
+      path: "profile",
+      populate: {
+        path: "profilePics",
+        model: "Image",
+      },
+    });
 
     const token = createJWT(newUser);
     res.status(200).json(token);
@@ -49,9 +56,15 @@ async function create(req, res) {
 
 async function login(req, res) {
   try {
-    const user = await User.findOne({ email: req.body.email }).populate(
-      "profile"
-    );
+    const user = await User.findOne({ email: req.body.email }).populate({
+      path: "profile",
+      populate: {
+        path: "profilePics",
+        model: "Image",
+      },
+    });
+
+    console.log(user);
 
     if (!user) throw new Error();
     const match = await bcrypt.compare(req.body.password, user.password);
@@ -61,6 +74,7 @@ async function login(req, res) {
 
     res.json(token);
   } catch (err) {
+    console.log(err);
     res.status(400).json("Bad Credentials");
   }
 }
