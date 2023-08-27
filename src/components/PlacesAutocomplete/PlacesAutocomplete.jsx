@@ -22,16 +22,12 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function PlacesAutocomplete({
-  locationData,
-  setLocationData,
-  hasLocation,
-  setHasLocation,
-}) {
+export default function PlacesAutocomplete({ locationData, setLocationData }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const loaded = useRef(false);
+  const [hasLocation, setHasLocation] = useState(true);
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {

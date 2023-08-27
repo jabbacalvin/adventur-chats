@@ -20,7 +20,6 @@ export default function EditProfileSettingsForm({ user }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState([""]);
   const [profilePics, setProfilePics] = useState([]);
-  const [hasLocation, setHasLocation] = useState(true);
 
   const [formData, setFormData] = useState({
     profilePic: [],
@@ -173,8 +172,6 @@ export default function EditProfileSettingsForm({ user }) {
         <PlacesAutocomplete
           locationData={locationData}
           setLocationData={setLocationData}
-          hasLocation={hasLocation}
-          setHasLocation={setHasLocation}
         />
       </Grid>
       <Grid sx={{ m: 1, width: "28ch" }}>
