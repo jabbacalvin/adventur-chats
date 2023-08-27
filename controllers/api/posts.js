@@ -6,6 +6,7 @@ module.exports = {
   index,
   showPost,
   deletePost,
+  updatePost,
 };
 
 async function createPost(req, res) {
@@ -34,6 +35,13 @@ async function index(req, res) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+}
+
+async function updatePost(req, res) {
+  const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.status(200).json(updatedPost);
 }
 
 async function showPost(req, res) {

@@ -24,8 +24,7 @@ function PostList({ posts }) {
         {posts.map((post) => (
           <li key={post._id}>
             <h3>{post.title}</h3>
-            <p>Location: {post.location.placeName}</p>
-            <p>{post.content}</p>
+            <p>Location: {post.location?.placeName}</p>
             <p>
               Categories:{" "}
               {post.categories.length > 0 ? (
@@ -39,6 +38,7 @@ function PostList({ posts }) {
                 <span>No categories</span>
               )}
             </p>
+            <p>{post.content}</p>
           </li>
         ))}
       </ul>
