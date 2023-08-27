@@ -10,9 +10,13 @@ export function create(visit) {
 }
 
 export function update(visit) {
-  return axiosRequest(`${BASE_URL}/${visit._id}`, "PUT", visit);
+  return axiosRequest(`${BASE_URL}/${visit._id}`, "POST", visit);
 }
 
 export async function getById(id) {
   return await axiosRequest(`${BASE_URL}/${id}`);
+}
+
+export function deleteOne(id) {
+  return axiosRequest(`${BASE_URL}/${id}`, "DELETE");
 }
