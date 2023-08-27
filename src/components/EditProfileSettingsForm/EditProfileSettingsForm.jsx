@@ -32,12 +32,6 @@ export default function EditProfileSettingsForm({ user }) {
     isSearchable: true,
   });
 
-  // const [slidersState, setSlidersState] = useState({
-  //   useUsername: true,
-  //   isMessageable: true,
-  //   isSearchable: true,
-  // });
-
   const [locationData, setLocationData] = useState({
     googlePlaceId: "",
     placeName: "",
@@ -65,18 +59,10 @@ export default function EditProfileSettingsForm({ user }) {
           placeName: response.data.homeBase.placeName,
         });
       }
-      // setSlidersState(response.data);
     } catch (error) {
       console.error("Error fetching profile: ", error);
     }
   };
-
-  // const handleSliderChange = (event) => {
-  //   setSlidersState({
-  //     ...slidersState,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
 
   const handleChange = (e) => {
     updateMessage("");
