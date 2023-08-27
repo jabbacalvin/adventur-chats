@@ -8,7 +8,6 @@ module.exports = {
   create,
   login,
   checkToken,
-  createJWT,
 };
 
 function checkToken(req, res) {
@@ -64,8 +63,6 @@ async function login(req, res) {
       },
     });
 
-    console.log(user);
-
     if (!user) throw new Error();
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new Error();
@@ -74,7 +71,6 @@ async function login(req, res) {
 
     res.json(token);
   } catch (err) {
-    console.log(err);
     res.status(400).json("Bad Credentials");
   }
 }

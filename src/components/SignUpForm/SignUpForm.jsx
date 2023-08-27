@@ -74,7 +74,6 @@ const SignUpForm = (props) => {
     try {
       const user = await signUp(formData);
       props.setUser(user);
-      props.setProfile(user.profile);
       navigate(-1);
     } catch (err) {
       updateMessage(err.response.data.error);
