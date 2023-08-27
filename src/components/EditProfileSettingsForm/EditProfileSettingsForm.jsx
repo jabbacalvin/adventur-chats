@@ -57,10 +57,12 @@ export default function EditProfileSettingsForm({ user }) {
 
       setProfilePics(response.data.profilePics.reverse());
       setFormData(response.data);
-      setLocationData({
-        googlePlaceId: response.data.homeBase.googlePlaceId,
-        placeName: response.data.homeBase.placeName,
-      });
+      if (response.data.homeBase) {
+        setLocationData({
+          googlePlaceId: response.data.homeBase.googlePlaceId,
+          placeName: response.data.homeBase.placeName,
+        });
+      }
       // setSlidersState(response.data);
     } catch (error) {
       console.error("Error fetching profile: ", error);
