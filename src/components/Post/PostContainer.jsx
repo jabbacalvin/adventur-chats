@@ -82,7 +82,7 @@ function PostContainer() {
             setActiveCat={setActiveCat}
           />
         </Paper>
-        <PostList posts={posts} />
+        <PostList posts={posts} fetchPosts={fetchPosts} />
       </Container>
     </div>
   );
