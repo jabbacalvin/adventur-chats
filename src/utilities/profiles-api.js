@@ -13,6 +13,6 @@ export function update(id, profile) {
   return axiosRequest(`${BASE_URL}/${id}`, "PUT", profile);
 }
 
-export async function getById(id) {
+export async function getProfile(id) {
   return await axiosRequest(`${BASE_URL}/${id}`);
 }

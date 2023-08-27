@@ -1,6 +1,6 @@
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import ImageUpload from "../ImageUpload/ImageUpload";
-import { getById, update } from "../../utilities/profiles-api";
+import { getProfile, update } from "../../utilities/profiles-api";
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ export default function EditProfileSettingsForm({ user }) {
 
   const fetchProfile = async () => {
     try {
-      const response = await getById(user.profile._id); // Replace with your API endpoint
+      const response = await getProfile(user.profile._id); // Replace with your API endpoint
 
       setProfilePics(response.data.profilePics.reverse());
       setFormData(response.data);
@@ -114,9 +114,12 @@ export default function EditProfileSettingsForm({ user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const profile = await update(user.profile._id, formData);
+      const updatedProfile = await update(user.profile._id, {
+        userId: user._id,
+        ...formData,
+      });
     } catch (err) {
-      updateMessage(err.response.data.error);
+      updateMessage(err);
     }
   };
 

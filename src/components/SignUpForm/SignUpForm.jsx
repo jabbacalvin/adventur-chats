@@ -21,6 +21,7 @@ const SignUpForm = (props) => {
   const navigate = useNavigate();
 
   const [message, setMessage] = useState([""]);
+  const [hasLocation, setHasLocation] = useState(false);
 
   const updateMessage = (msg) => {
     setMessage(msg);
@@ -73,6 +74,7 @@ const SignUpForm = (props) => {
     try {
       const user = await signUp(formData);
       props.setUser(user);
+      props.setProfile(user.profile);
       navigate(-1);
     } catch (err) {
       updateMessage(err.response.data.error);
@@ -134,6 +136,7 @@ const SignUpForm = (props) => {
         <PlacesAutocomplete
           locationData={locationData}
           setLocationData={setLocationData}
+          setHasLocation={setHasLocation}
         />
       </Grid>
       <Grid>
