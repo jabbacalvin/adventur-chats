@@ -12,15 +12,36 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  Card,
+  CardMedia,
+  Tooltip,
   Alert,
 } from "@mui/material/";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const SignUpForm = (props) => {
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState([""]);
+  const randomSeed = () => {
+    return Math.floor(Math.random() * 9999999999);
+  };
+
+  const [avatar, setAvatar] = useState({
+    name: "Sign Up Avatar",
+    url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${randomSeed()}`,
+  });
+
+  const resetSeed = () => {
+    let newSeed = randomSeed();
+    setAvatar({
+      ...avatar,
+      url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${newSeed}`,
+    });
+  };
+
+  const [message, setMessage] = useState("");
   const [hasLocation, setHasLocation] = useState(false);
 
   const updateMessage = (msg) => {
@@ -63,6 +84,7 @@ const SignUpForm = (props) => {
     updateMessage("");
     setFormData({
       ...formData,
+      avatar: avatar,
       googlePlaceId: locationData.googlePlaceId,
       placeName: locationData.placeName,
       [e.target.name]: e.target.value,
@@ -76,7 +98,7 @@ const SignUpForm = (props) => {
       props.setUser(user);
       navigate(-1);
     } catch (err) {
-      updateMessage(err.response.data.error);
+      updateMessage(err);
     }
   };
 
@@ -95,139 +117,168 @@ const SignUpForm = (props) => {
   };
 
   return (
-    <Box component="form" autoComplete="off" onSubmit={handleSubmit}>
-      <Grid>
+    <Box display="flex" justifyContent="center">
+      <Box
+        sx={{ textAlign: "center" }}
+        component="form"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <Grid sx={{ m: 1 }} align="center">
+          <Card raised={true} sx={{ maxWidth: "150px" }}>
+            <CardMedia
+              component="img"
+              sx={{
+                objectFit: "contain",
+              }}
+              image={avatar.url}
+              alt="dicebears avatar"
+            />
+            <Tooltip title="Shuffle" placement="right-start">
+              <IconButton
+                sx={{ float: "right" }}
+                color="primary"
+                size="small"
+                aria-label="new avatar"
+                onClick={(e) => {
+                  resetSeed();
+                  handleChange(e);
+                }}
+              >
+                <ShuffleIcon />
+              </IconButton>
+            </Tooltip>
+          </Card>
+        </Grid>
+        <Grid>
+          <TextField
+            fullWidth
+            name="username"
+            autoComplete="username"
+            label="Username"
+            value={username}
+            onChange={handleChange}
+            sx={{ m: 1, width: "35ch" }}
+          />
+        </Grid>
         <TextField
           fullWidth
-          name="username"
-          autoComplete="username"
-          label="Username"
-          multiline
-          maxRows={4}
-          value={username}
+          name="firstName"
+          autoComplete="given-name"
+          label="First name"
+          value={firstName}
           onChange={handleChange}
-          sx={{ m: 1, width: "35ch" }}
+          sx={{ m: 1, width: "30ch" }}
         />
-      </Grid>
-      <TextField
-        fullWidth
-        name="firstName"
-        autoComplete="given-name"
-        label="First name"
-        multiline
-        maxRows={4}
-        value={firstName}
-        onChange={handleChange}
-        sx={{ m: 1, width: "30ch" }}
-      />
-      <TextField
-        fullWidth
-        name="lastName"
-        autoComplete="family-name"
-        label="Last name"
-        multiline
-        maxRows={4}
-        value={lastName}
-        onChange={handleChange}
-        sx={{ m: 1, width: "30ch" }}
-      />
-      <Grid sx={{ m: 1 }}>
-        <PlacesAutocomplete
-          locationData={locationData}
-          setLocationData={setLocationData}
-          setHasLocation={setHasLocation}
-        />
-      </Grid>
-      <Grid>
         <TextField
           fullWidth
-          name="email"
-          type={"email"}
-          autoComplete="email"
-          label="Email"
-          multiline
-          maxRows={4}
-          value={email}
+          name="lastName"
+          autoComplete="family-name"
+          label="Last name"
+          value={lastName}
           onChange={handleChange}
-          sx={{ m: 1, width: "70ch" }}
+          sx={{ m: 1, width: "30ch" }}
         />
-      </Grid>
-      <div>
-        <FormControl fullWidth sx={{ width: "100%" }} variant="outlined">
-          <InputLabel htmlFor="outlined-password">Password</InputLabel>
-          <OutlinedInput
-            name="password"
-            id="outlined-password"
-            type={showPassword ? "text" : "password"}
-            autoComplete="new-password"
-            value={password}
+        <Grid sx={{ m: 1 }} align="center">
+          <PlacesAutocomplete
+            locationData={locationData}
+            setLocationData={setLocationData}
+            setHasLocation={setHasLocation}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            fullWidth
+            name="email"
+            type={"email"}
+            autoComplete="email"
+            label="Email"
+            value={email}
             onChange={handleChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
             sx={{ m: 1, width: "50ch" }}
           />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl fullWidth sx={{ width: "100%" }} variant="outlined">
-          <InputLabel htmlFor="outlined-passwordConf">
-            Password Confirmation
-          </InputLabel>
-          <OutlinedInput
-            name="passwordConf"
-            id="outlined-passwordConf"
-            type={showConfPassword ? "text" : "password"}
-            value={passwordConf}
-            onChange={handleChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowConfPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showConfPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password Confirmation"
-            sx={{ m: 1, width: "50ch" }}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={isFormInvalid()}
-          sx={{ m: 1, width: "35ch" }}
-        >
-          Sign Up
-        </Button>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Button sx={{ m: 1, width: "35ch" }}>Cancel</Button>
-        </Link>
-      </div>
-
-      {message != "" ? (
-        <Alert severity="error" sx={{ m: 1, width: "70ch" }}>
-          {message}
-        </Alert>
-      ) : (
-        ""
-      )}
+        </Grid>
+        <Grid>
+          <FormControl variant="outlined" sx={{ m: 1 }}>
+            <InputLabel htmlFor="outlined-password">Password</InputLabel>
+            <OutlinedInput
+              name="password"
+              id="outlined-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              value={password}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+              sx={{ width: "50ch" }}
+            />
+          </FormControl>
+        </Grid>
+        <Grid>
+          <FormControl variant="outlined" sx={{ m: 1 }}>
+            <InputLabel htmlFor="outlined-passwordConf">
+              Password Confirmation
+            </InputLabel>
+            <OutlinedInput
+              name="passwordConf"
+              id="outlined-passwordConf"
+              type={showConfPassword ? "text" : "password"}
+              value={passwordConf}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowConfPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showConfPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password Confirmation"
+              sx={{ width: "50ch" }}
+            />
+          </FormControl>
+        </Grid>
+        <Grid>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={isFormInvalid()}
+            sx={{ m: 1, width: "33ch" }}
+            size="large"
+          >
+            Sign Up
+          </Button>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Button sx={{ m: 1, width: "33ch" }} size="large">
+              Cancel
+            </Button>
+          </Link>
+        </Grid>
+        <Grid>
+          {message != "" ? (
+            <Alert severity="error" sx={{ m: 1, width: "70ch" }}>
+              {message}
+            </Alert>
+          ) : (
+            ""
+          )}
+        </Grid>
+      </Box>
     </Box>
   );
 };

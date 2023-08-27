@@ -23,6 +23,7 @@ const profileSchema = new Schema(
       },
     ],
     useUsername: { type: Boolean, default: true },
+    useAvatar: { type: Boolean, default: true },
     isMessageable: { type: Boolean, default: true },
     isSearchable: { type: Boolean, default: true },
     posts: [

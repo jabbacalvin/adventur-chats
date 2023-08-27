@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const User = require("../../models/user");
 const Profile = require("../../models/profile");
 const Location = require("../../models/location");
+const Image = require("../../models/image");
 
 module.exports = {
   create,
@@ -35,6 +36,9 @@ async function create(req, res) {
     } else {
       req.body.homeBase = location._id;
     }
+    const newProfileAvatar = await Image.create(req.body.avatar);
+    req.body.profilePics = [newProfileAvatar];
+
     const newProfile = await Profile.create(req.body);
     req.body.profile = newProfile._id;
     let newUser = await User.create(req.body);
