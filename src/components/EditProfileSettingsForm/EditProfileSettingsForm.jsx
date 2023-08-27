@@ -55,8 +55,10 @@ export default function EditProfileSettingsForm({ user }) {
     try {
       const response = await getProfile(user.profile._id); // Replace with your API endpoint
 
-      setProfilePics(response.data.profilePics.reverse());
       setFormData(response.data);
+      if (response.data.profilePics) {
+        setProfilePics(response.data.profilePics.reverse());
+      }
       if (response.data.homeBase) {
         setLocationData({
           googlePlaceId: response.data.homeBase.googlePlaceId,
