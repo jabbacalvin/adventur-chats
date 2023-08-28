@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 const commentSchema = new Schema(
   {
     content: {
@@ -18,7 +17,6 @@ const commentSchema = new Schema(
     timestamps: true,
   }
 );
-
 const postSchema = new Schema(
   {
     title: {
@@ -45,6 +43,11 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    profile: {
+      type: Schema.Types.ObjectId,
+      ref: "Profile",
+      required: true,
+    },
     comments: [commentSchema],
     likes: [
       {
@@ -57,5 +60,4 @@ const postSchema = new Schema(
     timestamps: true,
   }
 );
-
 module.exports = mongoose.model("Post", postSchema);

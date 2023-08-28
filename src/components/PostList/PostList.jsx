@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAll as getAllCategories } from "../../utilities/categories-api";
 import { deletePost, updatePost } from "../../utilities/posts-api";
+import { getProfile } from "../../utilities/profiles-api"; // Import the function to fetch profiles
 import {
   Dialog,
   DialogTitle,
@@ -15,18 +16,15 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
 function PostList({ posts, fetchPosts }) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [updatedTitleValue, setUpdatedTitleValue] = useState("");
   const [updatedContentValue, setUpdatedContentValue] = useState("");
-
   useEffect(() => {
     fetchCategories();
   }, []);
-
   const fetchCategories = async () => {
     try {
       const categoriesData = await getAllCategories();
@@ -35,7 +33,6 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error fetching categories:", error);
     }
   };
-
   const handleDeletePost = async (postId) => {
     try {
       await deletePost(postId);
@@ -45,28 +42,24 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error deleting Post:", error);
     }
   };
-
   const handleOpenDialog = (post) => {
     setSelectedPost(post);
     setUpdatedTitleValue(post.title);
     setUpdatedContentValue(post.content);
     setOpenDialog(true);
   };
-
   const handleCloseDialog = () => {
     setSelectedPost(null);
     setOpenDialog(false);
     setUpdatedTitleValue("");
     setUpdatedContentValue("");
   };
-
   const handleUpdatePost = async () => {
     try {
       const updatedPost = {
         title: updatedTitleValue,
         content: updatedContentValue,
       };
-
       await updatePost(selectedPost._id, updatedPost);
       console.log("Post updated successfully");
       handleCloseDialog();
@@ -75,7 +68,6 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error updating Post:", error);
     }
   };
-
   return (
     <div>
       <h2>Posts</h2>
@@ -89,9 +81,45 @@ function PostList({ posts, fetchPosts }) {
             padding: "16px",
             maxWidth: 400,
             margin: "0 auto",
+            position: "relative", // Set the position of the card to relative
           }}
         >
           <CardContent>
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                backgroundColor: "#f0f8c8", // Very light olive green color
+                padding: "8px",
+                borderRadius: "6px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* Display profile picture */}
+              {post.profile &&
+                post.profile.profilePics &&
+                post.profile.profilePics[0] && (
+                  <img
+                    src={post.profile.profilePics[0]}
+                    alt="Profile"
+                    style={{
+                      width: "30px", // Smaller profile picture
+                      height: "30px", // Smaller profile picture
+                      borderRadius: "50%",
+                      marginRight: "5px",
+                    }}
+                  />
+                )}
+              {/* Display username */}
+              {post.profile && (
+                <Typography variant="body2" sx={{ fontSize: "12px" }}>
+                  {post.profile.username}
+                </Typography>
+              )}
+            </Box>
+
             <Typography
               variant="h6"
               sx={{ textAlign: "center", marginBottom: 1 }}
@@ -186,5 +214,4 @@ function PostList({ posts, fetchPosts }) {
     </div>
   );
 }
-
 export default PostList;
