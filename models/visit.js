@@ -17,8 +17,7 @@ const visitSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 module.exports = mongoose.model("Visit", visitSchema);
-

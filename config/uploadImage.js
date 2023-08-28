@@ -2,6 +2,7 @@ const path = require("path");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const { S3Client } = require("@aws-sdk/client-s3");
+const uuid = require("uuid");
 
 // create s3 instance using S3Client
 // (this is how we create s3 instance in v3)
@@ -16,11 +17,11 @@ const s3Storage = multerS3({
   },
   key: (req, file, cb) => {
     const fileName =
-      req.params.postId +
+      req.params.folder +
       "/" +
-      Date.now() +
-      "_" +
-      file.fieldname +
+      req.params.id +
+      "/" +
+      uuid.v4() +
       "_" +
       file.originalname;
     cb(null, fileName);
@@ -43,7 +44,7 @@ function sanitizeFile(file, cb) {
   if (isAllowedExt && isAllowedMimeType) {
     return cb(null, true); // no errors
   } else {
-    // pass error msg to callback, which can be displaye in frontend
+    // pass error msg to callback, which can be displayed in frontend
     cb("Error: File type not allowed!");
   }
 }

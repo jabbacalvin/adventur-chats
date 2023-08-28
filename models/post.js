@@ -10,7 +10,7 @@ const commentSchema = new Schema(
     like: Boolean,
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Profile",
       required: true,
     },
   },
@@ -49,7 +49,7 @@ const postSchema = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Profile",
       },
     ],
   },

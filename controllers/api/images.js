@@ -9,14 +9,17 @@ module.exports = {
 
 async function uploadImage(req, res) {
   try {
-    req.files.forEach(async (file) => {
-      await Image.create({
+    const newImageArray = [];
+    let newImage;
+    for (const file of req.files) {
+      newImage = await Image.create({
         name: file.originalname,
         url: file.location,
       });
-    });
+      newImageArray.push(newImage);
+    }
 
-    res.json({ status: "success" });
+    res.status(200).json({ status: "Image uploaded", newImageArray });
   } catch (error) {
     // Handle the error here, you can send an error response or log it.
     console.error("Error occurred:", error);
@@ -42,7 +45,11 @@ async function deleteImage(req, res) {
       await s3Client.send(new DeleteObjectCommand(deleteObjectParams));
       // delete entry in MongoDB
       await Image.deleteOne({ _id: req.params.id });
-      res.json({ status: "Successfully deleted object: ${file.url}" });
+      res.json({
+        status: `Successfully deleted object: 
+        ${file.url.replace(process.env.AWS_BASE_URL, "")}`,
+        file: file.name,
+      });
     } else {
       res.status(500).json({ error: "File not found" });
     }

@@ -1,9 +1,9 @@
-import PlacesAutocomplete from "../../components/PlacesAutocomplete/PlacesAutocomplete";
+import React from "react";
 
 export default function HomePage() {
   return (
     <>
-      <PlacesAutocomplete />
+      <h1>Home</h1>
     </>
   );
 }

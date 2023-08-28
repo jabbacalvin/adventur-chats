@@ -1,14 +1,10 @@
 // Reference: https://mui.com/material-ui/react-autocomplete/#google-maps-place
 
-import * as React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { Box, TextField, Autocomplete, Grid, Typography } from "@mui/material/";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
+import parse from "autosuggest-highlight/parse";
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
@@ -26,16 +22,17 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState([]);
-  const loaded = React.useRef(false);
+export default function PlacesAutocomplete({ locationData, setLocationData }) {
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const loaded = useRef(false);
+  const [hasLocation, setHasLocation] = useState(true);
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}&libraries=places&callback=Function.prototype`,
         document.querySelector("head"),
         "google-maps"
       );
@@ -44,7 +41,7 @@ export default function GoogleMaps() {
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
@@ -52,7 +49,7 @@ export default function GoogleMaps() {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -89,10 +86,21 @@ export default function GoogleMaps() {
     };
   }, [value, inputValue, fetch]);
 
+  useEffect(() => {
+    if (!value) {
+      if (!value && locationData && hasLocation) {
+        setValue(locationData.placeName);
+      } else {
+        setLocationData({ googlePlaceId: "", placeName: "" });
+        setHasLocation(false);
+      }
+    }
+  }, [value, locationData]);
+
   return (
     <Autocomplete
       id="google-map-demo"
-      sx={{ width: 300 }}
+      sx={{ width: 500 }}
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.description
       }
@@ -106,10 +114,18 @@ export default function GoogleMaps() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-        console.log(newValue ? newValue.place_id : null); // THIS IS WHERE YOU GET THE PLACE_ID OF THE SELECTED PLACE
+        if (newValue) {
+          setLocationData({
+            googlePlaceId: newValue.place_id,
+            placeName: newValue.description,
+          });
+          setHasLocation(true);
+        }
       }}
       onInputChange={(event, newInputValue) => {
+        // This is where the console warnings are coming from
         setInputValue(newInputValue);
+        setHasLocation(false);
       }}
       renderInput={(params) => (
         <TextField {...params} label="Add a location" fullWidth />

@@ -1,19 +1,22 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import * as userService from "../../utilities/users-service";
 import Logo from "../../images/logos/AdventurChats_Logo_horizontal_dark.png";
-import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
+import {
+  AppBar,
+  Box,
+  Stack,
+  Toolbar,
+  IconButton,
+  InputBase,
+  Badge,
+  MenuItem,
+  Menu,
+  Avatar,
+  Tooltip,
+  CircularProgress,
+} from "@mui/material/";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -60,12 +63,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ user, setUser }) {
+export default function NavBar({
+  updatingProfile,
+  user,
+  setUser,
+  profile,
+  setProfile,
+}) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
+    setProfile(null);
   }
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -76,6 +89,31 @@ export default function NavBar({ user, setUser }) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const navigateProfile = () => {
+    navigate("/profile");
+  };
+
+  const navigateSettings = () => {
+    navigate("/settings");
+  };
+
+  // console.log(updatingProfile);
+  const [profileName, setProfileName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  useEffect(() => {
+    // console.log(profile);
+    if (profile) {
+      setProfileName(`${profile.firstName} ${profile.lastName}`);
+    } else {
+      setProfileName("");
+    }
+    if (profile && profile.profilePics && profile.profilePics[0]) {
+      setAvatarUrl(profile.profilePics[0].url);
+    } else {
+      setAvatarUrl(""); // Reset the avatar URL when no profile picture is available
+    }
+  }, [profile, updatingProfile]);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -96,8 +134,22 @@ export default function NavBar({ user, setUser }) {
     >
       {user ? (
         <div>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigateProfile();
+              handleMenuClose();
+            }}
+          >
+            Profile
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigateSettings();
+              handleMenuClose();
+            }}
+          >
+            Settings
+          </MenuItem>
           <MenuItem
             onClick={() => {
               handleLogOut();
@@ -166,14 +218,18 @@ export default function NavBar({ user, setUser }) {
               </Badge>
             </IconButton>
             {user ? (
-              <Tooltip title="Open settings">
+              <Tooltip title="Open menu">
                 <IconButton
                   edge="end"
                   aria-controls={menuId}
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                 >
-                  <Avatar alt={user.name} src={user.profilePic} />
+                  {updatingProfile ? (
+                    <CircularProgress size={24} /> // Display a loading indicator while updating
+                  ) : (
+                    <Avatar alt={profileName} src={avatarUrl} />
+                  )}
                 </IconButton>
               </Tooltip>
             ) : (

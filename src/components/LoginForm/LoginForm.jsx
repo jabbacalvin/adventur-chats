@@ -1,14 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as usersService from "../../utilities/users-service";
+import {
+  Box,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Button,
+  Alert,
+} from "@mui/material/";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export default function LoginForm({ setUser }) {
+export default function LoginForm({ setUser, setProfile }) {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   function handleChange(evt) {
     setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
@@ -24,6 +48,8 @@ export default function LoginForm({ setUser }) {
       // payload of the JSON Web Token (JWT)
       const user = await usersService.login(credentials);
       setUser(user);
+      const profile = await usersService.getProfile(user);
+      setProfile(profile.data);
       navigate(-1);
     } catch {
       setError("Log In Failed - Try Again");
@@ -31,29 +57,68 @@ export default function LoginForm({ setUser }) {
   }
 
   return (
-    <div>
-      <div className="form-container">
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input
-            type="text"
-            name="email"
-            value={credentials.email}
-            onChange={handleChange}
-            required
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit">LOG IN</button>
-        </form>
-      </div>
-      <p className="error-message">&nbsp;{error}</p>
-    </div>
+    <>
+      <Box display="flex" justifyContent="center">
+        <Box
+          sx={{ textAlign: "center" }}
+          component="form"
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <Grid>
+            <TextField
+              fullWidth
+              name="email"
+              type={"email"}
+              autoComplete="email"
+              label="Email"
+              value={credentials.email}
+              onChange={handleChange}
+              sx={{ m: 1, width: "50ch" }}
+            />
+          </Grid>
+          <Grid>
+            <FormControl variant="outlined" sx={{ m: 1 }}>
+              <InputLabel htmlFor="outlined-password">Password</InputLabel>
+              <OutlinedInput
+                name="password"
+                id="outlined-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                value={credentials.password}
+                onChange={handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+                sx={{ width: "50ch" }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ m: 1, width: "53ch" }}
+              size="large"
+            >
+              Sign In
+            </Button>
+          </Grid>
+          <Grid>
+            {error != "" ? <Alert severity="error">{error}</Alert> : ""}
+          </Grid>
+        </Box>
+      </Box>
+    </>
   );
 }

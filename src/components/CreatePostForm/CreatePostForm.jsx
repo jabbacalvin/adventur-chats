@@ -1,36 +1,29 @@
 import React from "react";
+import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import CategoryCheckbox from "../CategoryCheckbox/CategoryCheckbox";
-import ImageUpload from "../ImageUpload/ImageUpload"; 
-import { useState } from "react";
-
 import {
   Button,
   TextField,
   Container,
   Box,
   Typography,
+  Grid,
 } from "@mui/material";
 
 function CreatePostForm({
   title,
   setTitle,
-  location,
-  setLocation,
-  categories,
-  selectedCategories,
-  handleCategoryChange,
   content,
   setContent,
-  images,
-  setImages,
-  handleSubmit,
-  isLoading,
+  addPost,
+  setActiveCat,
+  activeCat,
+  locationData,
+  setLocationData,
 }) {
-    const [locationCountry, setLocationCountry] = useState("");
-    const [locationCity, setLocationCity] = useState("");
-    const [locationPlace, setLocationPlace] = useState("");
+  console.log(activeCat);
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={addPost}>
       <Typography variant="h3" className="post-title" align="center">
         Create a New Post
       </Typography>
@@ -44,85 +37,35 @@ function CreatePostForm({
           fullWidth
           className="form-input"
         />
-        
-      <Box mt={2} mb={2}>
-          <TextField
-          label="Country"
-          value={locationCountry}
-          onChange={(e) => setLocationCountry(e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="form-input"
+
+        <Grid sx={{ m: 1 }}>
+          <PlacesAutocomplete
+            locationData={locationData}
+            setLocationData={setLocationData}
           />
+        </Grid>
 
-        <TextField
-          label="City"
-          value={locationCity}
-          onChange={(e) => setLocationCity(e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="form-input"
-        />
-
-        <TextField
-          label="Place"
-          value={locationPlace}
-          onChange={(e) => setLocationPlace(e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="form-input"
-        />
-
-      </Box>
-        <label className="MuiFormLabel-root MuiInputLabel-root form-label">
-          Categories:
-        </label>
+        <label className="MuiFormLabel-root MuiInputLabel-root form-label"></label>
         <Container className="MuiContainer-root form-categories">
-          {categories.map((category) => (
-            <CategoryCheckbox
-              key={category._id}
-              category={category}
-              isSelected={selectedCategories.includes(category._id)}
-              handleCategoryChange={handleCategoryChange}
-            />
-          ))}
+          <CategoryCheckbox activeCat={activeCat} setActiveCat={setActiveCat} />
         </Container>
-     <Box mt={2} mb={2}>
-        <TextField
-          label="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          variant="outlined"
-          multiline
-          rows={4}
-          fullWidth
-          className="form-input"
-        />
-      </Box>  
-        <TextField
-          label="Images"
-          value={images}
-          onChange={(e) => setImages(e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="form-input"
-        />
-    
-        <ImageUpload />
+        <Box mt={2} mb={2}>
+          <TextField
+            label="Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
+            className="form-input"
+          />
+        </Box>
 
-        <Box pb={2} className="MuiBox-root form-button-container" >
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={isLoading}
-            className="form-button"
-          >
-            {isLoading ? "Creating..." : "Create Post"}
-          </Button >
+        <Box pb={2}>
+          <Button type="submit" variant="contained" className="form-button">
+            Submit
+          </Button>
         </Box>
       </Container>
     </form>

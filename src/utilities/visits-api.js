@@ -1,14 +1,22 @@
-import sendRequest from "./send-request";
+import axiosRequest from "./send-request";
 const BASE_URL = "/api/visits";
 
 export function getAll() {
-  return sendRequest(BASE_URL);
+  return axiosRequest(BASE_URL);
 }
 
 export function create(visit) {
-  return sendRequest(BASE_URL, "POST", visit);
+  return axiosRequest(BASE_URL, "POST", visit);
 }
 
 export async function getById(id) {
-  return await sendRequest(`${BASE_URL}/${id}`);
+  return await axiosRequest(`${BASE_URL}/${id}`);
+}
+
+export function update(id, visit) {
+  return axiosRequest(`${BASE_URL}/${id}`, "PUT", visit);
+}
+
+export function deleteOne(id) {
+  return axiosRequest(`${BASE_URL}/${id}`, "DELETE");
 }

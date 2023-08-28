@@ -6,7 +6,6 @@ const SALT_ROUNDS = 6;
 
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
     email: {
       type: String,
       unique: true,
@@ -18,31 +17,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    profilePic: String,
-    homeBase: {
+    profile: {
       type: Schema.Types.ObjectId,
-      ref: "Location",
+      ref: "Profile",
     },
-    visits: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Visit",
-      },
-    ],
-    messagable: Boolean,
-    searchable: Boolean,
-    posts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Post",
-      },
-    ],
-    followers: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
   },
   {
     timestamps: true,

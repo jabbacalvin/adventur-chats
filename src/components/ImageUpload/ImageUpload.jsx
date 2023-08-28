@@ -1,66 +1,293 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { MuiFileInput } from "mui-file-input"; // https://viclafouch.github.io/mui-file-input/docs/getting-started/
+import {
+  LinearProgress,
+  Grid,
+  Alert,
+  Card,
+  CardMedia,
+  Typography,
+  Tooltip,
+  ImageList,
+  ImageListItem,
+  IconButton,
+} from "@mui/material/";
 
-export default function ImageUpload() {
-  const [files, setFiles] = useState();
+import ClearIcon from "@mui/icons-material/Clear";
+
+export default function ImageUpload({
+  imageFor /*post || profile*/,
+  id,
+  imageListColumns = 0,
+  imageListHeight = "",
+  imageListWidth = "",
+  progressBarWidth = "",
+  alertBoxWidth = "",
+  profilePics,
+  setProfilePics,
+  getImageList,
+  setImagesChanged = false,
+}) {
+  const [files, setFiles] = useState(null);
   const [progress, setProgress] = useState({
     started: false,
     percentageComplete: 0,
   });
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("No file selected");
+  const [messageSeverity, setMessageSeverity] = useState("info");
+  const [uploadedImages, setUploadedImages] = useState([]);
 
-  function handleUpload() {
-    if (!files) {
+  const updateImagesAndList = (newImages) => {
+    setUploadedImages(newImages);
+    getImageList(newImages);
+  };
+
+  const getCurrentImageList = () => {
+    return uploadedImages;
+  };
+
+  useEffect(() => {
+    getImageList(getCurrentImageList());
+  }, [uploadedImages]);
+
+  const handleChange = (newFiles) => {
+    setFiles(newFiles);
+    setProgress({ started: false, percentageComplete: 0 });
+
+    if (newFiles && newFiles.length === 0) {
       setMessage("No file selected");
+      setMessageSeverity("info");
+    }
+  };
+
+  useEffect(() => {
+    if (files && files.length > 0) {
+      handleUpload();
+    }
+  }, [files]);
+
+  const handleUpload = () => {
+    if (!files || files.length === 0) {
+      setMessage("No file selected");
+      setMessageSeverity("info");
       return;
     }
+
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append(`file`, files[i]);
     }
 
-    console.log(formData);
-
     setMessage("Uploading...");
+    setMessageSeverity("info");
     setProgress((prevState) => {
-      return { ...prevState, started: true };
+      return { ...prevState, started: true, percentageComplete: 0 };
     });
+
     axios
-      .post("/api/images/upload", formData, {
+      .post(`/api/images/upload/${imageFor}/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         onUploadProgress: (progressEvent) => {
           setProgress((prevState) => {
             return {
               ...prevState,
-              percentageComplete: progressEvent.progress * 100,
+              percentageComplete:
+                (progressEvent.loaded / progressEvent.total) * 100,
             };
           });
         },
       })
       .then((res) => {
+        const newImages = res.data.newImageArray.map((image) => ({
+          url: image.url,
+          _id: image._id,
+        }));
+        updateImagesAndList([...newImages, ...uploadedImages]);
+
+        setImagesChanged(true);
+
         setMessage("Upload successful");
-        setProgress((prevState) => {
-          return { ...prevState, started: true };
-        });
-        console.log(res.data);
+        setMessageSeverity("success");
+        setFiles(null);
       })
       .catch((err) => {
-        setMessage("Upload failed");
-        console.error(err);
+        setMessage(
+          "Upload failed: Please make sure image extensions are (.png | .jpg | .jpeg | .gif)"
+        );
+        setMessageSeverity("error");
+        // console.error(err);
       });
-  }
+  };
+
+  const handleDelete = (index, imageIdToRemove) => {
+    const newFormData = new FormData();
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        if (i !== index) {
+          newFormData.append(`file`, files[i]);
+        }
+      }
+    }
+    setFiles(newFormData);
+
+    axios
+      .delete(`/api/images/${imageIdToRemove}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const newImages = [...uploadedImages];
+        newImages.splice(index, 1);
+        updateImagesAndList(newImages);
+        setMessage("Deleted " + res.data.file);
+
+        setImagesChanged(true);
+
+        const profilePicIndex = profilePics.findIndex(
+          (image) => image._id === imageIdToRemove
+        );
+
+        if (profilePicIndex !== -1) {
+          const modifiedProfilePics = [...profilePics];
+          modifiedProfilePics.splice(profilePicIndex, 1);
+          setProfilePics(modifiedProfilePics);
+        }
+        setMessageSeverity("success");
+      })
+      .catch((err) => {
+        setMessage("Error deleting image: " + err);
+        // console.error("Error deleting image:", err);
+        setMessageSeverity("error");
+      });
+  };
 
   return (
     <>
-      {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
-      <input type="file" onChange={(e) => setFiles(e.target.files)} multiple />
-      <button onClick={handleUpload}>Upload</button>
-      <br />
-      {progress.started && (
-        <progress max="100" value={progress.percentageComplete}></progress>
+      <Grid sx={{ m: 1 }}>
+        <MuiFileInput
+          placeholder="Upload file(s)"
+          value={files}
+          onChange={handleChange}
+          multiple
+        />
+      </Grid>
+      <Grid sx={{ m: 1, width: progressBarWidth }}>
+        {files && files.length > 0 && (
+          <>
+            {progress.started && (
+              <LinearProgress
+                variant="determinate"
+                value={progress.percentageComplete}
+              />
+            )}
+          </>
+        )}
+        {message && (
+          <Alert severity={messageSeverity} sx={{ width: alertBoxWidth }}>
+            {message}
+          </Alert>
+        )}
+      </Grid>
+
+      {uploadedImages.length > 0 && (
+        <>
+          <Typography
+            sx={{ m: 1 }}
+            variant="button"
+            display="block"
+            gutterBottom
+          >
+            Newly Uploaded Images
+          </Typography>
+          <ImageList
+            sx={{ m: 2, width: imageListWidth, height: imageListHeight }}
+            cols={imageListColumns}
+          >
+            {uploadedImages.map((image, index) => (
+              <ImageListItem key={index}>
+                <Card raised={true}>
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      objectFit: "contain",
+                    }}
+                    image={image.url}
+                  />
+                  <Tooltip title="Delete" placement="right-start">
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        top: "2px",
+                        right: "2px",
+                      }}
+                      color="error"
+                      size="small"
+                      aria-label="delete"
+                      onClick={() =>
+                        handleDelete(index, uploadedImages[index]._id)
+                      }
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Card>
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </>
       )}
-      <br />
-      {message && <span>{message}</span>}
-      {/* </form> */}
+
+      {profilePics.length > 0 && (
+        <>
+          <Typography
+            sx={{ m: 1 }}
+            variant="button"
+            display="block"
+            gutterBottom
+          >
+            Exisiting Images
+          </Typography>
+          <ImageList
+            sx={{ m: 2, width: imageListWidth, height: imageListHeight }}
+            cols={imageListColumns}
+          >
+            {profilePics.map((image, index) => (
+              <ImageListItem key={index}>
+                <Card raised={true}>
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      objectFit: "contain",
+                    }}
+                    image={image.url}
+                  />
+                  <Tooltip title="Delete" placement="right-start">
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        top: "2px",
+                        right: "2px",
+                      }}
+                      color="error"
+                      size="small"
+                      aria-label="delete"
+                      onClick={() =>
+                        handleDelete(index, profilePics[index]._id)
+                      }
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Card>
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </>
+      )}
     </>
   );
 }

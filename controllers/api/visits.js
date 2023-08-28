@@ -34,8 +34,10 @@ async function showVisit(req, res) {
 }
 
 async function updateVisit(req, res) {
+  console.log("req.body", req.body)
   const updatedVisit = await Visit.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+    
   });
   res.status(200).json(updatedVisit);
 }
