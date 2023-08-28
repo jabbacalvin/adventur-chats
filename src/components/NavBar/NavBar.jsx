@@ -21,7 +21,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { set } from "mongoose";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
