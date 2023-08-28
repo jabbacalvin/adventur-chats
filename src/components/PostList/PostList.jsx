@@ -7,7 +7,14 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Box,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 function PostList({ posts, fetchPosts }) {
   const [categories, setCategories] = useState([]);
@@ -72,31 +79,83 @@ function PostList({ posts, fetchPosts }) {
   return (
     <div>
       <h2>Posts</h2>
-      <ul>
-        {posts.map((post) => (
-          <li key={post._id}>
-            <h3>{post.title}</h3>
-            <p>Location: {post.location?.placeName}</p>
-            <p>{post.content}</p>
-            <p>
-              Categories:{" "}
-              {post.categories.length > 0 ? (
-                post.categories.map((category, index) => (
-                  <span key={category._id}>
-                    {category.name}
-                    {index < post.categories.length - 1 ? ", " : ""}
-                  </span>
-                ))
-              ) : (
-                <span>No categories</span>
-              )}
-            </p>
-            <button onClick={() => handleDeletePost(post._id)}>Delete</button>
-            <button onClick={() => handleOpenDialog(post)}>Update</button>
-          </li>
-        ))}
-      </ul>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      {posts.map((post) => (
+        <Card
+          key={post._id}
+          variant="outlined"
+          sx={{
+            borderRadius: 6,
+            marginBottom: "20px",
+            padding: "16px",
+            maxWidth: 400,
+            margin: "0 auto",
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{ textAlign: "center", marginBottom: 1 }}
+            >
+              {post.title}
+            </Typography>
+            <Typography
+              variant="body2"
+              gutterBottom
+              color="primary"
+              sx={{ fontSize: "12px" }}
+            >
+              Location: {post.location?.placeName}
+            </Typography>
+            <Box
+              sx={{
+                backgroundColor: "#f5f5f5",
+                borderRadius: "4px",
+                marginBottom: "4px",
+                padding: "10px",
+              }}
+            >
+              <Typography variant="body1" gutterBottom>
+                {post.content}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+              }}
+            >
+              <Typography variant="body2" sx={{ fontSize: "12px" }}>
+                {" "}
+                {post.categories.length > 0 ? (
+                  post.categories.map((category, index) => (
+                    <span key={category._id}>
+                      {category.name}
+                      {index < post.categories.length - 1 ? ", " : ""}
+                    </span>
+                  ))
+                ) : (
+                  <span>No categories</span>
+                )}
+              </Typography>
+            </Box>
+          </CardContent>
+          <CardActions
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button onClick={() => handleOpenDialog(post)}>
+              <EditIcon />
+            </Button>
+            <Button onClick={() => handleDeletePost(post._id)}>
+              <DeleteIcon />
+            </Button>
+          </CardActions>
+        </Card>
+      ))}
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
         <DialogTitle>Update Post</DialogTitle>
         <DialogContent>
           <label>Title:</label>
@@ -104,12 +163,19 @@ function PostList({ posts, fetchPosts }) {
             type="text"
             value={updatedTitleValue}
             onChange={(e) => setUpdatedTitleValue(e.target.value)}
+            sx={{ width: "100%", padding: "8px", fontSize: "16px" }}
           />
           <br />
           <label>Content:</label>
           <textarea
             value={updatedContentValue}
             onChange={(e) => setUpdatedContentValue(e.target.value)}
+            sx={{
+              width: "100%",
+              padding: "8px",
+              fontSize: "16px",
+              minHeight: "150px",
+            }}
           />
         </DialogContent>
         <DialogActions>
