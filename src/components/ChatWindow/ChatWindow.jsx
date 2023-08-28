@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import {
   IconButton,
@@ -29,6 +29,8 @@ export default function ChatWindow({
 }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const messagesBoxRef = useRef(null);
+
 
   // Function to increment the unread count
   const incrementUnreadCount = () => {
@@ -81,6 +83,26 @@ export default function ChatWindow({
     });
   }, [messages, chatVisible]);
 
+  useEffect(() => {
+    // Scroll to the bottom of the messages box when messages change
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (chatVisible) {
+      // Scroll to the bottom of the messages box when the chat is opened
+      if (messagesBoxRef.current) {
+        messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+      }
+      // Reset the unread message count since the chat is now visible
+      setUnreadCount(0);
+    }
+  }, [chatVisible]);
+
+
+
   const toggleChatVisible = () => {
     setChatVisible(!chatVisible);
     if (chatVisible) {
@@ -113,18 +135,23 @@ export default function ChatWindow({
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between", // Adjusted alignment
+              justifyContent: "d-between", // Adjusted alignment
               alignItems: "center", // Center the message icon vertically
               padding: "10px",
               borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f1f1f1",
             }}
           >
             <Typography variant="h6">Happy Chatting</Typography>
-            <IconButton onClick={closeChat}>
-              <CloseIcon />
+            <IconButton 
+            onClick={closeChat}
+            style={{marginLeft: "auto"}}
+            >
+              <CloseIcon fontSize="large"/>
             </IconButton>
           </div>
           <Box
+            ref={messagesBoxRef}
             m={2}
             sx={{
               display: "flex",
@@ -132,35 +159,67 @@ export default function ChatWindow({
               gap: "10px",
               maxHeight: "calc(70% - 60px)", // Adjusted to account for header height
               overflowY: "auto",
+              backgroundColor: "lightgray",
             }}
           >
             {messages.map((m, i) => (
               <div
                 style={{
                   display: "flex",
-                  alignItems: "flex-start", // Align items to the top
-                  justifyContent:
-                    m.nameOfUser === chatName ? "flex-end" : "flex-start", // Adjust alignment based on the user
+                  alignItems: "center",
                   marginBottom: "10px",
+                  justifyContent:
+                    m.nameOfUser === chatName ? "flex-end" : "flex-start",
                 }}
                 key={i}
               >
                 {m.nameOfUser !== chatName && (
                   <Avatar src={m.avatar} alt={m.nameOfUser} />
                 )}
-                <Typography
+                <div
                   style={{
-                    maxWidth: "70%", // Limit the width of the message bubble
-                    padding: "8px",
-                    borderRadius: "8px",
-                    background: m.nameOfUser === chatName ? "green" : "blue",
-                    color: "white",
-                    alignSelf: "flex-start", // Align the message to the left
+                    display: "flex",
+                    flexDirection: "column",
+                    marginLeft: m.nameOfUser !== chatName ? "10px" : 0,
+                    marginRight: m.nameOfUser === chatName ? "10px" : 0,
                   }}
-                  variant="body1"
                 >
-                  {m.message}
-                </Typography>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {m.nameOfUser !== chatName && (
+                      <Typography
+                        variant="body2"
+                        style={{
+                          marginRight: "5px",
+                        }}
+                      >
+                        {m.nameOfUser}
+                      </Typography>
+                    )}
+                    {m.nameOfUser === chatName && <div style={{ flex: 1 }} />}
+                    {m.nameOfUser === chatName && (
+                      <Typography
+                        variant="body2"
+                        style={{ textAlign: "right" }}
+                      >
+                        {m.nameOfUser}
+                      </Typography>
+                    )}
+                  </div>
+                  <Typography
+                    style={{
+                      maxWidth: "70%",
+                      padding: "8px",
+                      borderRadius: "8px",
+                      background: m.nameOfUser === chatName ? "green" : "blue",
+                      color: "white",
+                      alignSelf:
+                        m.nameOfUser === chatName ? "flex-end" : "flex-start",
+                    }}
+                    variant="body1"
+                  >
+                    {m.message}
+                  </Typography>
+                </div>
                 {m.nameOfUser === chatName && (
                   <Avatar src={m.avatar} alt={m.nameOfUser} />
                 )}
@@ -183,7 +242,7 @@ export default function ChatWindow({
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton type="button" onClick={sendMessage}>
-                      <SendIcon />
+                      <SendIcon style={{color: "green"}}  />
                     </IconButton>
                   </InputAdornment>
                 ),
