@@ -69,6 +69,7 @@ export default function NavBar({
   user,
   setUser,
   profile,
+  setProfile,
   unreadCount,
   setUnreadCount,
   chatVisible,
@@ -77,6 +78,7 @@ export default function NavBar({
   function handleLogOut() {
     userService.logOut();
     setUser(null);
+    setProfile(null);
   }
 
   const navigate = useNavigate();

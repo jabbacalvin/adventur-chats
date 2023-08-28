@@ -2,7 +2,12 @@ import { useState } from "react";
 import { IconButton, Card, CardMedia, Tooltip } from "@mui/material/";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 
-export default function AvatarRandomizer({ onChange, avatar, setAvatar }) {
+export default function AvatarRandomizer({
+  onChange,
+  avatar,
+  setAvatar,
+  name = "Avatar",
+}) {
   const randomSeed = () => {
     return Math.floor(Math.random() * 9999999999);
   };
@@ -12,7 +17,7 @@ export default function AvatarRandomizer({ onChange, avatar, setAvatar }) {
     setAvatar((prevAvatar) => {
       const newAvatar = {
         ...prevAvatar,
-        name: "Avatar",
+        name: name,
         url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${newSeed}`,
       };
       return newAvatar;
