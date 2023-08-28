@@ -92,9 +92,15 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
   };
 
   // console.log(updatingProfile);
+  const [profileName, setProfileName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   useEffect(() => {
     // console.log(profile);
+    if (profile) {
+      setProfileName(`${profile.firstName} ${profile.lastName}`);
+    } else {
+      setProfileName("");
+    }
     if (profile && profile.profilePics && profile.profilePics[0]) {
       setAvatarUrl(profile.profilePics[0].url);
     } else {
@@ -215,10 +221,7 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
                   {updatingProfile ? (
                     <CircularProgress size={24} /> // Display a loading indicator while updating
                   ) : (
-                    <Avatar
-                      alt={`${profile.firstName} ${profile.lastName}`}
-                      src={avatarUrl}
-                    />
+                    <Avatar alt={profileName} src={avatarUrl} />
                   )}
                 </IconButton>
               </Tooltip>
