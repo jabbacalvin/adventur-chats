@@ -97,6 +97,14 @@ export default function EditProfileSettingsForm({
             name: avatar.name,
             url: avatar ? avatar.url : avatar.name,
           });
+        } else {
+          const randomSeed = () => {
+            return Math.floor(Math.random() * 9999999999);
+          };
+          setAvatar({
+            name: "Avatar",
+            url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${randomSeed()}`,
+          });
         }
         setProfilePics(response.data.profilePics.reverse());
       }
