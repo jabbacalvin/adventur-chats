@@ -88,9 +88,9 @@ function PostList({ posts, fetchPosts }) {
             borderRadius: 6,
             marginBottom: "20px",
             padding: "16px",
-            maxWidth: 400,
+            maxWidth: 500,
             margin: "0 auto",
-            position: "relative", // Set the position of the card to relative
+            position: "relative",
           }}
         >
           <CardContent>
@@ -99,7 +99,7 @@ function PostList({ posts, fetchPosts }) {
                 position: "absolute",
                 top: 0,
                 left: 0,
-                backgroundColor: "#f0f8c8", // Very light olive green color
+                backgroundColor: "#f0f8c8",
                 padding: "8px",
                 borderRadius: "6px",
                 display: "flex",
