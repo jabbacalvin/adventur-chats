@@ -63,8 +63,8 @@ export function getToken() {
   return token;
 }
 
-export function getProfile() {
-  const user = getUser();
+export function getProfile(user) {
+  if (!user) user = getUser();
 
   return user ? profilesAPI.getProfile(user.profile) : null;
 }
