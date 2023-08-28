@@ -8,11 +8,11 @@ import {
   Button,
 } from "@mui/material";
 
-export default function SettingsPage({ user }) {
+export default function SettingsPage({ profile }) {
   return (
     <>
       <h1>Settings</h1>
-      <EditProfileSettingsForm user={user} />
+      <EditProfileSettingsForm profile={profile} />
     </>
   );
 }

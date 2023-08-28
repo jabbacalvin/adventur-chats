@@ -1,5 +1,6 @@
 const Profile = require("../../models/profile");
 const Location = require("../../models/location");
+const Image = require("../../models/image");
 
 module.exports = {
   index,
@@ -42,6 +43,11 @@ async function update(req, res) {
       updatedProfilePics = [...updatedProfilePics, ...profilePicIds];
     }
 
+    if (req.body.avatar) {
+      const newProfileAvatar = await Image.create(req.body.avatar);
+      updatedProfilePics = [...updatedProfilePics, newProfileAvatar._id];
+    }
+
     const updatedProfile = await Profile.findByIdAndUpdate(
       req.params.id,
       {
@@ -50,6 +56,7 @@ async function update(req, res) {
         homeBase: req.body.homeBase,
         profilePics: updatedProfilePics,
         useUsername: req.body.useUsername,
+        useAvatar: req.body.useAvatar,
         isMessageable: req.body.isMessageable,
         isSearchable: req.body.isSearchable,
       },
@@ -58,6 +65,7 @@ async function update(req, res) {
 
     return res.status(200).json(updatedProfile);
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 }

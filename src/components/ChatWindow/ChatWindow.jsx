@@ -10,7 +10,6 @@
 
 // const socket = io.connect("http://localhost:3001");
 
-
 // export default function ChatWindow({ user }) {
 //   const [messages, setMessages] = useState([]);
 //   const [message, setMessage] = useState("");
@@ -103,13 +102,14 @@ import {
 
 const socket = io.connect("http://localhost:3001");
 
-export default function ChatWindow({ user }) {
+export default function ChatWindow({ profile }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [chatVisible, setChatVisible] = useState(false);
 
-  const chatName = 
-  user.profile.username || `${user.profile.firstName} ${user.profile.lastName}`
+  const chatName = profile.useUsername
+    ? profile.username
+    : `${profile.firstName} ${profile.lastName}`;
 
   function sendMessage() {
     const userMessage = {
