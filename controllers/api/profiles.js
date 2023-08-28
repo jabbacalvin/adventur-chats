@@ -74,7 +74,11 @@ async function update(req, res) {
 async function showOne(req, res) {
   try {
     const profile = await Profile.findById(req.params.id)
-      .populate("profilePics")
+      .populate({
+        path: "profilePics",
+        select: "_id imageUrl", // Assuming the fields are named "_id" and "imageUrl"
+      })
+      .select("username") // Select the "username" field
       .populate("homeBase");
     return res.status(200).json(profile);
   } catch (err) {

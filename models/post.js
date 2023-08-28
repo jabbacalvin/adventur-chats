@@ -45,6 +45,11 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    profile: {
+      type: Schema.Types.ObjectId,
+      ref: "Profile",
+      required: true,
+    },
     comments: [commentSchema],
     likes: [
       {

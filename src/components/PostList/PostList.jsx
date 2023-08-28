@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAll as getAllCategories } from "../../utilities/categories-api";
 import { deletePost, updatePost } from "../../utilities/posts-api";
+import { getProfile } from "../../utilities/profiles-api"; // Import the function to fetch profiles
 import {
   Dialog,
   DialogTitle,
@@ -89,9 +90,45 @@ function PostList({ posts, fetchPosts }) {
             padding: "16px",
             maxWidth: 400,
             margin: "0 auto",
+            position: "relative", // Set the position of the card to relative
           }}
         >
           <CardContent>
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                backgroundColor: "#f0f8c8", // Very light olive green color
+                padding: "8px",
+                borderRadius: "6px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* Display profile picture */}
+              {post.profile &&
+                post.profile.profilePics &&
+                post.profile.profilePics[0] && (
+                  <img
+                    src={post.profile.profilePics[0]}
+                    alt="Profile"
+                    style={{
+                      width: "30px", // Smaller profile picture
+                      height: "30px", // Smaller profile picture
+                      borderRadius: "50%",
+                      marginRight: "5px",
+                    }}
+                  />
+                )}
+              {/* Display username */}
+              {post.profile && (
+                <Typography variant="body2" sx={{ fontSize: "12px" }}>
+                  {post.profile.username}
+                </Typography>
+              )}
+            </Box>
+
             <Typography
               variant="h6"
               sx={{ textAlign: "center", marginBottom: 1 }}
