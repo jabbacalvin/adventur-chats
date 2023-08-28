@@ -120,6 +120,7 @@ const SignUpForm = (props) => {
             onChange={handleChange}
             avatar={avatar}
             setAvatar={setAvatar}
+            name={"Sign Up Avatar"}
           />
         </Grid>
         <Grid>
