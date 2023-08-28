@@ -44,8 +44,13 @@ async function update(req, res) {
     }
 
     if (req.body.useAvatar) {
-      const newProfileAvatar = await Image.create(req.body.avatar);
-      updatedProfilePics = [newProfileAvatar._id, ...updatedProfilePics];
+      const isUniqueAvatar = req.body.profilePics.every(
+        (pic) => pic.url !== req.body.avatar.url
+      );
+      if (isUniqueAvatar) {
+        const newProfileAvatar = await Image.create(req.body.avatar);
+        updatedProfilePics = [newProfileAvatar._id, ...updatedProfilePics];
+      }
     }
 
     const updatedProfile = await Profile.findByIdAndUpdate(
@@ -67,6 +72,7 @@ async function update(req, res) {
 
     return res.status(200).json(updatedProfile);
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 }
