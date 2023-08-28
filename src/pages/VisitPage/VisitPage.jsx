@@ -75,6 +75,7 @@ export default function VisitPage() {
     e.preventDefault();
 
     if (editVisit) {
+      const updatedVisit =
       await updateVisit(editVisit._id, {
         title,
         description,
@@ -82,6 +83,7 @@ export default function VisitPage() {
         endDate,
         location,
       });
+      console.log(updatedVisit);
       setEditVisit(null); // Reset editing state
     } else {
       const newVisit = {
