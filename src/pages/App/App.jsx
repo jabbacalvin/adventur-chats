@@ -26,7 +26,7 @@ export default function App() {
         ]);
 
         setUser(userData);
-        setProfile(profileData.data);
+        if (profileData) setProfile(profileData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -73,7 +73,7 @@ export default function App() {
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/visits" element={<VisitPage />} />
           </Routes>
-          <ChatWindow profile={profile} />
+          {profile ? <ChatWindow profile={profile} /> : ""}
         </>
       ) : (
         <>
