@@ -165,9 +165,6 @@ export default function EditProfileSettingsForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!useAvatar) {
-      setAvatar("");
-    }
     try {
       setUpdatingProfile(true);
       const updatedProfile = await update(profile._id, {
