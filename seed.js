@@ -13,7 +13,7 @@ const Category = require("./models/category");
       { name: "Beaches 🏖️" },
       { name: "Food 🍝" },
       { name: "Activities 🏄‍♂️" },
-      { name: "Festivals 🎊" },
+      { name: "Festivals 🎏" },
       { name: "Landmarks 🗺️" },
     ]);
 
