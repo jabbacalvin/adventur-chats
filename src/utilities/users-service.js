@@ -4,6 +4,7 @@
 // for making AJAX requests to the server.
 
 import * as usersAPI from "./users-api";
+import * as profilesAPI from "./profiles-api";
 
 export async function signUp(userData) {
   try {
@@ -62,9 +63,14 @@ export function getToken() {
   return token;
 }
 
+export function getProfile() {
+  const user = getUser();
+
+  return user ? profilesAPI.getProfile(user.profile) : null;
+}
+
 export function getUser() {
   const token = getToken();
-  // console.log(JSON.parse(atob(token.split(".")[1])).user);
   return token ? JSON.parse(atob(token.split(".")[1])).user : null;
 }
 

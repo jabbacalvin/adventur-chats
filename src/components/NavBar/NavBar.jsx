@@ -62,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ user, setUser }) {
+export default function NavBar({ user, setUser, profile }) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
@@ -189,7 +189,10 @@ export default function NavBar({ user, setUser }) {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                 >
-                  <Avatar /*alt={profile name} src={profile pic}*/ />
+                  <Avatar
+                    alt={`${profile.firstName} ${profile.lastName}`}
+                    src={profile.profilePics[0].url}
+                  />
                 </IconButton>
               </Tooltip>
             ) : (
