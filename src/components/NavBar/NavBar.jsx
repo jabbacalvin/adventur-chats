@@ -205,7 +205,7 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
               </Badge>
             </IconButton>
             {user ? (
-              <Tooltip title="Open settings">
+              <Tooltip title="Open menu">
                 <IconButton
                   edge="end"
                   aria-controls={menuId}
