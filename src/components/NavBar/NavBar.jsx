@@ -21,6 +21,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { set } from "mongoose";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,7 +64,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ updatingProfile, user, setUser, profile }) {
+export default function NavBar({
+  updatingProfile,
+  user,
+  setUser,
+  profile,
+  unreadCount,
+  setUnreadCount,
+  chatVisible,
+  setChatVisible,
+}) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
@@ -161,6 +171,13 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
     </Menu>
   );
 
+  const toggleChatVisible = () => {
+    setChatVisible(!chatVisible);
+    if (chatVisible) {
+      setUnreadCount(0);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="transparent" elevation={0} position="sticky">
@@ -192,8 +209,14 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
               color="inherit"
               sx={{ "&:hover": { backgroundColor: "transparent" } }}
             >
-              <Badge badgeContent={4} color="error">
-                <Avatar sx={{ "&:hover": { backgroundColor: "lightgrey" } }}>
+              <Badge badgeContent={unreadCount} color="error">
+                <Avatar
+                  onClick={() => {
+                    toggleChatVisible();
+                    setUnreadCount(0);
+                  }}
+                  sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+                >
                   <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
                 </Avatar>
               </Badge>
