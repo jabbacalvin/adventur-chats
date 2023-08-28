@@ -380,7 +380,7 @@ export default function EditProfileSettingsForm({
           {updatingProfile ? <CircularProgress size={24} /> : "Update"}
           {/* Display loading indicator when updating */}
         </Button>
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/profile" style={{ textDecoration: "none" }}>
           <Button sx={{ m: 1, width: "35ch" }}>Cancel</Button>
         </Link>
       </Grid>
