@@ -69,6 +69,10 @@ export default function NavBar({
   setUser,
   profile,
   setProfile,
+  unreadCount,
+  setUnreadCount,
+  chatVisible,
+  setChatVisible,
 }) {
   function handleLogOut() {
     userService.logOut();
@@ -168,6 +172,13 @@ export default function NavBar({
     </Menu>
   );
 
+  const toggleChatVisible = () => {
+    setChatVisible(!chatVisible);
+    if (chatVisible) {
+      setUnreadCount(0);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="transparent" elevation={0} position="sticky">
@@ -199,8 +210,14 @@ export default function NavBar({
               color="inherit"
               sx={{ "&:hover": { backgroundColor: "transparent" } }}
             >
-              <Badge badgeContent={4} color="error">
-                <Avatar sx={{ "&:hover": { backgroundColor: "lightgrey" } }}>
+              <Badge badgeContent={unreadCount} color="error">
+                <Avatar
+                  onClick={() => {
+                    toggleChatVisible();
+                    setUnreadCount(0);
+                  }}
+                  sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+                >
                   <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
                 </Avatar>
               </Badge>

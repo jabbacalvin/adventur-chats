@@ -1,7 +1,12 @@
 const chatMessage = require('../../models/chatMessage');
 
 async function getAllChatMessages(req, res) {
-  const messages = await chatMessage.find();
+  const messages = await chatMessage
+    .find()
+    .populate({
+      path: "user",
+      populate: { path: "profilePics", model: "Image" },
+    });
   res.json(messages)
 }
 

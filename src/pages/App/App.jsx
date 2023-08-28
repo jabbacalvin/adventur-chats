@@ -15,6 +15,8 @@ export default function App() {
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [chatVisible, setChatVisible] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +40,10 @@ export default function App() {
   return (
     <main className="App">
       <NavBar
+        chatVisible={chatVisible}
+        setChatVisible={setChatVisible}
+        unreadCount={unreadCount}
+        setUnreadCount={setUnreadCount}
         updatingProfile={updatingProfile}
         user={user}
         setUser={setUser}
@@ -74,7 +80,17 @@ export default function App() {
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/visits" element={<VisitPage />} />
           </Routes>
-          {profile ? <ChatWindow profile={profile} /> : ""}
+          {profile ? (
+            <ChatWindow
+              chatVisible={chatVisible}
+              setChatVisible={setChatVisible}
+              profile={profile}
+              unreadCount={unreadCount}
+              setUnreadCount={setUnreadCount}
+            />
+          ) : (
+            ""
+          )}
         </>
       ) : (
         <>
