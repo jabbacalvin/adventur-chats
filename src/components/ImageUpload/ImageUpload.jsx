@@ -19,6 +19,11 @@ import ClearIcon from "@mui/icons-material/Clear";
 export default function ImageUpload({
   imageFor /*post || profile*/,
   id,
+  imageListColumns,
+  imageListHeight,
+  imageListWidth,
+  progressBarWidth,
+  alertBoxWidth,
   profilePics,
   setProfilePics,
   getImageList,
@@ -165,7 +170,7 @@ export default function ImageUpload({
           multiple
         />
       </Grid>
-      <Grid sx={{ m: 1, width: "28rem" }}>
+      <Grid sx={{ m: 1, width: progressBarWidth }}>
         {files && files.length > 0 && (
           <>
             {progress.started && (
@@ -177,7 +182,7 @@ export default function ImageUpload({
           </>
         )}
         {message && (
-          <Alert severity={messageSeverity} sx={{ width: "29rem" }}>
+          <Alert severity={messageSeverity} sx={{ width: alertBoxWidth }}>
             {message}
           </Alert>
         )}
@@ -193,7 +198,10 @@ export default function ImageUpload({
           >
             Newly Uploaded Images
           </Typography>
-          <ImageList sx={{ m: 2, width: 500, height: 150 }} cols={4}>
+          <ImageList
+            sx={{ m: 2, width: imageListWidth, height: imageListHeight }}
+            cols={imageListColumns}
+          >
             {uploadedImages.map((image, index) => (
               <ImageListItem key={index}>
                 <Card raised={true}>
@@ -238,7 +246,10 @@ export default function ImageUpload({
           >
             Exisiting Images
           </Typography>
-          <ImageList sx={{ m: 2, width: 500, height: 150 }} cols={4}>
+          <ImageList
+            sx={{ m: 2, width: imageListWidth, height: imageListHeight }}
+            cols={imageListColumns}
+          >
             {profilePics.map((image, index) => (
               <ImageListItem key={index}>
                 <Card raised={true}>

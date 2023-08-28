@@ -4,10 +4,10 @@ import { getProfile, getUser } from "../../utilities/users-service";
 import "./App.css";
 import HomePage from "../HomePage/HomePage";
 import AuthPage from "../AuthPage/AuthPage";
-import NewOrderPage from "../NewOrderPage/NewOrderPage";
-import OrderHistoryPage from "../OrderHistoryPage/OrderHistoryPage";
 import NavBar from "../../components/NavBar/NavBar";
 import VisitPage from "../VisitPage/VisitPage";
+import PostsPage from "../PostsPage/PostsPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
 
@@ -26,7 +26,7 @@ export default function App() {
         ]);
 
         setUser(userData);
-        setProfile(profileData.data);
+        if (profileData) setProfile(profileData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -49,6 +49,17 @@ export default function App() {
             {/* Route components in here */}
             <Route path="/" element={<HomePage />} />
             <Route
+              path="/profile"
+              element={
+                <ProfilePage
+                  updatingProfile={updatingProfile}
+                  setUpdatingProfile={setUpdatingProfile}
+                  profile={profile}
+                  setProfile={setProfile}
+                />
+              }
+            />
+            <Route
               path="/settings"
               element={
                 <SettingsPage
@@ -59,11 +70,10 @@ export default function App() {
                 />
               }
             />
-            <Route path="/orders/new" element={<NewOrderPage />} />
-            <Route path="/orders" element={<OrderHistoryPage />} />
+            <Route path="/posts" element={<PostsPage />} />
             <Route path="/visits" element={<VisitPage />} />
           </Routes>
-          <ChatWindow profile={profile} />
+          {profile ? <ChatWindow profile={profile} /> : ""}
         </>
       ) : (
         <>

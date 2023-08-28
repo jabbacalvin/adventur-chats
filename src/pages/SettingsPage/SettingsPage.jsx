@@ -1,12 +1,4 @@
 import EditProfileSettingsForm from "../../components/EditProfileSettingsForm/EditProfileSettingsForm";
-import {
-  FormGroup,
-  FormControlLabel,
-  Box,
-  TextField,
-  Switch,
-  Button,
-} from "@mui/material";
 
 export default function SettingsPage({
   updatingProfile,
@@ -16,7 +8,7 @@ export default function SettingsPage({
 }) {
   return (
     <>
-      <h1>Settings</h1>
+      <h1>Profile Settings</h1>
       <EditProfileSettingsForm
         updatingProfile={updatingProfile}
         setUpdatingProfile={setUpdatingProfile}

@@ -83,6 +83,10 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
     setAnchorEl(null);
   };
 
+  const navigateProfile = () => {
+    navigate("/profile");
+  };
+
   const navigateSettings = () => {
     navigate("/settings");
   };
@@ -117,7 +121,14 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
     >
       {user ? (
         <div>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigateProfile();
+              handleMenuClose();
+            }}
+          >
+            Profile
+          </MenuItem>
           <MenuItem
             onClick={() => {
               navigateSettings();
@@ -194,7 +205,7 @@ export default function NavBar({ updatingProfile, user, setUser, profile }) {
               </Badge>
             </IconButton>
             {user ? (
-              <Tooltip title="Open settings">
+              <Tooltip title="Open menu">
                 <IconButton
                   edge="end"
                   aria-controls={menuId}
