@@ -12,3 +12,11 @@ export function create(visit) {
 export async function getById(id) {
   return await axiosRequest(`${BASE_URL}/${id}`);
 }
+
+export function update(visit) {
+  return axiosRequest(`${BASE_URL}/${visit._id}`, "PUT", visit);
+}
+
+export function deleteOne(id) {
+  return axiosRequest(`${BASE_URL}/${id}`, "DELETE");
+}
