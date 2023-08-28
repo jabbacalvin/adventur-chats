@@ -226,6 +226,7 @@ import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import "./VisitPage.css"
 
 export default function VisitPage() {
   const [title, setTitle] = useState("");
@@ -341,7 +342,7 @@ export default function VisitPage() {
             onChange={(e) => setDescription(e.target.value)}
             style={{ width: "100%", marginBottom: "16px" }}
           />
-          <Typography variant="h6">Start Date</Typography>
+          <Typography variant="h4">Start Date</Typography>
           <TextField
             type="date"
             value={startDate}
@@ -349,7 +350,7 @@ export default function VisitPage() {
             fullWidth
             margin="normal"
           />
-          <Typography variant="h6">End Date</Typography>
+          <Typography variant="h4">End Date</Typography>
           <TextField
             type="date"
             value={endDate}
@@ -365,7 +366,7 @@ export default function VisitPage() {
       </Paper>
 
       <Paper elevation={3} sx={{ padding: 3 }}>
-        <Typography variant="h4">Added Visits</Typography>
+        <Typography variant="h3">Added Visits</Typography>
         <List>
           {visits.map((visit) => (
             <ListItem
@@ -402,7 +403,7 @@ export default function VisitPage() {
                     >
                       Delete
                     </Button>
-                    
+
                     <Button
                       variant="outlined"
                       color="primary"

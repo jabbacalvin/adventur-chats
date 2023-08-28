@@ -10,7 +10,7 @@ export function create(visit) {
 }
 
 export function update(visit) {
-  return axiosRequest(`${BASE_URL}/${visit._id}`, "POST", visit);
+  return axiosRequest(`${BASE_URL}/${visit._id}`, "PUT", visit);
 }
 
 export async function getById(id) {
