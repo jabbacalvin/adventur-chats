@@ -4,7 +4,7 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import { Box, Tab } from "@mui/material/";
 import { TabContext, TabList, TabPanel } from "@mui/lab/";
 
-export default function AuthPage({ setUser }) {
+export default function AuthPage({ setUser, setProfile }) {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -21,10 +21,10 @@ export default function AuthPage({ setUser }) {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <LoginForm setUser={setUser} />
+          <LoginForm setUser={setUser} setProfile={setProfile} />
         </TabPanel>
         <TabPanel value="2">
-          <SignUpForm setUser={setUser} />
+          <SignUpForm setUser={setUser} setProfile={setProfile} />
         </TabPanel>
       </TabContext>
     </Box>

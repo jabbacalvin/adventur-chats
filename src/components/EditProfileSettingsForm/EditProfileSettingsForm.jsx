@@ -19,6 +19,7 @@ import {
   Card,
   CardMedia,
   Collapse,
+  Fade,
 } from "@mui/material/";
 
 export default function EditProfileSettingsForm({
@@ -233,7 +234,6 @@ export default function EditProfileSettingsForm({
             <>
               {profilePics.length > 0 && (
                 <>
-                  {/* <Collapse orientation="horizontal"> */}
                   <Card raised={true} sx={{ m: 1, maxWidth: "150px" }}>
                     {updatingProfile ? (
                       <CircularProgress size={24} /> // Display a loading indicator while updating
@@ -247,7 +247,6 @@ export default function EditProfileSettingsForm({
                       />
                     )}
                   </Card>
-                  {/* </Collapse> */}
                 </>
               )}
               <Button sx={{ m: 1 }} variant="outlined" onClick={handleOpen}>

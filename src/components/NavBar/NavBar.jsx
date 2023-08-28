@@ -63,10 +63,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ updatingProfile, user, setUser, profile }) {
+export default function NavBar({
+  updatingProfile,
+  user,
+  setUser,
+  profile,
+  setProfile,
+}) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
+    setProfile(null);
   }
 
   const navigate = useNavigate();

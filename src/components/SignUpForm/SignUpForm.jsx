@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../../utilities/users-service";
+import { getProfile, signUp } from "../../utilities/users-service";
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import AvatarRandomizer from "../AvatarRandomizer/AvatarRandomizer";
 
@@ -85,6 +85,8 @@ const SignUpForm = (props) => {
     try {
       const user = await signUp(formData);
       props.setUser(user);
+      const profile = await getProfile(user);
+      props.setProfile(profile.data);
       navigate(-1);
     } catch (err) {
       updateMessage(err);

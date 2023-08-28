@@ -16,7 +16,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export default function LoginForm({ setUser }) {
+export default function LoginForm({ setUser, setProfile }) {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -48,6 +48,8 @@ export default function LoginForm({ setUser }) {
       // payload of the JSON Web Token (JWT)
       const user = await usersService.login(credentials);
       setUser(user);
+      const profile = await usersService.getProfile(user);
+      setProfile(profile.data);
       navigate(-1);
     } catch {
       setError("Log In Failed - Try Again");
