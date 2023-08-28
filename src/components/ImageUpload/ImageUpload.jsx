@@ -19,14 +19,15 @@ import ClearIcon from "@mui/icons-material/Clear";
 export default function ImageUpload({
   imageFor /*post || profile*/,
   id,
-  imageListColumns,
-  imageListHeight,
-  imageListWidth,
-  progressBarWidth,
-  alertBoxWidth,
+  imageListColumns = 0,
+  imageListHeight = "",
+  imageListWidth = "",
+  progressBarWidth = "",
+  alertBoxWidth = "",
   profilePics,
   setProfilePics,
   getImageList,
+  setImagesChanged = false,
 }) {
   const [files, setFiles] = useState(null);
   const [progress, setProgress] = useState({
@@ -105,6 +106,9 @@ export default function ImageUpload({
           _id: image._id,
         }));
         updateImagesAndList([...newImages, ...uploadedImages]);
+
+        setImagesChanged(true);
+
         setMessage("Upload successful");
         setMessageSeverity("success");
         setFiles(null);
@@ -141,6 +145,8 @@ export default function ImageUpload({
         updateImagesAndList(newImages);
         setMessage("Deleted " + res.data.file);
 
+        setImagesChanged(true);
+
         const profilePicIndex = profilePics.findIndex(
           (image) => image._id === imageIdToRemove
         );
@@ -150,7 +156,6 @@ export default function ImageUpload({
           modifiedProfilePics.splice(profilePicIndex, 1);
           setProfilePics(modifiedProfilePics);
         }
-
         setMessageSeverity("success");
       })
       .catch((err) => {
