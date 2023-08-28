@@ -1,95 +1,4 @@
-// import io from "socket.io-client";
-// import { IconButton, Paper, TextField, Typography } from "@mui/material";
-// import SendIcon from "@mui/icons-material/Send";
-// import { Box } from "@mui/system";
-// import { useState, useEffect } from "react";
-// import {
-//   createChatMessage,
-//   getAllChatMessages,
-// } from "../../utilities/chat-api";
-
-// const socket = io.connect("http://localhost:3001");
-
-// export default function ChatWindow({ user }) {
-//   const [messages, setMessages] = useState([]);
-//   const [message, setMessage] = useState("");
-
-//   // console.log("Profile:", user);
-
-//   const chatName = user
-//     ? (user.useUsername
-//       ? user.username
-//       : user.firstName + " " + user.lastName)
-//     : "";
-
-//     // console.log("Chat Name:", chatName);
-
-//   function sendMessage() {
-//     const userMessage = {
-//       nameOfUser: chatName,
-//       message,
-//     };
-//     socket.emit("send_message", userMessage);
-//     setMessages([...messages, userMessage]);
-//     setMessage("");
-//     createChatMessage(userMessage);
-//   }
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       const response = await getAllChatMessages();
-//       const responseMessages = response.data.map((m) => {
-//         return { nameOfUser: m.nameOfUser, message: m.message };
-//       });
-//       setMessages(responseMessages);
-//     }
-//     fetchData();
-//   }, []);
-
-//   useEffect(() => {
-//     socket.on("receive_message", (data) => {
-//       setMessages([...messages, data]);
-//     });
-//   }, [messages]);
-
-//   return (
-//     <Box id="chat-window">
-//       <Box m={2}>
-//         {messages.map((m, i) => (
-//           <Typography
-//             style={{ color: m.nameOfUser === chatName ? "green" : "blue" }}
-//             key={i}
-//             variant="h6"
-//           >
-//             {`${m.nameOfUser}: ${m.message}`} <br />
-//           </Typography>
-//         ))}
-//       </Box>
-//       <Paper
-//         sx={{
-//           p: "2px 4px",
-//           display: "flex",
-//           alignItems: "center",
-//           width: 500,
-//           position: "absolute",
-//           bottom: 0,
-//         }}
-//       >
-//         <TextField
-//           sx={{ ml: 1, flex: 1 }}
-//           label="Enter Message..."
-//           value={message}
-//           onChange={(e) => setMessage(e.target.value)}
-//         />
-//         <IconButton type="button" onClick={sendMessage}>
-//           <SendIcon />
-//         </IconButton>
-//       </Paper>
-//     </Box>
-//   );
-// }
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import {
   IconButton,
@@ -97,9 +6,12 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Badge,
+  Avatar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import MailIcon from "@mui/icons-material/Mail";
 import { Box } from "@mui/system";
 import {
   createChatMessage,
@@ -108,18 +20,34 @@ import {
 
 const socket = io.connect("http://localhost:3001");
 
-export default function ChatWindow({ profile }) {
+export default function ChatWindow({
+  profile,
+  setUnreadCount,
+  unreadCount,
+  chatVisible,
+  setChatVisible,
+}) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [chatVisible, setChatVisible] = useState(false);
+  const messagesBoxRef = useRef(null);
+
+
+  // Function to increment the unread count
+  const incrementUnreadCount = () => {
+    setUnreadCount(unreadCount + 1);
+  };
 
   const chatName = profile.useUsername
     ? profile.username
     : `${profile.firstName} ${profile.lastName}`;
 
+  const avatarUrl = profile.profilePics ? profile.profilePics[0].url : "";
+
   function sendMessage() {
     const userMessage = {
+      avatar: avatarUrl,
       nameOfUser: chatName,
+      user: profile._id,
       message,
     };
     socket.emit("send_message", userMessage);
@@ -131,8 +59,15 @@ export default function ChatWindow({ profile }) {
   useEffect(() => {
     async function fetchData() {
       const response = await getAllChatMessages();
+      console.log(response);
       const responseMessages = response.data.map((m) => {
-        return { nameOfUser: m.nameOfUser, message: m.message };
+        return {
+          nameOfUser: m.user.useUsername
+            ? m.user.username
+            : m.user.firstName + " " + m.user.lastName,
+          message: m.message,
+          avatar: m.user.profilePics[0].url,
+        };
       });
       setMessages(responseMessages);
     }
@@ -141,12 +76,38 @@ export default function ChatWindow({ profile }) {
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
+      if (!chatVisible) {
+        incrementUnreadCount();
+      }
       setMessages([...messages, data]);
     });
+  }, [messages, chatVisible]);
+
+  useEffect(() => {
+    // Scroll to the bottom of the messages box when messages change
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+    }
   }, [messages]);
+
+  useEffect(() => {
+    if (chatVisible) {
+      // Scroll to the bottom of the messages box when the chat is opened
+      if (messagesBoxRef.current) {
+        messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+      }
+      // Reset the unread message count since the chat is now visible
+      setUnreadCount(0);
+    }
+  }, [chatVisible]);
+
+
 
   const toggleChatVisible = () => {
     setChatVisible(!chatVisible);
+    if (chatVisible) {
+      setUnreadCount(0);
+    }
   };
 
   const closeChat = () => {
@@ -155,23 +116,6 @@ export default function ChatWindow({ profile }) {
 
   return (
     <div>
-      {!chatVisible && (
-        <div
-          onClick={toggleChatVisible}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            backgroundColor: "blue",
-            color: "white",
-            padding: "10px",
-            cursor: "pointer",
-          }}
-        >
-          Open Chat
-        </div>
-      )}
-
       {chatVisible && (
         <Box
           id="chat-window"
@@ -191,25 +135,95 @@ export default function ChatWindow({ profile }) {
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "d-between", // Adjusted alignment
+              alignItems: "center", // Center the message icon vertically
               padding: "10px",
+              borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f1f1f1",
             }}
           >
-            <IconButton onClick={closeChat}>
-              <CloseIcon />
+            <Typography variant="h6">Happy Chatting</Typography>
+            <IconButton 
+            onClick={closeChat}
+            style={{marginLeft: "auto"}}
+            >
+              <CloseIcon fontSize="large"/>
             </IconButton>
           </div>
-          <Box m={2}>
+          <Box
+            ref={messagesBoxRef}
+            m={2}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              maxHeight: "calc(70% - 60px)", // Adjusted to account for header height
+              overflowY: "auto",
+              backgroundColor: "lightgray",
+            }}
+          >
             {messages.map((m, i) => (
-              <Typography
+              <div
                 style={{
-                  color: m.nameOfUser === chatName ? "green" : "blue",
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                  justifyContent:
+                    m.nameOfUser === chatName ? "flex-end" : "flex-start",
                 }}
                 key={i}
-                variant="h6"
               >
-                {`${m.nameOfUser}: ${m.message}`} <br />
-              </Typography>
+                {m.nameOfUser !== chatName && (
+                  <Avatar src={m.avatar} alt={m.nameOfUser} />
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginLeft: m.nameOfUser !== chatName ? "10px" : 0,
+                    marginRight: m.nameOfUser === chatName ? "10px" : 0,
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {m.nameOfUser !== chatName && (
+                      <Typography
+                        variant="body2"
+                        style={{
+                          marginRight: "5px",
+                        }}
+                      >
+                        {m.nameOfUser}
+                      </Typography>
+                    )}
+                    {m.nameOfUser === chatName && <div style={{ flex: 1 }} />}
+                    {m.nameOfUser === chatName && (
+                      <Typography
+                        variant="body2"
+                        style={{ textAlign: "right" }}
+                      >
+                        {m.nameOfUser}
+                      </Typography>
+                    )}
+                  </div>
+                  <Typography
+                    style={{
+                      maxWidth: "70%",
+                      padding: "8px",
+                      borderRadius: "8px",
+                      background: m.nameOfUser === chatName ? "green" : "blue",
+                      color: "white",
+                      alignSelf:
+                        m.nameOfUser === chatName ? "flex-end" : "flex-start",
+                    }}
+                    variant="body1"
+                  >
+                    {m.message}
+                  </Typography>
+                </div>
+                {m.nameOfUser === chatName && (
+                  <Avatar src={m.avatar} alt={m.nameOfUser} />
+                )}
+              </div>
             ))}
           </Box>
           <Paper
@@ -227,8 +241,8 @@ export default function ChatWindow({ profile }) {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton type="button">
-                      <SendIcon />
+                    <IconButton type="button" onClick={sendMessage}>
+                      <SendIcon style={{color: "green"}}  />
                     </IconButton>
                   </InputAdornment>
                 ),
