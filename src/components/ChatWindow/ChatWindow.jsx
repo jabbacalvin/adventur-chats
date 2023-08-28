@@ -91,7 +91,13 @@
 
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import { IconButton, Paper, TextField, Typography } from "@mui/material";
+import {
+  IconButton,
+  Paper,
+  TextField,
+  Typography,
+  InputAdornment,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import { Box } from "@mui/system";
@@ -218,10 +224,22 @@ export default function ChatWindow({ profile }) {
               label="Enter Message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton type="button">
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage(e);
+                }
+              }}
             />
-            <IconButton type="button" onClick={sendMessage}>
-              <SendIcon />
-            </IconButton>
           </Paper>
         </Box>
       )}
