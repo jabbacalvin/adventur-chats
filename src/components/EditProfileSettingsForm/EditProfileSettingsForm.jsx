@@ -176,78 +176,82 @@ export default function EditProfileSettingsForm({
 
   return (
     <Box component="form" autoComplete="off" onSubmit={handleSubmit}>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={useAvatar}
-            onChange={handleChange}
-            name="useAvatar"
-          />
-        }
-        label="Use Avatar"
-      />
-      <Grid sx={{ m: 2 }}>
-        {useAvatar ? (
-          <AvatarRandomizer
-            onChange={handleChange}
-            avatar={avatar}
-            setAvatar={setAvatar}
-          />
-        ) : (
-          <>
-            <Typography
-              sx={{ m: 1 }}
-              variant="button"
-              display="block"
-              gutterBottom
-            >
-              Profile Picture Upload
-            </Typography>
-            <ImageUpload
-              imageFor={"profile"}
-              id={profile._id}
-              profilePics={profilePics}
-              setProfilePics={setProfilePics}
-              getImageList={(imageList) => {
-                setFormData({
-                  ...formData,
-                  profilePicsNew: imageList.map((image) => image._id),
-                });
-              }}
+      <Grid align="center">
+        <FormControlLabel
+          sx={{ m: 1 }}
+          control={
+            <Switch
+              checked={useAvatar}
+              onChange={handleChange}
+              name="useAvatar"
             />
-          </>
-        )}
+          }
+          label="Use Avatar"
+        />
+        <Grid sx={{ m: 1 }}>
+          {useAvatar ? (
+            <AvatarRandomizer
+              onChange={handleChange}
+              avatar={avatar}
+              setAvatar={setAvatar}
+            />
+          ) : (
+            <>
+              <Typography
+                sx={{ m: 1 }}
+                variant="button"
+                display="block"
+                gutterBottom
+              >
+                Profile Picture Upload
+              </Typography>
+              <ImageUpload
+                imageFor={"profile"}
+                id={profile._id}
+                profilePics={profilePics}
+                setProfilePics={setProfilePics}
+                getImageList={(imageList) => {
+                  setFormData({
+                    ...formData,
+                    profilePicsNew: imageList.map((image) => image._id),
+                  });
+                }}
+              />
+            </>
+          )}
+        </Grid>
       </Grid>
-
-      <TextField
-        fullWidth
-        name="firstName"
-        autoComplete="given-name"
-        label="First name"
-        multiline
-        maxRows={4}
-        value={firstName}
-        onChange={handleChange}
-        sx={{ m: 1, width: "30ch" }}
-      />
-      <TextField
-        fullWidth
-        name="lastName"
-        autoComplete="family-name"
-        label="Last name"
-        multiline
-        maxRows={4}
-        value={lastName}
-        onChange={handleChange}
-        sx={{ m: 1, width: "30ch" }}
-      />
-      <Grid sx={{ m: 1 }}>
+      <Grid align="center">
+        <TextField
+          fullWidth
+          name="firstName"
+          autoComplete="given-name"
+          label="First name"
+          multiline
+          maxRows={4}
+          value={firstName}
+          onChange={handleChange}
+          sx={{ m: 1, width: "30ch" }}
+        />
+        <TextField
+          fullWidth
+          name="lastName"
+          autoComplete="family-name"
+          label="Last name"
+          multiline
+          maxRows={4}
+          value={lastName}
+          onChange={handleChange}
+          sx={{ m: 1, width: "30ch" }}
+        />
+      </Grid>
+      <Grid sx={{ m: 1 }} align="center">
         <PlacesAutocomplete
           locationData={locationData}
           setLocationData={setLocationData}
         />
       </Grid>
-      <Grid sx={{ m: 1, width: "28ch" }}>
+      <Grid align="center">
         <FormControlLabel
           control={
             <Switch
@@ -258,32 +262,30 @@ export default function EditProfileSettingsForm({
           }
           label="Use Username"
         />
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isMessageable}
-                onChange={handleChange}
-                name="isMessageable"
-                color="secondary"
-              />
-            }
-            label="Message with others"
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isSearchable}
-                onChange={handleChange}
-                name="isSearchable"
-                color="warning"
-              />
-            }
-            label="Public posts"
-          />
-        </FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isMessageable}
+              onChange={handleChange}
+              name="isMessageable"
+              color="secondary"
+            />
+          }
+          label="Message with others"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isSearchable}
+              onChange={handleChange}
+              name="isSearchable"
+              color="warning"
+            />
+          }
+          label="Public posts"
+        />
       </Grid>
-      <div>
+      <Grid align="center">
         <Button
           type="submit"
           variant="contained"
@@ -296,7 +298,7 @@ export default function EditProfileSettingsForm({
         <Link to="/" style={{ textDecoration: "none" }}>
           <Button sx={{ m: 1, width: "35ch" }}>Cancel</Button>
         </Link>
-      </div>
+      </Grid>
 
       {message != "" ? (
         <Alert severity="error" sx={{ m: 1, width: "70ch" }}>
