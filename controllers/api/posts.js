@@ -6,6 +6,7 @@ module.exports = {
   showPost,
   deletePost,
   updatePost,
+  updateComments,
 };
 
 async function createPost(req, res) {
@@ -25,7 +26,6 @@ async function createPost(req, res) {
     const post = await Post.create(req.body);
     res.status(201).json(post);
   } catch (error) {
-    console.error("Error creating post:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
@@ -36,12 +36,13 @@ async function index(req, res) {
       .populate("categories")
       .populate({
         path: "profile",
-        select: "username profilePics", // Select the fields you want to populate
+
+        populate: { path: "profilePics", model: "Image" },
       })
       .populate("location");
+
     res.status(200).json(posts);
   } catch (error) {
-    console.error("Error fetching posts:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
@@ -53,7 +54,23 @@ async function updatePost(req, res) {
     });
     res.status(200).json(updatedPost);
   } catch (error) {
-    console.error("Error updating post:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function updateComments(req, res) {
+  try {
+    console.log(req.body);
+    const updatedComments = await Post.findByIdAndUpdate(
+      req.params.id,
+      req.body.comments,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedComments);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
@@ -64,12 +81,14 @@ async function showPost(req, res) {
       .populate("categories")
       .populate({
         path: "profile",
-        select: "username profilePics", // Select the fields you want to populate
+        populate: { path: "profilePics", model: "Image" },
       })
-      .populate("location");
+      .populate("location")
+      .populate("comments.userProfile"); // Populate comment's userProfile field
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
+
     res.status(200).json(post);
   } catch (error) {
     console.error("Error fetching post:", error);

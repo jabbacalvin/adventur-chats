@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAll as getAllCategories } from "../../utilities/categories-api";
 import { deletePost, updatePost } from "../../utilities/posts-api";
-import { getProfile } from "../../utilities/profiles-api"; // Import the function to fetch profiles
+import CommentSection from "../CommentSection/CommentSection";
 import {
   Dialog,
   DialogTitle,
@@ -16,12 +16,14 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-function PostList({ posts, fetchPosts }) {
+
+function PostList({ profile, posts, fetchPosts, setComments, comments }) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [updatedTitleValue, setUpdatedTitleValue] = useState("");
   const [updatedContentValue, setUpdatedContentValue] = useState("");
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -77,11 +79,11 @@ function PostList({ posts, fetchPosts }) {
           variant="outlined"
           sx={{
             borderRadius: 6,
-            marginBottom: "20px",
             padding: "16px",
-            maxWidth: 400,
+            maxWidth: 500,
             margin: "0 auto",
             position: "relative", // Set the position of the card to relative
+            marginBottom: "10px",
           }}
         >
           <CardContent>
@@ -102,11 +104,11 @@ function PostList({ posts, fetchPosts }) {
                 post.profile.profilePics &&
                 post.profile.profilePics[0] && (
                   <img
-                    src={post.profile.profilePics[0]}
+                    src={post.profile.profilePics[0].url}
                     alt="Profile"
                     style={{
-                      width: "30px", // Smaller profile picture
-                      height: "30px", // Smaller profile picture
+                      width: "30px",
+                      height: "30px",
                       borderRadius: "50%",
                       marginRight: "5px",
                     }}
@@ -167,6 +169,12 @@ function PostList({ posts, fetchPosts }) {
                 )}
               </Typography>
             </Box>
+            <CommentSection
+              profile={profile}
+              postId={post._id}
+              comments={comments}
+              setComments={setComments}
+            />
           </CardContent>
           <CardActions
             sx={{

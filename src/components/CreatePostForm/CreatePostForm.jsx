@@ -1,6 +1,7 @@
 import React from "react";
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import CategoryCheckbox from "../CategoryCheckbox/CategoryCheckbox";
+
 import {
   Button,
   TextField,
