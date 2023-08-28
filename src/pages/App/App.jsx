@@ -77,7 +77,7 @@ export default function App() {
                 />
               }
             />
-            <Route path="/posts" element={<PostsPage />} />
+            <Route path="/posts" element={<PostsPage profile={profile} />} />
             <Route path="/visits" element={<VisitPage />} />
           </Routes>
           {profile ? (

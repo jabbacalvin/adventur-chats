@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import CreatePostForm from "../CreatePostForm/CreatePostForm";
 import { Container, Paper } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
-import PostList from "../PostList/PostList"; // Adjust the path as needed
+import PostList from "../PostList/PostList";
 
-function PostContainer() {
+function PostContainer({ profile }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -14,6 +14,7 @@ function PostContainer() {
   });
 
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -22,6 +23,7 @@ function PostContainer() {
     try {
       const response = await getAll();
       setPosts(response.data);
+      setComments(response.data.comments);
       console.log("fetching posts ", response.data);
     } catch (error) {
       console.error("Error fetching Posts:", error);
@@ -82,7 +84,13 @@ function PostContainer() {
             setActiveCat={setActiveCat}
           />
         </Paper>
-        <PostList posts={posts} fetchPosts={fetchPosts} />
+        <PostList
+          profile={profile}
+          posts={posts}
+          fetchPosts={fetchPosts}
+          comments={comments}
+          setComments={setComments}
+        />
       </Container>
     </div>
   );

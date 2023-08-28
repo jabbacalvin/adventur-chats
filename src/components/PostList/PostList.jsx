@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAll as getAllCategories } from "../../utilities/categories-api";
 import { deletePost, updatePost } from "../../utilities/posts-api";
+import CommentSection from "../CommentSection/CommentSection";
 import {
   Dialog,
   DialogTitle,
@@ -16,7 +17,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-function PostList({ posts, fetchPosts }) {
+function PostList({ profile, posts, fetchPosts, setComments, comments }) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -26,7 +27,6 @@ function PostList({ posts, fetchPosts }) {
   useEffect(() => {
     fetchCategories();
   }, []);
-
   const fetchCategories = async () => {
     try {
       const categoriesData = await getAllCategories();
@@ -35,7 +35,6 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error fetching categories:", error);
     }
   };
-
   const handleDeletePost = async (postId) => {
     try {
       await deletePost(postId);
@@ -45,28 +44,24 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error deleting Post:", error);
     }
   };
-
   const handleOpenDialog = (post) => {
     setSelectedPost(post);
     setUpdatedTitleValue(post.title);
     setUpdatedContentValue(post.content);
     setOpenDialog(true);
   };
-
   const handleCloseDialog = () => {
     setSelectedPost(null);
     setOpenDialog(false);
     setUpdatedTitleValue("");
     setUpdatedContentValue("");
   };
-
   const handleUpdatePost = async () => {
     try {
       const updatedPost = {
         title: updatedTitleValue,
         content: updatedContentValue,
       };
-
       await updatePost(selectedPost._id, updatedPost);
       console.log("Post updated successfully");
       handleCloseDialog();
@@ -75,7 +70,6 @@ function PostList({ posts, fetchPosts }) {
       console.error("Error updating Post:", error);
     }
   };
-
   return (
     <div>
       <h2>Posts</h2>
@@ -85,13 +79,49 @@ function PostList({ posts, fetchPosts }) {
           variant="outlined"
           sx={{
             borderRadius: 6,
-            marginBottom: "20px",
             padding: "16px",
-            maxWidth: 400,
+            maxWidth: 500,
             margin: "0 auto",
+            position: "relative", // Set the position of the card to relative
+            marginBottom: "10px",
           }}
         >
           <CardContent>
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                backgroundColor: "#f0f8c8", // Very light olive green color
+                padding: "8px",
+                borderRadius: "6px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* Display profile picture */}
+              {post.profile &&
+                post.profile.profilePics &&
+                post.profile.profilePics[0] && (
+                  <img
+                    src={post.profile.profilePics[0].url}
+                    alt="Profile"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      marginRight: "5px",
+                    }}
+                  />
+                )}
+              {/* Display username */}
+              {post.profile && (
+                <Typography variant="body2" sx={{ fontSize: "12px" }}>
+                  {post.profile.username}
+                </Typography>
+              )}
+            </Box>
+
             <Typography
               variant="h6"
               sx={{ textAlign: "center", marginBottom: 1 }}
@@ -139,6 +169,12 @@ function PostList({ posts, fetchPosts }) {
                 )}
               </Typography>
             </Box>
+            <CommentSection
+              profile={profile}
+              postId={post._id}
+              comments={comments}
+              setComments={setComments}
+            />
           </CardContent>
           <CardActions
             sx={{
@@ -186,5 +222,4 @@ function PostList({ posts, fetchPosts }) {
     </div>
   );
 }
-
 export default PostList;

@@ -19,3 +19,7 @@ export async function deletePost(postId) {
 export async function updatePost(postId, updatedPost) {
   return axiosRequest(`${BASE_URL}/${postId}`, "PUT", updatedPost);
 }
+
+export async function updateComments(postId, updatedComments) {
+  return axiosRequest(`${BASE_URL}/${postId}/comments`, "PUT", updatedComments);
+}
