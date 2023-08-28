@@ -9,9 +9,13 @@ export default function AvatarRandomizer({ onChange, avatar, setAvatar }) {
 
   const resetSeed = () => {
     let newSeed = randomSeed();
-    setAvatar({
-      ...avatar,
-      url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${newSeed}`,
+    setAvatar((prevAvatar) => {
+      const newAvatar = {
+        ...prevAvatar,
+        name: "Avatar",
+        url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${newSeed}`,
+      };
+      return newAvatar;
     });
   };
 
