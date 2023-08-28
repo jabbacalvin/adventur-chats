@@ -27,14 +27,30 @@ export default function ChatWindow({ profile }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [chatVisible, setChatVisible] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Function to increment the unread count
+  const incrementUnreadCount = () => {
+    setUnreadCount(unreadCount + 1);
+  };
+  
+  
+
 
   const chatName = profile.useUsername
     ? profile.username
     : `${profile.firstName} ${profile.lastName}`;
 
+
+
+
+  const avatarUrl = (profile.profilePics) ? profile.profilePics[0].url : "";
+
   function sendMessage() {
     const userMessage = {
+      avatar: avatarUrl,
       nameOfUser: chatName,
+      user: profile._id,
       message,
     };
     socket.emit("send_message", userMessage);
@@ -46,8 +62,9 @@ export default function ChatWindow({ profile }) {
   useEffect(() => {
     async function fetchData() {
       const response = await getAllChatMessages();
+      console.log(response);
       const responseMessages = response.data.map((m) => {
-        return { nameOfUser: m.nameOfUser, message: m.message };
+        return { nameOfUser: m.user.useUsername ? m.user.username : m.user.firstName + " " + m.user.lastName, message: m.message, avatar: m.user.profilePics[0].url };
       });
       setMessages(responseMessages);
     }
@@ -56,39 +73,49 @@ export default function ChatWindow({ profile }) {
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
+      if (!chatVisible) {
+        incrementUnreadCount();
+      }
       setMessages([...messages, data]);
     });
-  }, [messages]);
+  }, [messages, chatVisible]);
 
   const toggleChatVisible = () => {
-    setChatVisible(!chatVisible);
-  };
+  setChatVisible(!chatVisible);
+  if (chatVisible) {
+    setUnreadCount(0);
+  }
+};
+
 
   const closeChat = () => {
     setChatVisible(false);
   };
 
+
   return (
   <div>
-    {!chatVisible && (
-      <div
-        onClick={toggleChatVisible}
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          backgroundColor: "green",
-          color: "white",
-          padding: "10px",
-          cursor: "pointer",
-          borderRadius: "8px",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        Open Chat
-      </div>
-    )}
-
+    <div
+      onClick={toggleChatVisible}
+      style={{
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+        backgroundColor: "green",
+        color: "white",
+        padding: "10px",
+        cursor: "pointer",
+        borderRadius: "8px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      Open Chat{" "}
+      {unreadCount > 0 && (
+        <Badge badgeContent={unreadCount} color="error">
+          {/* Notification bubble */}
+        </Badge>
+      )}
+    </div>
     {chatVisible && (
       <Box
         id="chat-window"
