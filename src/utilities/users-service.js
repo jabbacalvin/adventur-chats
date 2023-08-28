@@ -64,6 +64,7 @@ export function getToken() {
 }
 
 export function getProfile(user) {
+  // This function returns a promise, make sure you use .data to show the results!
   if (!user) user = getUser();
 
   return user ? profilesAPI.getProfile(user.profile) : null;

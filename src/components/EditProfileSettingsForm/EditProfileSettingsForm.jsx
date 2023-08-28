@@ -18,9 +18,11 @@ import {
   Modal,
   Card,
   CardMedia,
+  IconButton,
   Collapse,
   Fade,
 } from "@mui/material/";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function EditProfileSettingsForm({
   updatingProfile,
@@ -32,6 +34,7 @@ export default function EditProfileSettingsForm({
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState([""]);
   const [profilePics, setProfilePics] = useState([]);
+  const [imagesChanged, setImagesChanged] = useState(false);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -174,6 +177,7 @@ export default function EditProfileSettingsForm({
       setProfile(updatedProfile.data);
       handleClose();
       setUpdatingProfile(false);
+      setImagesChanged(false);
     } catch (err) {
       updateMessage(err);
     }
@@ -273,6 +277,16 @@ export default function EditProfileSettingsForm({
                   <Typography variant="h6" component="h2">
                     Editing Profile Pictures
                   </Typography>
+                  {imagesChanged ? (
+                    ""
+                  ) : (
+                    <IconButton
+                      onClick={handleClose}
+                      sx={{ position: "absolute", right: 8, top: 8 }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  )}
                   {updatingProfile ? (
                     <CircularProgress />
                   ) : (
@@ -287,6 +301,7 @@ export default function EditProfileSettingsForm({
                         alertBoxWidth={"23.5rem"}
                         profilePics={profilePics}
                         setProfilePics={setProfilePics}
+                        setImagesChanged={setImagesChanged}
                         getImageList={(imageList) => {
                           setFormData({
                             ...formData,
