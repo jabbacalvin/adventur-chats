@@ -137,8 +137,8 @@ export default function ChatWindow({
               display: "flex",
               justifyContent: "d-between", // Adjusted alignment
               alignItems: "center", // Center the message icon vertically
-              padding: "10px",
-              borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+              padding: "10px 20px",
+              borderBottom: "1px solid rgba(0, 0, 0, 0.4)",
               backgroundColor: "#f1f1f1",
             }}
           >
@@ -214,6 +214,7 @@ export default function ChatWindow({
                       color: "white",
                       alignSelf:
                         m.nameOfUser === chatName ? "flex-end" : "flex-start",
+                      wordWrap: "break-word",
                     }}
                     variant="body1"
                   >
