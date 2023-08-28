@@ -36,6 +36,31 @@ export default function EditProfileSettingsForm({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [useAvatar, setUseAvatar] = useState(true);
+
+  const handleUseAvatarChange = (e) => {
+    setUseAvatar(e.target.checked);
+  };
+
+  useEffect(() => {
+    if (useAvatar) {
+      setAvatar({
+        name: "Avatar",
+        url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${randomSeed()}`,
+      });
+    } else {
+      setAvatar({
+        name: "",
+        url: "",
+      });
+    }
+    setFormData({
+      ...formData,
+      useAvatar: useAvatar,
+      avatar: avatar,
+    });
+  }, [useAvatar]);
+
   const [formData, setFormData] = useState({
     profilePic: [],
     firstName: "",
@@ -43,7 +68,7 @@ export default function EditProfileSettingsForm({
     googlePlaceId: "",
     placeName: "",
     useUsername: true,
-    useAvatar: true,
+    useAvatar: useAvatar,
     isMessageable: true,
     isSearchable: true,
   });
@@ -86,6 +111,7 @@ export default function EditProfileSettingsForm({
       const response = await getProfile(profile._id); // Replace with your API endpoint
 
       setFormData(response.data);
+      setUseAvatar(response.data.useAvatar);
       if (response.data.profilePics) {
         if (
           response.data.profilePics.some((item) => item.name.includes("Avatar"))
@@ -122,10 +148,10 @@ export default function EditProfileSettingsForm({
     updateMessage("");
     setFormData({
       ...formData,
+      useAvatar: useAvatar,
       avatar: avatar,
       [e.target.name]:
         e.target.name === "useUsername" ||
-        e.target.name === "useAvatar" ||
         e.target.name === "isMessageable" ||
         e.target.name === "isSearchable"
           ? e.target.checked
@@ -174,14 +200,8 @@ export default function EditProfileSettingsForm({
     }
   };
 
-  const {
-    firstName,
-    lastName,
-    useUsername,
-    useAvatar,
-    isMessageable,
-    isSearchable,
-  } = formData;
+  const { firstName, lastName, useUsername, isMessageable, isSearchable } =
+    formData;
 
   const isFormInvalid = () => {
     return !(firstName && lastName);
@@ -210,7 +230,7 @@ export default function EditProfileSettingsForm({
           control={
             <Switch
               checked={useAvatar}
-              onChange={handleChange}
+              onChange={handleUseAvatarChange}
               name="useAvatar"
             />
           }

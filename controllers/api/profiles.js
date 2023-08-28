@@ -43,7 +43,7 @@ async function update(req, res) {
       updatedProfilePics = [...updatedProfilePics, ...profilePicIds];
     }
 
-    if (req.body.avatar) {
+    if (req.body.useAvatar) {
       const newProfileAvatar = await Image.create(req.body.avatar);
       updatedProfilePics = [...updatedProfilePics, newProfileAvatar._id];
     }

@@ -6,6 +6,7 @@ import HomePage from "../HomePage/HomePage";
 import AuthPage from "../AuthPage/AuthPage";
 import NavBar from "../../components/NavBar/NavBar";
 import VisitPage from "../VisitPage/VisitPage";
+import PostPage from "../PostPage/PostPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
@@ -69,6 +70,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="/posts" element={<PostPage />} />
             <Route path="/visits" element={<VisitPage />} />
           </Routes>
           <ChatWindow profile={profile} />
