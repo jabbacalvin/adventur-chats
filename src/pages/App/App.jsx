@@ -42,6 +42,7 @@ export default function App() {
         user={user}
         setUser={setUser}
         profile={profile}
+        setProfile={setProfile}
       />
       {user ? (
         <>
@@ -79,7 +80,10 @@ export default function App() {
         <>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<AuthPage setUser={setUser} />} />
+            <Route
+              path="/login"
+              element={<AuthPage setUser={setUser} setProfile={setProfile} />}
+            />
           </Routes>
         </>
       )}
