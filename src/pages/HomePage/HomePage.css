@@ -1,0 +1,111 @@
+/* .home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.card-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+  width: 80%; 
+  max-width: 1500px; 
+  align-self: center;
+}
+
+.card {
+  height: 59%;
+  width: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-position: center;
+}
+
+.card-1 {
+  width: 100%;
+  background-image: url("https://e0.pxfuel.com/wallpapers/593/47/desktop-wallpaper-iphone-forest-cabin-winter-mountain-cabin.jpg");
+}
+
+.card-2 {
+  width: 100%;
+  background-image: url("https://img.freepik.com/premium-photo/airplane-taking-off-from-airport-closeup-airplane-generative-ai_863013-770.jpg?w=740");
+} */
+
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.card-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+  width: 80%; 
+  max-width: 1500px; 
+  align-self: center;
+}
+
+.card {
+  height: 59%;
+  width: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 1.5rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover .card-text {
+  opacity: 1;
+}
+
+.card-1 {
+  width: 100%;
+  background-image: url("https://e0.pxfuel.com/wallpapers/593/47/desktop-wallpaper-iphone-forest-cabin-winter-mountain-cabin.jpg");
+}
+
+.card-2 {
+  width: 100%;
+  background-image: url("https://img.freepik.com/premium-photo/airplane-taking-off-from-airport-closeup-airplane-generative-ai_863013-770.jpg?w=740");
+}
+
+.card-1 .card-text,
+.card-2 .card-text {
+  font-size: 2.8rem;
+  color: #FF5733; /* Change to a vibrant color */
+}
