@@ -16,6 +16,9 @@ import {
   Switch,
   Typography,
   CircularProgress,
+  Modal,
+  Card,
+  CardMedia,
 } from "@mui/material/";
 
 export default function EditProfileSettingsForm({
@@ -28,6 +31,10 @@ export default function EditProfileSettingsForm({
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState([""]);
   const [profilePics, setProfilePics] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [formData, setFormData] = useState({
     profilePic: [],
@@ -55,6 +62,16 @@ export default function EditProfileSettingsForm({
     url: "",
   });
 
+  const [currentProfilePicUrl, setCurrentProfilePicUrl] = useState("");
+  useEffect(() => {
+    if (profile && profile.profilePics && profile.profilePics[0]) {
+      setProfilePics(profile.profilePics);
+      setCurrentProfilePicUrl(profile.profilePics[0].url);
+    } else {
+      setCurrentProfilePicUrl(""); // Reset the avatar URL when no profile picture is available
+    }
+  }, [profile, updatingProfile]);
+
   const updateMessage = (msg) => {
     setMessage(msg);
   };
@@ -63,10 +80,6 @@ export default function EditProfileSettingsForm({
     setLoading(true);
     fetchProfile();
   }, []);
-
-  useEffect(() => {
-    console.log(profile);
-  }, [profile]);
 
   const fetchProfile = async () => {
     try {
@@ -145,12 +158,16 @@ export default function EditProfileSettingsForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!useAvatar) {
+      setAvatar("");
+    }
     try {
       setUpdatingProfile(true);
       const updatedProfile = await update(profile._id, {
         ...formData,
       });
       setProfile(updatedProfile.data);
+      handleClose();
       setUpdatingProfile(false);
     } catch (err) {
       updateMessage(err);
@@ -171,7 +188,18 @@ export default function EditProfileSettingsForm({
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box
+        sx={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
@@ -190,33 +218,94 @@ export default function EditProfileSettingsForm({
         />
         <Grid sx={{ m: 1 }}>
           {useAvatar ? (
-            <AvatarRandomizer
-              onChange={handleChange}
-              avatar={avatar}
-              setAvatar={setAvatar}
-            />
+            <Grid sx={{ m: 2 }}>
+              <AvatarRandomizer
+                onChange={handleChange}
+                avatar={avatar}
+                setAvatar={setAvatar}
+              />
+            </Grid>
           ) : (
             <>
-              <Typography
-                sx={{ m: 1 }}
-                variant="button"
-                display="block"
-                gutterBottom
+              {profilePics.length > 0 && (
+                <>
+                  <Card raised={true} sx={{ m: 1, maxWidth: "150px" }}>
+                    {updatingProfile ? (
+                      <CircularProgress size={24} /> // Display a loading indicator while updating
+                    ) : (
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          objectFit: "contain",
+                        }}
+                        image={currentProfilePicUrl}
+                      />
+                    )}
+                  </Card>
+                </>
+              )}
+              <Button sx={{ m: 1 }} variant="outlined" onClick={handleOpen}>
+                Edit Profile Pictures
+              </Button>
+              <Modal
+                open={open}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
               >
-                Profile Picture Upload
-              </Typography>
-              <ImageUpload
-                imageFor={"profile"}
-                id={profile._id}
-                profilePics={profilePics}
-                setProfilePics={setProfilePics}
-                getImageList={(imageList) => {
-                  setFormData({
-                    ...formData,
-                    profilePicsNew: imageList.map((image) => image._id),
-                  });
-                }}
-              />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 450,
+                    bgcolor: "background.paper",
+                    border: "2px solid #000",
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Typography variant="h6" component="h2">
+                    Editing Profile Pictures
+                  </Typography>
+                  {updatingProfile ? (
+                    <CircularProgress />
+                  ) : (
+                    <>
+                      <ImageUpload
+                        imageFor={"profile"}
+                        id={profile._id}
+                        imageListColumns={3}
+                        imageListHeight={"150"}
+                        imageListWidth={"400"}
+                        progressBarWidth={"25.5rem"}
+                        alertBoxWidth={"23.5rem"}
+                        profilePics={profilePics}
+                        setProfilePics={setProfilePics}
+                        getImageList={(imageList) => {
+                          setFormData({
+                            ...formData,
+                            profilePicsNew: imageList.map((image) => image._id),
+                          });
+                        }}
+                      />
+                      <Button
+                        onClick={handleSubmit}
+                        variant="contained"
+                        disabled={isFormInvalid() || updatingProfile}
+                        sx={{ m: 1, float: "right" }}
+                      >
+                        {updatingProfile ? (
+                          <CircularProgress size={24} />
+                        ) : (
+                          "Save"
+                        )}
+                        {/* Display loading indicator when updating */}
+                      </Button>
+                    </>
+                  )}
+                </Box>
+              </Modal>
             </>
           )}
         </Grid>
@@ -227,8 +316,6 @@ export default function EditProfileSettingsForm({
           name="firstName"
           autoComplete="given-name"
           label="First name"
-          multiline
-          maxRows={4}
           value={firstName}
           onChange={handleChange}
           sx={{ m: 1, width: "30ch" }}
@@ -238,8 +325,6 @@ export default function EditProfileSettingsForm({
           name="lastName"
           autoComplete="family-name"
           label="Last name"
-          multiline
-          maxRows={4}
           value={lastName}
           onChange={handleChange}
           sx={{ m: 1, width: "30ch" }}
