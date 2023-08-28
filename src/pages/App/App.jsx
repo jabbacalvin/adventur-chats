@@ -12,6 +12,7 @@ import SettingsPage from "../SettingsPage/SettingsPage";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
 
 export default function App() {
+  const [updatingProfile, setUpdatingProfile] = useState(false);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
 
@@ -36,7 +37,12 @@ export default function App() {
 
   return (
     <main className="App">
-      <NavBar user={user} setUser={setUser} profile={profile} />
+      <NavBar
+        updatingProfile={updatingProfile}
+        user={user}
+        setUser={setUser}
+        profile={profile}
+      />
       {user ? (
         <>
           <Routes>
@@ -44,7 +50,14 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route
               path="/settings"
-              element={<SettingsPage profile={profile} />}
+              element={
+                <SettingsPage
+                  updatingProfile={updatingProfile}
+                  setUpdatingProfile={setUpdatingProfile}
+                  profile={profile}
+                  setProfile={setProfile}
+                />
+              }
             />
             <Route path="/orders/new" element={<NewOrderPage />} />
             <Route path="/orders" element={<OrderHistoryPage />} />
