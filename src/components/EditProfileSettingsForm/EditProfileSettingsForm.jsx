@@ -18,7 +18,12 @@ import {
   CircularProgress,
 } from "@mui/material/";
 
-export default function EditProfileSettingsForm({ profile }) {
+export default function EditProfileSettingsForm({
+  updatingProfile,
+  setUpdatingProfile,
+  profile,
+  setProfile,
+}) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState([""]);
@@ -55,8 +60,13 @@ export default function EditProfileSettingsForm({ profile }) {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
 
   const fetchProfile = async () => {
     try {
@@ -136,9 +146,12 @@ export default function EditProfileSettingsForm({ profile }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setUpdatingProfile(true);
       const updatedProfile = await update(profile._id, {
         ...formData,
       });
+      setProfile(updatedProfile.data);
+      setUpdatingProfile(false);
     } catch (err) {
       updateMessage(err);
     }
@@ -274,10 +287,11 @@ export default function EditProfileSettingsForm({ profile }) {
         <Button
           type="submit"
           variant="contained"
-          disabled={isFormInvalid()}
+          disabled={isFormInvalid() || updatingProfile}
           sx={{ m: 1, width: "35ch" }}
         >
-          Update
+          {updatingProfile ? <CircularProgress size={24} /> : "Update"}
+          {/* Display loading indicator when updating */}
         </Button>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Button sx={{ m: 1, width: "35ch" }}>Cancel</Button>

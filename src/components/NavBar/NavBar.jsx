@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as userService from "../../utilities/users-service";
 import Logo from "../../images/logos/AdventurChats_Logo_horizontal_dark.png";
@@ -15,6 +15,7 @@ import {
   Menu,
   Avatar,
   Tooltip,
+  CircularProgress,
 } from "@mui/material/";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -62,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ user, setUser, profile }) {
+export default function NavBar({ updatingProfile, user, setUser, profile }) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
@@ -85,6 +86,17 @@ export default function NavBar({ user, setUser, profile }) {
   const navigateSettings = () => {
     navigate("/settings");
   };
+
+  // console.log(updatingProfile);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  useEffect(() => {
+    // console.log(profile);
+    if (profile && profile.profilePics && profile.profilePics[0]) {
+      setAvatarUrl(profile.profilePics[0].url);
+    } else {
+      setAvatarUrl(""); // Reset the avatar URL when no profile picture is available
+    }
+  }, [profile, updatingProfile]);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -189,10 +201,14 @@ export default function NavBar({ user, setUser, profile }) {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                 >
-                  <Avatar
-                    alt={`${profile.firstName} ${profile.lastName}`}
-                    src={profile.profilePics[0].url}
-                  />
+                  {updatingProfile ? (
+                    <CircularProgress size={24} /> // Display a loading indicator while updating
+                  ) : (
+                    <Avatar
+                      alt={`${profile.firstName} ${profile.lastName}`}
+                      src={avatarUrl}
+                    />
+                  )}
                 </IconButton>
               </Tooltip>
             ) : (
