@@ -123,6 +123,7 @@ export default function PlacesAutocomplete({ locationData, setLocationData }) {
         }
       }}
       onInputChange={(event, newInputValue) => {
+        // This is where the console warnings are coming from
         setInputValue(newInputValue);
         setHasLocation(false);
       }}

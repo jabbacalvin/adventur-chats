@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../../utilities/users-service";
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
+import AvatarRandomizer from "../AvatarRandomizer/AvatarRandomizer";
+
 import {
   Box,
   Grid,
@@ -12,12 +14,8 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
-  Card,
-  CardMedia,
-  Tooltip,
   Alert,
 } from "@mui/material/";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -33,16 +31,7 @@ const SignUpForm = (props) => {
     url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${randomSeed()}`,
   });
 
-  const resetSeed = () => {
-    let newSeed = randomSeed();
-    setAvatar({
-      ...avatar,
-      url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${newSeed}`,
-    });
-  };
-
   const [message, setMessage] = useState("");
-  const [hasLocation, setHasLocation] = useState(false);
 
   const updateMessage = (msg) => {
     setMessage(msg);
@@ -125,30 +114,11 @@ const SignUpForm = (props) => {
         onSubmit={handleSubmit}
       >
         <Grid sx={{ m: 1 }} align="center">
-          <Card raised={true} sx={{ maxWidth: "150px" }}>
-            <CardMedia
-              component="img"
-              sx={{
-                objectFit: "contain",
-              }}
-              image={avatar.url}
-              alt="dicebears avatar"
-            />
-            <Tooltip title="Shuffle" placement="right-start">
-              <IconButton
-                sx={{ float: "right" }}
-                color="primary"
-                size="small"
-                aria-label="new avatar"
-                onClick={(e) => {
-                  resetSeed();
-                  handleChange(e);
-                }}
-              >
-                <ShuffleIcon />
-              </IconButton>
-            </Tooltip>
-          </Card>
+          <AvatarRandomizer
+            onChange={handleChange}
+            avatar={avatar}
+            setAvatar={setAvatar}
+          />
         </Grid>
         <Grid>
           <TextField
@@ -183,7 +153,6 @@ const SignUpForm = (props) => {
           <PlacesAutocomplete
             locationData={locationData}
             setLocationData={setLocationData}
-            setHasLocation={setHasLocation}
           />
         </Grid>
         <Grid>

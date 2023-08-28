@@ -1,4 +1,5 @@
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
+import AvatarRandomizer from "../AvatarRandomizer/AvatarRandomizer";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { getProfile, update } from "../../utilities/profiles-api";
 
@@ -14,10 +15,12 @@ import {
   FormControlLabel,
   Switch,
   Typography,
+  CircularProgress,
 } from "@mui/material/";
 
-export default function EditProfileSettingsForm({ user }) {
+export default function EditProfileSettingsForm({ profile }) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState([""]);
   const [profilePics, setProfilePics] = useState([]);
 
@@ -28,19 +31,23 @@ export default function EditProfileSettingsForm({ user }) {
     googlePlaceId: "",
     placeName: "",
     useUsername: true,
+    useAvatar: true,
     isMessageable: true,
     isSearchable: true,
   });
 
-  // const [slidersState, setSlidersState] = useState({
-  //   useUsername: true,
-  //   isMessageable: true,
-  //   isSearchable: true,
-  // });
-
   const [locationData, setLocationData] = useState({
     googlePlaceId: "",
     placeName: "",
+  });
+
+  const randomSeed = () => {
+    return Math.floor(Math.random() * 9999999999);
+  };
+
+  const [avatar, setAvatar] = useState({
+    name: "Avatar",
+    url: "",
   });
 
   const updateMessage = (msg) => {
@@ -53,33 +60,49 @@ export default function EditProfileSettingsForm({ user }) {
 
   const fetchProfile = async () => {
     try {
-      const response = await getProfile(user.profile._id); // Replace with your API endpoint
+      const response = await getProfile(profile._id); // Replace with your API endpoint
 
-      setProfilePics(response.data.profilePics.reverse());
       setFormData(response.data);
-      setLocationData({
-        googlePlaceId: response.data.homeBase.googlePlaceId,
-        placeName: response.data.homeBase.placeName,
-      });
-      // setSlidersState(response.data);
+      if (response.data.profilePics) {
+        if (
+          response.data.profilePics.some((item) => item.name.includes("Avatar"))
+        ) {
+          const avatar = response.data.profilePics.find((item) =>
+            item.name.includes("Avatar")
+          );
+          setAvatar({
+            name: avatar.name,
+            url: avatar ? avatar.url : avatar.name,
+          });
+        } else {
+          setAvatar({
+            name: "Avatar",
+            url: `https://api.dicebear.com/6.x/pixel-art/svg?seed=${randomSeed()}`,
+          });
+        }
+        setProfilePics(response.data.profilePics.reverse());
+      }
+      if (response.data.homeBase) {
+        setLocationData({
+          googlePlaceId: response.data.homeBase.googlePlaceId,
+          placeName: response.data.homeBase.placeName,
+        });
+      }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching profile: ", error);
+      setLoading(false);
     }
   };
-
-  // const handleSliderChange = (event) => {
-  //   setSlidersState({
-  //     ...slidersState,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
 
   const handleChange = (e) => {
     updateMessage("");
     setFormData({
       ...formData,
+      avatar: avatar,
       [e.target.name]:
         e.target.name === "useUsername" ||
+        e.target.name === "useAvatar" ||
         e.target.name === "isMessageable" ||
         e.target.name === "isSearchable"
           ? e.target.checked
@@ -113,8 +136,7 @@ export default function EditProfileSettingsForm({ user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updatedProfile = await update(user.profile._id, {
-        userId: user._id,
+      const updatedProfile = await update(profile._id, {
         ...formData,
       });
     } catch (err) {
@@ -122,30 +144,68 @@ export default function EditProfileSettingsForm({ user }) {
     }
   };
 
-  const { firstName, lastName, useUsername, isMessageable, isSearchable } =
-    formData;
+  const {
+    firstName,
+    lastName,
+    useUsername,
+    useAvatar,
+    isMessageable,
+    isSearchable,
+  } = formData;
 
   const isFormInvalid = () => {
     return !(firstName && lastName);
   };
 
+  if (loading) {
+    return <CircularProgress />;
+  }
+
   return (
     <Box component="form" autoComplete="off" onSubmit={handleSubmit}>
-      <Typography sx={{ m: 1 }} variant="button" display="block" gutterBottom>
-        Profile Picture Upload
-      </Typography>
-      <ImageUpload
-        imageFor={"profile"}
-        id={user.profile._id}
-        profilePics={profilePics}
-        setProfilePics={setProfilePics}
-        getImageList={(imageList) => {
-          setFormData({
-            ...formData,
-            profilePicsNew: imageList.map((image) => image._id),
-          });
-        }}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={useAvatar}
+            onChange={handleChange}
+            name="useAvatar"
+          />
+        }
+        label="Use Avatar"
       />
+      <Grid sx={{ m: 2 }}>
+        {useAvatar ? (
+          <AvatarRandomizer
+            onChange={handleChange}
+            avatar={avatar}
+            setAvatar={setAvatar}
+          />
+        ) : (
+          <>
+            <Typography
+              sx={{ m: 1 }}
+              variant="button"
+              display="block"
+              gutterBottom
+            >
+              Profile Picture Upload
+            </Typography>
+            <ImageUpload
+              imageFor={"profile"}
+              id={profile._id}
+              profilePics={profilePics}
+              setProfilePics={setProfilePics}
+              getImageList={(imageList) => {
+                setFormData({
+                  ...formData,
+                  profilePicsNew: imageList.map((image) => image._id),
+                });
+              }}
+            />
+          </>
+        )}
+      </Grid>
+
       <TextField
         fullWidth
         name="firstName"

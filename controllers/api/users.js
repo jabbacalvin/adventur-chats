@@ -42,13 +42,6 @@ async function create(req, res) {
     const newProfile = await Profile.create(req.body);
     req.body.profile = newProfile._id;
     let newUser = await User.create(req.body);
-    newUser = await newUser.populate({
-      path: "profile",
-      populate: {
-        path: "profilePics",
-        model: "Image",
-      },
-    });
 
     const token = createJWT(newUser);
     res.status(200).json(token);
@@ -59,18 +52,11 @@ async function create(req, res) {
 
 async function login(req, res) {
   try {
-    const user = await User.findOne({ email: req.body.email }).populate({
-      path: "profile",
-      populate: {
-        path: "profilePics",
-        model: "Image",
-      },
-    });
+    const user = await User.findOne({ email: req.body.email });
 
     if (!user) throw new Error();
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new Error();
-    const profile = await Profile.findOne({ _id: user.profile });
     const token = createJWT(user);
 
     res.json(token);

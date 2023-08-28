@@ -193,7 +193,7 @@ export default function ImageUpload({
           >
             Newly Uploaded Images
           </Typography>
-          <ImageList sx={{ m: 2, width: 500, height: 180 }} cols={4}>
+          <ImageList sx={{ m: 2, width: 500, height: 150 }} cols={4}>
             {uploadedImages.map((image, index) => (
               <ImageListItem key={index}>
                 <Card raised={true}>
@@ -238,7 +238,7 @@ export default function ImageUpload({
           >
             Exisiting Images
           </Typography>
-          <ImageList sx={{ m: 2, width: 500, height: 180 }} cols={4}>
+          <ImageList sx={{ m: 2, width: 500, height: 150 }} cols={4}>
             {profilePics.map((image, index) => (
               <ImageListItem key={index}>
                 <Card raised={true}>
