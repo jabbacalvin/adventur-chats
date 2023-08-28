@@ -31,7 +31,6 @@ export default function ChatWindow({
   const [message, setMessage] = useState("");
   const messagesBoxRef = useRef(null);
 
-
   // Function to increment the unread count
   const incrementUnreadCount = () => {
     setUnreadCount(unreadCount + 1);
@@ -101,8 +100,6 @@ export default function ChatWindow({
     }
   }, [chatVisible]);
 
-
-
   const toggleChatVisible = () => {
     setChatVisible(!chatVisible);
     if (chatVisible) {
@@ -143,11 +140,8 @@ export default function ChatWindow({
             }}
           >
             <Typography variant="h6">Happy Chatting</Typography>
-            <IconButton 
-            onClick={closeChat}
-            style={{marginLeft: "auto"}}
-            >
-              <CloseIcon fontSize="large"/>
+            <IconButton onClick={closeChat} style={{ marginLeft: "auto" }}>
+              <CloseIcon fontSize="large" />
             </IconButton>
           </div>
           <Box
@@ -170,11 +164,15 @@ export default function ChatWindow({
                   marginBottom: "10px",
                   justifyContent:
                     m.nameOfUser === chatName ? "flex-end" : "flex-start",
+                  padding: "0 18px",
                 }}
                 key={i}
               >
                 {m.nameOfUser !== chatName && (
-                  <Avatar src={m.avatar} alt={m.nameOfUser} />
+                  <Avatar 
+                  src={m.avatar} 
+                  alt={m.nameOfUser} 
+                  style={{ marginRight: "2px" }} />
                 )}
                 <div
                   style={{
@@ -184,7 +182,12 @@ export default function ChatWindow({
                     marginRight: m.nameOfUser === chatName ? "10px" : 0,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     {m.nameOfUser !== chatName && (
                       <Typography
                         variant="body2"
@@ -243,7 +246,7 @@ export default function ChatWindow({
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton type="button" onClick={sendMessage}>
-                      <SendIcon style={{color: "green"}}  />
+                      <SendIcon style={{ color: "green" }} />
                     </IconButton>
                   </InputAdornment>
                 ),
