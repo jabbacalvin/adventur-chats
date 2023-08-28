@@ -12,6 +12,7 @@ function PostContainer() {
     googlePlaceId: "",
     placeName: "",
   });
+
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     fetchPosts();
@@ -19,7 +20,7 @@ function PostContainer() {
 
   const fetchPosts = async () => {
     try {
-      const response = await getAll(); // Replace with your API endpoint
+      const response = await getAll();
       setPosts(response.data);
       console.log("fetching posts ", response.data);
     } catch (error) {
@@ -34,9 +35,7 @@ function PostContainer() {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("googleLocation", locationData);
-    // activeCat.forEach((categoryId) => {
     formData.append("categories", activeCat);
-    // });
   }, [title, content, locationData, activeCat, formData]);
   console.log(locationData);
   const addPost = async (e) => {
@@ -83,7 +82,7 @@ function PostContainer() {
             setActiveCat={setActiveCat}
           />
         </Paper>
-        <PostList posts={posts} />
+        <PostList posts={posts} fetchPosts={fetchPosts} />
       </Container>
     </div>
   );
