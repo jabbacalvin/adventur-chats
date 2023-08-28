@@ -48,7 +48,7 @@ async function deleteImage(req, res) {
       res.json({
         status: `Successfully deleted object: 
         ${file.url.replace(process.env.AWS_BASE_URL, "")}`,
-        file: file.url.split("_").pop(),
+        file: file.name,
       });
     } else {
       res.status(500).json({ error: "File not found" });
