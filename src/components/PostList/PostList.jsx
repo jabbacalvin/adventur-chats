@@ -90,7 +90,7 @@ function PostList({
   console.log(filteredPosts);
 
   return (
-    <div>
+    <div style={{ paddingBottom: "10px" }}>
       {filteredPosts.map((post) => (
         <Card
           key={post._id}
@@ -110,7 +110,7 @@ function PostList({
                 position: "absolute",
                 top: 0,
                 left: 0,
-                backgroundColor: "#f0f8c8", // Very light olive green color
+                backgroundColor: "#f0f8c8",
                 padding: "8px",
                 borderRadius: "6px",
                 display: "flex",
