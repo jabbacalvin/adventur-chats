@@ -1,6 +1,7 @@
 import React from "react";
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import CategoryCheckbox from "../CategoryCheckbox/CategoryCheckbox";
+
 import {
   Button,
   TextField,
@@ -8,9 +9,11 @@ import {
   Box,
   Typography,
   Grid,
+  Paper,
 } from "@mui/material";
 
 function CreatePostForm({
+  setShowForm,
   title,
   setTitle,
   content,
@@ -21,35 +24,50 @@ function CreatePostForm({
   locationData,
   setLocationData,
 }) {
-  console.log(activeCat);
   return (
     <form onSubmit={addPost}>
-      <Typography variant="h3" className="post-title" align="center">
-        Create a New Post
-      </Typography>
-      <Container className="MuiContainer-root form-container">
-        <TextField
-          label="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="form-input"
-        />
-
-        <Grid sx={{ m: 1 }}>
-          <PlacesAutocomplete
-            locationData={locationData}
-            setLocationData={setLocationData}
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Paper
+          sx={{
+            backgroundColor: "fffff",
+            borderRadius: 1,
+            padding: "20px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+            width: "100%",
+          }}
+        >
+          <TextField
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            variant="outlined"
+            size="small"
+            fullWidth
+            sx={{ marginBottom: 2, backgroundColor: "#ffffff" }}
           />
-        </Grid>
 
-        <label className="MuiFormLabel-root MuiInputLabel-root form-label"></label>
-        <Container className="MuiContainer-root form-categories">
-          <CategoryCheckbox activeCat={activeCat} setActiveCat={setActiveCat} />
-        </Container>
-        <Box mt={2} mb={2}>
+          <Grid item xs={12} sx={{ marginBottom: 2 }}>
+            <PlacesAutocomplete
+              locationData={locationData}
+              setLocationData={setLocationData}
+              sx={{ backgroundColor: "#ffffff" }}
+            />
+          </Grid>
+
+          <CategoryCheckbox
+            activeCat={activeCat}
+            setActiveCat={setActiveCat}
+            sx={{ backgroundColor: "#ffffff" }} // Set background color to white
+          />
+
           <TextField
             label="Content"
             value={content}
@@ -58,15 +76,22 @@ function CreatePostForm({
             multiline
             rows={4}
             fullWidth
-            className="form-input"
+            sx={{ marginBottom: 2, backgroundColor: "#ffffff" }}
           />
-        </Box>
 
-        <Box pb={2}>
-          <Button type="submit" variant="contained" className="form-button">
-            Submit
-          </Button>
-        </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Button
+              onClick={() => setShowForm(false)}
+              variant="outlined"
+              sx={{ marginRight: 1 }}
+            >
+              Close
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
+          </Box>
+        </Paper>
       </Container>
     </form>
   );
