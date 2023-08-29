@@ -16,17 +16,17 @@ body {
   background-size: cover;
   background-position: center;
   text-align: center;
-  padding: 100px 0;
+  padding: 140px 0;
   color: #fff;
 }
 
 .hero h1 {
-  font-size: 36px;
+  font-size: 42px;
   margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 18px;
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
@@ -37,6 +37,7 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
+  font-size: 22px;
   transition: background-color 0.3s;
 }
 
@@ -46,12 +47,13 @@ body {
 
 
 /* Locations styles */
-/* .locations {
+
+.locations {
   padding: 40px 0;
 }
 
 .package-title h2 {
-  font-size: 24px;
+  font-size: 34px;
 }
 
 .location-content {
@@ -65,13 +67,14 @@ body {
   text-decoration: none;
 }
 
-.Bangkok {
+.location {
+  position: relative;
   height: 422px;
-  width: calc(34.33% - 40px);
-  background-image: url("https://wallpaperaccess.com/full/150582.jpg");
+  width: calc(33.33% - 20px);
   background-size: cover;
   background-position: center;
   margin-bottom: 20px;
+  margin-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -79,55 +82,53 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #fff;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
-.Bangkok:hover, .Dubai:hover, .ATL:hover {
+.location {
+  filter: brightness(50%);
+}
+
+.location:hover {
   transform: scale(1.05);
-  background-color: rgba(0, 0, 0, 1);
+  filter: brightness(100%);
 }
 
-.Bangkok h5, .Bangkok p,
-.Dubai h5, .Dubai p,
-.ATL h5, .ATL p {
-  font-size: 30px;
-  transition: color 0.3s ease;
+.location h5, .location p {
+    font-size: 33px;
+    padding: 10px;
+    margin: 0;
+    transition: color 0.3s ease;
+    text-align: end;
 }
 
-.Bangkok:hover h5, .Bangkok:hover p,
-.Dubai:hover h5, .Dubai:hover p,
-.ATL:hover h5, .ATL:hover p {
+.location:hover h5, .location:hover p {
   color: #fff;
 }
 
+/* Position the text at the bottom left/middle */
+.location-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  text-align: center;
+}
+
+/* Specific styles for each location */
 .Dubai {
-  height: 422px;
-  width: calc(33.89% - 40px);
   background-image: url("https://www.wallpapers13.com/wp-content/uploads/2016/02/Dubai-city-night-amazing-facilities-Burj-Khalifa-Hd-wallpaper-840x525.jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #fff;
-  transition: all 0.3s ease;
 }
 
-.ATL {
-  height: 422px;
-  width: calc(34.33% - 40px);
-  background-image: url("https://wallpapercave.com/dwp1x/wp4041292.jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #fff;
-  transition: all 0.3s ease;
-} */
+.Bangkok {
+  background-image: url("https://wallpaperaccess.com/full/150582.jpg");
+}
+
+.Paris {
+  background-image: url("https://wallpapercave.com/wp/wp9189071.jpg");
+}
+
+
 
 /* Footer styles */
 
