@@ -47,3 +47,7 @@ button:hover {
   margin-bottom: 10px;
   border-radius: 4px;
 }
+
+element.style {
+    font-size: 20px;
+}
