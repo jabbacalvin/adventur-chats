@@ -12,18 +12,18 @@ function PostContainer({ profile }) {
     googlePlaceId: "",
     placeName: "",
   });
+  const [commented, setCommented] = useState(false);
 
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [commented]);
 
   const fetchPosts = async () => {
     try {
       const response = await getAll();
       setPosts(response.data);
-      setComments(response.data.comments);
+      setCommented(false);
       console.log("fetching posts ", response.data);
     } catch (error) {
       console.error("Error fetching Posts:", error);
@@ -88,8 +88,8 @@ function PostContainer({ profile }) {
           profile={profile}
           posts={posts}
           fetchPosts={fetchPosts}
-          comments={comments}
-          setComments={setComments}
+          commented={commented}
+          onCommented={(state) => setCommented(state)}
         />
       </Container>
     </div>

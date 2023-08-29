@@ -6,7 +6,6 @@ module.exports = {
   showPost,
   deletePost,
   updatePost,
-  updateComments,
 };
 
 async function createPost(req, res) {
@@ -34,15 +33,24 @@ async function index(req, res) {
   try {
     const posts = await Post.find()
       .populate("categories")
+      .populate("location")
       .populate({
         path: "profile",
-
         populate: { path: "profilePics", model: "Image" },
       })
-      .populate("location");
+      .populate({
+        path: "comments",
+        populate: { path: "profile", populate: { path: "profilePics" } },
+      });
+    // .populate({
+    //   path: "comments",
+    //   populate: { path: "profile", model: "profile" },
+    // });
 
+    console.log(posts[0].comments);
     res.status(200).json(posts);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
@@ -58,23 +66,6 @@ async function updatePost(req, res) {
   }
 }
 
-async function updateComments(req, res) {
-  try {
-    console.log(req.body);
-    const updatedComments = await Post.findByIdAndUpdate(
-      req.params.id,
-      req.body.comments,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json(updatedComments);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
-
 async function showPost(req, res) {
   try {
     const post = await Post.findById(req.params.id)
@@ -83,8 +74,7 @@ async function showPost(req, res) {
         path: "profile",
         populate: { path: "profilePics", model: "Image" },
       })
-      .populate("location")
-      .populate("comments.userProfile"); // Populate comment's userProfile field
+      .populate("location");
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }

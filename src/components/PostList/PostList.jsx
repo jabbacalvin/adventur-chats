@@ -17,12 +17,13 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-function PostList({ profile, posts, fetchPosts, setComments, comments }) {
+function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [updatedTitleValue, setUpdatedTitleValue] = useState("");
   const [updatedContentValue, setUpdatedContentValue] = useState("");
+  const [post, setPost] = useState(null);
 
   useEffect(() => {
     fetchCategories();
@@ -171,9 +172,9 @@ function PostList({ profile, posts, fetchPosts, setComments, comments }) {
             </Box>
             <CommentSection
               profile={profile}
-              postId={post._id}
-              comments={comments}
-              setComments={setComments}
+              post={post}
+              commented={commented}
+              onCommented={onCommented}
             />
           </CardContent>
           <CardActions
