@@ -32,7 +32,7 @@ body {
 
 .explore-button {
   display: inline-block;
-  background-color: #FF5733; 
+  background-color: #2361f1; 
   color: #fff;
   padding: 10px 20px;
   border-radius: 5px;
@@ -42,7 +42,7 @@ body {
 }
 
 .explore-button:hover {
-  background-color: #E54728; 
+  background-color: #4a99e9; 
 }
 
 
