@@ -5,6 +5,7 @@ import { Avatar } from "@mui/material";
 function CommentSection({ profile, post, setPost, commented, onCommented }) {
   const [comments, setComments] = useState(post.comments);
   const [newComment, setNewComment] = useState([]);
+  // const [postWithNewComment, setPostWithNewComment] = useState("");
   const [latestComment, setLatestComment] = useState("");
 
   const handleCreateComment = async () => {
@@ -15,7 +16,16 @@ function CommentSection({ profile, post, setPost, commented, onCommented }) {
       };
 
       const postWithNewComment = await create(post._id, newCommentObj);
-      setPost(postWithNewComment); //.comments[comments.length - 1]
+
+      // if (
+      //   postWithNewComment &&
+      //   postWithNewComment.comments &&
+      //   postWithNewComment.comments.length > 0
+      // ) {
+      //   const newLatestComment =
+      //     postWithNewComment.comments[postWithNewComment.comments.length - 1];
+      //   setComments([...comments, ...newLatestComment]);
+      // }
 
       setNewComment("");
       onCommented(true);
@@ -24,16 +34,36 @@ function CommentSection({ profile, post, setPost, commented, onCommented }) {
     }
   };
 
+  // useEffect(() => {
+  //   if (comments.length > 0) {
+  //     setLatestComment(comments[comments.length - 1]);
+  //   }
+  //   console.log(latestComment);
+  // }, [comments]);
+
   return (
     <div>
       <h3>Comments</h3>
-      {latestComment ? (
+      <div>
+        {comments
+          ? comments.map((comment, idx) => (
+              <div key={idx}>
+                <Avatar
+                  alt={`${comment.profile.firstName} ${comment.profile.lastName}`}
+                  src={comment.profile.profilePics[0].url}
+                />
+                <p>{comment.comment}</p>
+              </div>
+            ))
+          : ""}
+      </div>
+      {/* {latestComment ? (
         <>
-          {/* <Avatar
+          <Avatar
             alt={`${latestComment.profile.firstName} ${latestComment.profile.lastName}`}
             src={latestComment.profile.profilePics[0].url}
           />
-          <p>{latestComment.comment}</p> */}
+          <p>{latestComment.comment}</p>
         </>
       ) : (
         <div>
@@ -49,7 +79,7 @@ function CommentSection({ profile, post, setPost, commented, onCommented }) {
               ))
             : ""}
         </div>
-      )}
+      )} */}
       <div>
         <textarea
           value={newComment}

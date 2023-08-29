@@ -42,12 +42,7 @@ async function index(req, res) {
         path: "comments",
         populate: { path: "profile", populate: { path: "profilePics" } },
       });
-    // .populate({
-    //   path: "comments",
-    //   populate: { path: "profile", model: "profile" },
-    // });
 
-    console.log(posts[0].comments);
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);

@@ -15,7 +15,7 @@ function PostContainer({ profile }) {
 
   const [activeCat, setActiveCat] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [commented, setCommented] = useState([]);
   useEffect(() => {
     fetchPosts();
   }, [commented]);
@@ -99,8 +99,8 @@ function PostContainer({ profile }) {
           profile={profile}
           posts={posts}
           fetchPosts={fetchPosts}
-          comments={comments}
-          setComments={setComments}
+          commented={commented}
+          onCommented={(state) => setCommented(state)}
         />
       </Container>
     </div>
