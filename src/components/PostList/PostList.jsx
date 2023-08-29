@@ -138,32 +138,6 @@ function PostList({
                 </Typography>
               )}
             </Box>
-            {post.images.length > 0 ? (
-              <Box
-                sx={{
-                  marginTop: 3,
-                  width: 780,
-                  height: 350,
-                  overflowY: "scroll",
-                }}
-              >
-                <ImageList variant="masonry" cols={3} gap={4}>
-                  {post.images.map((item, idx) => (
-                    <ImageListItem key={idx}>
-                      <img
-                        src={`${item.url}?w=248&fit=crop&auto=format`}
-                        srcSet={`${item.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.name}
-                        loading="lazy"
-                      />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
-              </Box>
-            ) : (
-              ""
-            )}
-
             <Typography
               variant="h6"
               sx={{ textAlign: "center", marginBottom: 1 }}
@@ -190,6 +164,32 @@ function PostList({
                 {post.content}
               </Typography>
             </Box>
+            {post.images.length > 0 ? (
+              <Box
+                sx={{
+                  marginTop: 3,
+                  width: 780,
+                  height: 350,
+                  overflowY: "scroll",
+                }}
+              >
+                <ImageList variant="masonry" cols={3} gap={4}>
+                  {post.images.map((item, idx) => (
+                    <ImageListItem key={idx}>
+                      <img
+                        src={`${item.url}`}
+                        srcSet={`${item.url}`}
+                        alt={item.name}
+                        loading="lazy"
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+              </Box>
+            ) : (
+              ""
+            )}
+
             <Box
               sx={{
                 display: "flex",

@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import PostContainer from "../../components/PostContainer/PostContainer";
@@ -9,8 +7,8 @@ const backgroundStyles = {
   backgroundImage: `url('https://wallpaperaccess.com/full/1287373.jpg')`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backdropFilter: "blur(5px)", 
-  minHeight: "100vh", 
+  backdropFilter: "blur(5px)",
+  minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -39,7 +37,14 @@ export default function ProfilePage({
           <PostContainer profile={profile} profileId={profile._id} />
         </Grid>
         <Grid item xs={3}>
-          <Paper sx={{ p: 2 }}>
+          <Paper
+            sx={{
+              p: 2,
+              position: "sticky",
+              top: 10,
+              zIndex: 100,
+            }}
+          >
             <ProfileDetails
               updatingProfile={updatingProfile}
               setUpdatingProfile={setUpdatingProfile}
@@ -52,4 +57,3 @@ export default function ProfilePage({
     </Box>
   );
 }
-
