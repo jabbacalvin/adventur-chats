@@ -90,7 +90,7 @@ function PostList({
   console.log(filteredPosts);
 
   return (
-    <div>
+    <div style={{ paddingBottom: "10px" }}>
       {filteredPosts.map((post) => (
         <Card
           key={post._id}
@@ -98,7 +98,7 @@ function PostList({
           sx={{
             borderRadius: 6,
             padding: "16px",
-            maxWidth: 500,
+            maxWidth: 600,
             margin: "0 auto",
             position: "relative", // Set the position of the card to relative
             marginBottom: "10px",
@@ -110,7 +110,7 @@ function PostList({
                 position: "absolute",
                 top: 0,
                 left: 0,
-                backgroundColor: "#f0f8c8", // Very light olive green color
+                backgroundColor: "#f0f8c8",
                 padding: "8px",
                 borderRadius: "6px",
                 display: "flex",
@@ -187,30 +187,38 @@ function PostList({
                 )}
               </Typography>
             </Box>
-            <CommentSection
-              profile={profile}
-              post={post}
-              commented={commented}
-              onCommented={onCommented}
-            />
+            {profile ? (
+              <CommentSection
+                profile={profile}
+                post={post}
+                commented={commented}
+                onCommented={onCommented}
+              />
+            ) : (
+              ""
+            )}
           </CardContent>
-          <CardActions
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            {post.profile && post.profile._id === profile._id ? (
-              <Button onClick={() => handleOpenDialog(post)}>
-                <EditIcon />
-              </Button>
-            ) : null}
-            {post.profile && post.profile._id === profile._id ? (
-              <Button onClick={() => handleDeletePost(post._id)}>
-                <DeleteIcon />
-              </Button>
-            ) : null}
-          </CardActions>
+          {profile ? (
+            <CardActions
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              {post.profile && post.profile._id === profile._id ? (
+                <Button onClick={() => handleOpenDialog(post)}>
+                  <EditIcon />
+                </Button>
+              ) : null}
+              {post.profile && post.profile._id === profile._id ? (
+                <Button onClick={() => handleDeletePost(post._id)}>
+                  <DeleteIcon />
+                </Button>
+              ) : null}
+            </CardActions>
+          ) : (
+            ""
+          )}
         </Card>
       ))}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">

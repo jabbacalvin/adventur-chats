@@ -8,6 +8,7 @@ export default function PostsPage({ profile }) {
       sx={{
         position: "relative",
         minHeight: "100vh",
+        paddingBottom: "20px",
       }}
     >
       <div
