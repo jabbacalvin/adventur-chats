@@ -26,6 +26,7 @@ const profileSchema = new Schema(
     useAvatar: { type: Boolean, default: true },
     isMessageable: { type: Boolean, default: true },
     isSearchable: { type: Boolean, default: true },
+    bio: String,
     posts: [
       {
         type: Schema.Types.ObjectId,

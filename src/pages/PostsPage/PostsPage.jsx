@@ -14,7 +14,7 @@ export default function PostsPage({ profile }) {
       <div
         style={{
           position: "absolute",
-          top: -15,
+          top: 0,
           left: 0,
           width: "100%",
           height: "100%",

@@ -1,0 +1,301 @@
+
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Basic styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.hero {
+  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  padding: 140px 0;
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.explore-button {
+  display: inline-block;
+  background-color: #FF5733; 
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 22px;
+  transition: background-color 0.3s;
+}
+
+.explore-button:hover {
+  background-color: #E54728; 
+}
+
+
+/* Locations styles */
+
+.locations {
+  padding: 40px 0;
+}
+
+.package-title h2 {
+  font-size: 34px;
+}
+
+.location-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.location-content a {
+  text-decoration: none;
+}
+
+.location {
+  position: relative;
+  height: 422px;
+  width: calc(33.33% - 20px);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.location {
+  filter: brightness(50%);
+}
+
+.location:hover {
+  transform: scale(1.05);
+  filter: brightness(100%);
+}
+
+.location h5, .location p {
+    font-size: 33px;
+    padding: 10px;
+    margin: 0;
+    transition: color 0.3s ease;
+    text-align: end;
+}
+
+.location:hover h5, .location:hover p {
+  color: #fff;
+}
+
+/* Position the text at the bottom left/middle */
+.location-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  text-align: center;
+}
+
+/* Specific styles for each location */
+.Dubai {
+  background-image: url("https://www.wallpapers13.com/wp-content/uploads/2016/02/Dubai-city-night-amazing-facilities-Burj-Khalifa-Hd-wallpaper-840x525.jpg");
+}
+
+.Bangkok {
+  background-image: url("https://wallpaperaccess.com/full/150582.jpg");
+}
+
+.Paris {
+  background-image: url("https://wallpapercave.com/wp/wp9189071.jpg");
+}
+
+
+
+/* Footer styles */
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 40px 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  padding: 0 20px;
+}
+
+.footlinks ul {
+  list-style: none;
+}
+
+.footlinks li {
+  margin-bottom: 10px;
+}
+
+.footlinks a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+  font-size: 20px;
+}
+
+.footlinks a:hover {
+  color: #FF5733; 
+}
+
+.social {
+  display: flex;
+  align-items: center; 
+}
+
+.social a {
+  color: #fff;
+  margin-right: 10px;
+  font-size: 54px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.social a:hover {
+  color: #FF5733; 
+}
+
+.end {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+.title {
+  font-size: 36px; 
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.package-title h2 {
+    font-size: 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.locations {
+  padding: 40px 0;
+}
+
+.package-title h2 {
+  font-size: 34px;
+}
+
+.location-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.location-content a {
+  text-decoration: none;
+}
+
+/* Common styles for location elements */
+.location {
+  position: relative;
+  height: 422px;
+  width: calc(33.33% - 20px);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Darken the images by default */
+.location {
+  filter: brightness(50%);
+}
+
+.location:hover {
+  transform: scale(1.05);
+  filter: brightness(100%);
+}
+
+.location h5, .location p {
+    font-size: 33px;
+    padding: 10px;
+    margin: 0;
+    transition: color 0.3s ease;
+    text-align: end;
+}
+
+.location:hover h5, .location:hover p {
+  color: #fff;
+}
+
+/* Position the text at the bottom left/middle */
+.location-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  text-align: center;
+}
+
+/* Specific styles for each location */
+.Dubai {
+  background-image: url("https://www.wallpapers13.com/wp-content/uploads/2016/02/Dubai-city-night-amazing-facilities-Burj-Khalifa-Hd-wallpaper-840x525.jpg");
+}
+
+.Bangkok {
+  background-image: url("https://wallpaperaccess.com/full/150582.jpg");
+}
+
+.Paris {
+  background-image: url("https://wallpapercave.com/wp/wp9189071.jpg");
+}
+
