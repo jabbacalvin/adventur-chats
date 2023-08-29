@@ -64,6 +64,7 @@ async function update(req, res) {
         useAvatar: req.body.useAvatar,
         isMessageable: req.body.isMessageable,
         isSearchable: req.body.isSearchable,
+        bio: req.body.bio,
       },
       { new: true }
     )
