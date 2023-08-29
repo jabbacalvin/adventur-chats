@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 const commentSchema = new Schema(
   {
-    content: {
-      type: String,
-      required: true,
-    },
-    like: Boolean,
-    user: {
+    profile: {
       type: Schema.Types.ObjectId,
       ref: "Profile",
+      required: true,
+    },
+    comment: {
+      type: String,
       required: true,
     },
   },
@@ -17,6 +17,7 @@ const commentSchema = new Schema(
     timestamps: true,
   }
 );
+
 const postSchema = new Schema(
   {
     title: {

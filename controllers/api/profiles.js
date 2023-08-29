@@ -64,6 +64,7 @@ async function update(req, res) {
         useAvatar: req.body.useAvatar,
         isMessageable: req.body.isMessageable,
         isSearchable: req.body.isSearchable,
+        bio: req.body.bio,
       },
       { new: true }
     )
@@ -72,7 +73,6 @@ async function update(req, res) {
 
     return res.status(200).json(updatedProfile);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 }
