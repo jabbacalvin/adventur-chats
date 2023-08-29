@@ -12,7 +12,10 @@ Join us and unlock a world of exciting conversations, thrilling itineraries, and
 
 ## Technologies Used
 
+- MongoDB
+- Express
 - React
+- Node.js
 - Material UI
 - Javascript
 - HTML
