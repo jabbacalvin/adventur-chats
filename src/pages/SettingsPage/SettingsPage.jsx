@@ -6,8 +6,8 @@ const backgroundStyles = {
   backgroundImage: `url('https://images.rawpixel.com/image_500/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjk5Ni0wMDlfMS1rcm9pcjRkay5qcGc.jpg')`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backdropFilter: "blur(15px)", 
-  minHeight: "100vh", 
+  backdropFilter: "blur(15px)",
+  minHeight: "75vh",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -16,7 +16,7 @@ const backgroundStyles = {
 
 const contentContainerStyles = {
   padding: "20px",
-  border: "2px solid black", 
+  border: "2px solid black",
 };
 
 export default function SettingsPage({
