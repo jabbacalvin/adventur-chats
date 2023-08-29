@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Box,
   Grid,
@@ -8,8 +9,10 @@ import {
   CardMedia,
   IconButton,
   Divider,
+  Tooltip,
 } from "@mui/material/";
 import ChatIcon from "@mui/icons-material/Chat";
+import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 
 export default function ProfilePage({
   updatingProfile,
@@ -70,6 +73,32 @@ export default function ProfilePage({
         spacing={2}
         sx={{ p: 2 }}
       >
+        <Grid item xs={10}>
+          <Typography variant="h6" gutterBottom>
+            Going to Japan!
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography variant="h6" gutterBottom>
+            <Link to="/visits">
+              <Tooltip title="Edit trip" placement="right-start">
+                <IconButton color="warning">
+                  <AirplaneTicketIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          </Typography>
+        </Grid>
+      </Grid>
+      <Divider />
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{ p: 2 }}
+      >
         <Grid item xs={8}>
           <Typography variant="h6" gutterBottom>
             {profile.isMessageable
@@ -81,7 +110,7 @@ export default function ProfilePage({
           <Typography variant="h6" gutterBottom>
             {profile.isMessageable ? (
               <IconButton color="info">
-                <ChatIcon />
+                <ChatIcon fontSize="large" />
               </IconButton>
             ) : (
               ""
