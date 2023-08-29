@@ -1,4 +1,4 @@
-const Category = require('../../models/category');
+const Category = require("../../models/category");
 
 module.exports = {
   index,
@@ -7,14 +7,15 @@ module.exports = {
 };
 
 async function index(req, res) {
-  console.log("index")
   try {
-    const categories = await Category.find({})
-    console.log(categories)
+    const categories = await Category.find({});
+
     res.json(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    res.status(500).json({ error: "An error occurred while fetching categories." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching categories." });
   }
 }
 
@@ -27,7 +28,9 @@ async function show(req, res) {
     res.json(category);
   } catch (error) {
     console.error("Error fetching category:", error);
-    res.status(500).json({ error: "An error occurred while fetching the category." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the category." });
   }
 }
 
