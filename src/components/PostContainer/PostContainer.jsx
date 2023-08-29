@@ -1,45 +1,34 @@
 import React, { useState, useEffect } from "react";
 import CreatePostForm from "../CreatePostForm/CreatePostForm";
-import { Container, Paper } from "@mui/material";
+import { Container, Button, Box } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
 import PostList from "../PostList/PostList";
 
-function PostContainer({ profile }) {
+function PostContainer() {
+  const [posts, setPosts] = useState([]); // Define the posts state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [locationData, setLocationData] = useState({
     googlePlaceId: "",
     placeName: "",
   });
-
-  const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const [activeCat, setActiveCat] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   const fetchPosts = async () => {
     try {
       const response = await getAll();
-      setPosts(response.data);
-      setComments(response.data.comments);
+      setPosts(response.data); // Set the fetched posts in the state
       console.log("fetching posts ", response.data);
     } catch (error) {
       console.error("Error fetching Posts:", error);
     }
   };
-  const [activeCat, setActiveCat] = useState([]);
-
-  const formData = new FormData();
 
   useEffect(() => {
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("googleLocation", locationData);
-    formData.append("categories", activeCat);
-  }, [title, content, locationData, activeCat, formData]);
-  console.log(locationData);
+    fetchPosts();
+  }, []);
+
   const addPost = async (e) => {
     e.preventDefault();
 
@@ -57,10 +46,11 @@ function PostContainer({ profile }) {
 
       // Clear form fields after successful submission
       setTitle("");
-      setSelectedCategories([]);
+      setActiveCat([]);
       setLocationData({ googlePlaceId: "", placeName: "" });
       setContent("");
 
+      setShowForm(false);
       // Fetch updated Posts after adding a new Post
       fetchPosts();
     } catch (error) {
@@ -71,8 +61,23 @@ function PostContainer({ profile }) {
   return (
     <div>
       <Container maxWidth="md" className="post-container">
-        <Paper elevation={3} className="card">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 2,
+          }}
+        >
+          {!showForm && (
+            <Button variant="contained" onClick={() => setShowForm(true)}>
+              Create a Post
+            </Button>
+          )}
+        </Box>
+
+        {showForm && (
           <CreatePostForm
+            setShowForm={setShowForm}
             title={title}
             setTitle={setTitle}
             locationData={locationData}
@@ -83,14 +88,9 @@ function PostContainer({ profile }) {
             activeCat={activeCat}
             setActiveCat={setActiveCat}
           />
-        </Paper>
-        <PostList
-          profile={profile}
-          posts={posts}
-          fetchPosts={fetchPosts}
-          comments={comments}
-          setComments={setComments}
-        />
+        )}
+
+        <PostList posts={posts} fetchPosts={fetchPosts} />
       </Container>
     </div>
   );
