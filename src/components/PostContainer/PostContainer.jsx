@@ -67,19 +67,24 @@ function PostContainer({ profile, profileId = null }) {
   return (
     <div>
       <Container maxWidth="md" className="post-container">
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: 2,
-          }}
-        >
-          {!showForm && (
-            <Button variant="contained" onClick={() => setShowForm(true)}>
-              Create a Post
-            </Button>
-          )}
-        </Box>
+        {profile ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 2,
+              p: 2,
+            }}
+          >
+            {!showForm && (
+              <Button variant="contained" onClick={() => setShowForm(true)}>
+                Create a Post
+              </Button>
+            )}
+          </Box>
+        ) : (
+          ""
+        )}
 
         {showForm && (
           <CreatePostForm
@@ -95,13 +100,14 @@ function PostContainer({ profile, profileId = null }) {
             setActiveCat={setActiveCat}
           />
         )}
-
-        <PostList
-          profile={profile}
-          profileId={profileId}
-          posts={posts}
-          fetchPosts={fetchPosts}
-        />
+        <Box sx={{ p: 4 }}>
+          <PostList
+            profile={profile}
+            profileId={profileId}
+            posts={posts}
+            fetchPosts={fetchPosts}
+          />
+        </Box>
       </Container>
     </div>
   );

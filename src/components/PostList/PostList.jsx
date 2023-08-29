@@ -187,30 +187,38 @@ function PostList({
                 )}
               </Typography>
             </Box>
-            <CommentSection
-              profile={profile}
-              post={post}
-              commented={commented}
-              onCommented={onCommented}
-            />
+            {profile ? (
+              <CommentSection
+                profile={profile}
+                post={post}
+                commented={commented}
+                onCommented={onCommented}
+              />
+            ) : (
+              ""
+            )}
           </CardContent>
-          <CardActions
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            {post.profile && post.profile._id === profile._id ? (
-              <Button onClick={() => handleOpenDialog(post)}>
-                <EditIcon />
-              </Button>
-            ) : null}
-            {post.profile && post.profile._id === profile._id ? (
-              <Button onClick={() => handleDeletePost(post._id)}>
-                <DeleteIcon />
-              </Button>
-            ) : null}
-          </CardActions>
+          {profile ? (
+            <CardActions
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              {post.profile && post.profile._id === profile._id ? (
+                <Button onClick={() => handleOpenDialog(post)}>
+                  <EditIcon />
+                </Button>
+              ) : null}
+              {post.profile && post.profile._id === profile._id ? (
+                <Button onClick={() => handleDeletePost(post._id)}>
+                  <DeleteIcon />
+                </Button>
+              ) : null}
+            </CardActions>
+          ) : (
+            ""
+          )}
         </Card>
       ))}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
