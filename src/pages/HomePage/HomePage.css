@@ -48,7 +48,6 @@ body {
 /* Locations styles */
 .locations {
   padding: 40px 0;
-  
 }
 
 .package-title h2 {
@@ -67,9 +66,8 @@ body {
 }
 
 .Bangkok {
-  padding: 10px 20px;
-  height: 400px;
-  width: calc(33.33% - 40px);
+  height: 422px;
+  width: calc(34.33% - 40px);
   background-image: url("https://wallpaperaccess.com/full/150582.jpg");
   background-size: cover;
   background-position: center;
@@ -102,9 +100,8 @@ body {
 }
 
 .Dubai {
-  padding: 0px 20px 0 50px;
-  height: 400px;
-  width: 250px;
+  height: 422px;
+  width: calc(33.89% - 40px);
   background-image: url("https://www.wallpapers13.com/wp-content/uploads/2016/02/Dubai-city-night-amazing-facilities-Burj-Khalifa-Hd-wallpaper-840x525.jpg");
   background-size: cover;
   background-position: center;
@@ -118,9 +115,8 @@ body {
 }
 
 .ATL {
-  padding: 10px 50px 10px 30px;
-  height: 400px;
-  width: 250px;
+  height: 422px;
+  width: calc(34.33% - 40px);
   background-image: url("https://wallpapercave.com/dwp1x/wp4041292.jpg");
   background-size: cover;
   background-position: center;
@@ -134,6 +130,7 @@ body {
 }
 
 /* Footer styles */
+
 .footer {
   background-color: #333;
   color: #fff;
@@ -143,8 +140,7 @@ body {
 .footer-content {
   display: flex;
   justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
+  align-items: flex-start; 
   padding: 0 20px;
 }
 
@@ -167,6 +163,11 @@ body {
   color: #FF5733; 
 }
 
+.social {
+  display: flex;
+  align-items: center; 
+}
+
 .social a {
   color: #fff;
   margin-right: 10px;
@@ -183,4 +184,14 @@ body {
   text-align: center;
   margin-top: 20px;
   font-size: 22px;
+}
+
+.title {
+  font-size: 36px; 
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.package-title h2 {
+    font-size: 40px;
 }
