@@ -34,13 +34,6 @@ function CommentSection({ profile, post, setPost, commented, onCommented }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (comments.length > 0) {
-  //     setLatestComment(comments[comments.length - 1]);
-  //   }
-  //   console.log(latestComment);
-  // }, [comments]);
-
   return (
     <div>
       <h3>Comments</h3>

@@ -58,7 +58,6 @@ export default function ChatWindow({
   useEffect(() => {
     async function fetchData() {
       const response = await getAllChatMessages();
-      console.log(response);
       const responseMessages = response.data.map((m) => {
         return {
           nameOfUser: m.user.useUsername

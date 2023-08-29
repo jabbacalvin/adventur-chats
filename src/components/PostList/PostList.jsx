@@ -48,7 +48,6 @@ function PostList({
   const handleDeletePost = async (postId) => {
     try {
       await deletePost(postId);
-      console.log("Post deleted successfully");
       fetchPosts();
     } catch (error) {
       console.error("Error deleting Post:", error);
@@ -76,7 +75,6 @@ function PostList({
         content: updatedContentValue,
       };
       await updatePost(selectedPost._id, updatedPost);
-      console.log("Post updated successfully");
       handleCloseDialog();
       fetchPosts();
     } catch (error) {
@@ -87,7 +85,6 @@ function PostList({
   const filteredPosts = profileId
     ? posts.filter((post) => post.profile._id === profileId)
     : posts;
-  console.log(filteredPosts);
 
   return (
     <div style={{ paddingBottom: "10px" }}>

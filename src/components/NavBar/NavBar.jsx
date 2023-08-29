@@ -102,11 +102,9 @@ export default function NavBar({
     navigate("/settings");
   };
 
-  // console.log(updatingProfile);
   const [profileName, setProfileName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   useEffect(() => {
-    // console.log(profile);
     if (profile) {
       setProfileName(`${profile.firstName} ${profile.lastName}`);
     } else {

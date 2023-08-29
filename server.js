@@ -47,7 +47,6 @@ const server = app.listen(port, function () {
 const io = require("./config/socket").init(server);
 
 io.on("connection", (socket) => {
-  console.log(`Socket connected: ${socket.id}`);
   socket.on("send_message", (msg) => {
     socket.broadcast.emit("receive_message", msg);
   });
