@@ -2,7 +2,7 @@ import React from "react";
 import PostContainer from "../../components/PostContainer/PostContainer";
 import { Box } from "@mui/material";
 
-export default function ProfilePage() {
+export default function PostsPage({ profile }) {
   return (
     <Box
       sx={{
@@ -25,7 +25,7 @@ export default function ProfilePage() {
           zIndex: -1,
         }}
       ></div>
-      <PostContainer />
+      <PostContainer profile={profile} />
     </Box>
   );
 }
