@@ -1,52 +1,85 @@
 import React, { useState, useEffect } from "react";
-import { updateComments } from "../../utilities/posts-api";
+import { create } from "../../utilities/comments-api";
+import { Avatar } from "@mui/material";
 
-function CommentSection({ profile, postId, comments, setComments }) {
+function CommentSection({ profile, post, setPost, commented, onCommented }) {
+  const [comments, setComments] = useState(post.comments);
   const [newComment, setNewComment] = useState([]);
+  // const [postWithNewComment, setPostWithNewComment] = useState("");
+  const [latestComment, setLatestComment] = useState("");
 
   const handleCreateComment = async () => {
     try {
-      let updatedCommentsArr;
-      if (comments) {
-        updatedCommentsArr = comments.push({
-          content: newComment,
-          user: profile._id,
-        });
-      } else {
-        updatedCommentsArr = [
-          {
-            content: newComment,
-            user: profile._id,
-          },
-        ];
-      }
-
-      setComments(updatedCommentsArr);
-      const updatedComments = {
-        comments: comments,
+      const newCommentObj = {
+        profile: profile._id,
+        comment: newComment,
       };
 
-      const postWithNewComment = await updateComments(postId, updatedComments);
-      console.log(postWithNewComment);
-      console.log("Comments");
+      const postWithNewComment = await create(post._id, newCommentObj);
+
+      // if (
+      //   postWithNewComment &&
+      //   postWithNewComment.comments &&
+      //   postWithNewComment.comments.length > 0
+      // ) {
+      //   const newLatestComment =
+      //     postWithNewComment.comments[postWithNewComment.comments.length - 1];
+      //   setComments([...comments, ...newLatestComment]);
+      // }
+
       setNewComment("");
+      onCommented(true);
     } catch (error) {
       console.error("Error creating comment:", error);
     }
   };
 
+  // useEffect(() => {
+  //   if (comments.length > 0) {
+  //     setLatestComment(comments[comments.length - 1]);
+  //   }
+  //   console.log(latestComment);
+  // }, [comments]);
+
   return (
     <div>
       <h3>Comments</h3>
-      {/* <div>
+      <div>
         {comments
           ? comments.map((comment, idx) => (
               <div key={idx}>
-                <p>{comment.content}</p>
+                <Avatar
+                  alt={`${comment.profile.firstName} ${comment.profile.lastName}`}
+                  src={comment.profile.profilePics[0].url}
+                />
+                <p>{comment.comment}</p>
               </div>
             ))
           : ""}
-      </div> */}
+      </div>
+      {/* {latestComment ? (
+        <>
+          <Avatar
+            alt={`${latestComment.profile.firstName} ${latestComment.profile.lastName}`}
+            src={latestComment.profile.profilePics[0].url}
+          />
+          <p>{latestComment.comment}</p>
+        </>
+      ) : (
+        <div>
+          {comments
+            ? comments.map((comment, idx) => (
+                <div key={idx}>
+                  <Avatar
+                    alt={`${comment.profile.firstName} ${comment.profile.lastName}`}
+                    src={comment.profile.profilePics[0].url}
+                  />
+                  <p>{comment.comment}</p>
+                </div>
+              ))
+            : ""}
+        </div>
+      )} */}
       <div>
         <textarea
           value={newComment}

@@ -4,7 +4,7 @@ import { Container, Button, Box } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
 import PostList from "../PostList/PostList";
 
-function PostContainer({ profileId = null, profile }) {
+function PostContainer({ profile, profileId = null }) {
   const [posts, setPosts] = useState([]); // Define the posts state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -12,13 +12,19 @@ function PostContainer({ profileId = null, profile }) {
     googlePlaceId: "",
     placeName: "",
   });
+
   const [activeCat, setActiveCat] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [commented, setCommented] = useState([]);
+  useEffect(() => {
+    fetchPosts();
+  }, [commented]);
 
   const fetchPosts = async () => {
     try {
       const response = await getAll();
-      setPosts(response.data); // Set the fetched posts in the state
+      setPosts(response.data);
+      setCommented(false);
       console.log("fetching posts ", response.data);
     } catch (error) {
       console.error("Error fetching Posts:", error);
@@ -91,10 +97,10 @@ function PostContainer({ profileId = null, profile }) {
         )}
 
         <PostList
+          profile={profile}
+          profileId={profileId}
           posts={posts}
           fetchPosts={fetchPosts}
-          profileId={profileId}
-          profile={profile}
         />
       </Container>
     </div>
