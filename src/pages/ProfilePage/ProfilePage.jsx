@@ -9,8 +9,8 @@ const backgroundStyles = {
   backgroundImage: `url('https://wallpaperaccess.com/full/1287373.jpg')`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backdropFilter: "blur(5px)", // Adding blur effect
-  minHeight: "100vh", // Ensures the background covers the entire viewport
+  backdropFilter: "blur(5px)", 
+  minHeight: "100vh", 
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
