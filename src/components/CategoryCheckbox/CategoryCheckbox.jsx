@@ -65,17 +65,16 @@ export default function CategoryCheckbox({ activeCat, setActiveCat }) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label" sx={{ fontSize: 12 }}>
-          Category
-        </InputLabel>
+      <FormControl sx={{ width: 300 }}>
+        <InputLabel id="category">Category</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
+          labelId="category"
+          id="category"
+          label="Category"
           multiple
           value={selectedCategories}
           onChange={handleChange}
-          input={<OutlinedInput label="Tag" />}
+          input={<OutlinedInput label="Category" />}
           renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}
         >
