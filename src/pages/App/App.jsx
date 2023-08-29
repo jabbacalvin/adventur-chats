@@ -59,6 +59,10 @@ export default function App() {
               path="/profile"
               element={
                 <ProfilePage
+                  chatVisible={chatVisible}
+                  setChatVisible={setChatVisible}
+                  unreadCount={unreadCount}
+                  setUnreadCount={setUnreadCount}
                   updatingProfile={updatingProfile}
                   setUpdatingProfile={setUpdatingProfile}
                   profile={profile}
