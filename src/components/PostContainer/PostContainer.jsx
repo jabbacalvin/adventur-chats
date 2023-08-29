@@ -4,7 +4,7 @@ import { Container, Button, Box } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
 import PostList from "../PostList/PostList";
 
-function PostContainer() {
+function PostContainer({ profileId = null, profile }) {
   const [posts, setPosts] = useState([]); // Define the posts state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -90,7 +90,12 @@ function PostContainer() {
           />
         )}
 
-        <PostList posts={posts} fetchPosts={fetchPosts} />
+        <PostList
+          posts={posts}
+          fetchPosts={fetchPosts}
+          profileId={profileId}
+          profile={profile}
+        />
       </Container>
     </div>
   );
