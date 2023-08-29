@@ -19,17 +19,18 @@ import EditIcon from "@mui/icons-material/Edit";
 
 function PostList({
   profile,
+  profileId,
   posts,
   fetchPosts,
-  setComments,
-  comments,
-  profileId,
+  commented,
+  onCommented,
 }) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [updatedTitleValue, setUpdatedTitleValue] = useState("");
   const [updatedContentValue, setUpdatedContentValue] = useState("");
+  const [post, setPost] = useState(null);
 
   useEffect(() => {
     fetchCategories();
@@ -188,9 +189,9 @@ function PostList({
             </Box>
             <CommentSection
               profile={profile}
-              postId={post._id}
-              comments={comments}
-              setComments={setComments}
+              post={post}
+              commented={commented}
+              onCommented={onCommented}
             />
           </CardContent>
           <CardActions
