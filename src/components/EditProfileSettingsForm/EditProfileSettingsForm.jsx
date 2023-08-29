@@ -19,8 +19,7 @@ import {
   Card,
   CardMedia,
   IconButton,
-  Collapse,
-  Fade,
+  TextareaAutosize,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -50,6 +49,7 @@ export default function EditProfileSettingsForm({
     useAvatar: true,
     isMessageable: true,
     isSearchable: true,
+    bio: "",
   });
 
   const [locationData, setLocationData] = useState({
@@ -187,6 +187,7 @@ export default function EditProfileSettingsForm({
     useAvatar,
     isMessageable,
     isSearchable,
+    bio,
   } = formData;
 
   const isFormInvalid = () => {
@@ -385,6 +386,17 @@ export default function EditProfileSettingsForm({
             />
           }
           label="Public posts"
+        />
+      </Grid>
+      <Grid align="center">
+        <TextField
+          name="bio"
+          label="Bio"
+          value={bio}
+          onChange={handleChange}
+          multiline
+          rows={5}
+          sx={{ m: 1, width: "60ch" }}
         />
       </Grid>
       <Grid align="center">
