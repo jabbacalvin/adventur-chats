@@ -1,46 +1,13 @@
 
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import "./HomePage.css"; // Make sure to import your CSS file
-
-// export default function HomePage() {
-//   return (
-//     <>
-//       <div className="home-page">
-//         <h1>Home</h1>
-//         <div className="card-container">
-//           <Link to="/posts" className="card card-2">
-//             <span className="card-text">Posts</span>
-//           </Link>
-//         </div>
-//       </div>
-
-//       <section className="footer">
-//         <div className="foot">
-//           <div className="footer-content">
-//             {/* ... Your footer content ... */}
-//           </div>
-//         </div>
-//         <div className="end">
-//           <p>
-//             Copyright © 2022 AdventurChats All Rights Reserved.
-//             <br />
-//             Website developed by: The Forsaken Trio 
-//           </p>
-//         </div>
-//       </section>
-//     </>
-//   );
-// }
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
 import "./HomePage.css"; // Make sure to import your CSS file
 
 export default function HomePage() {
   return (
     <div className="home-page">
-
       <section className="hero">
         <h1>Welcome to AdventurChats</h1>
         <p>Your Ultimate Travel Experience Awaits</p>
@@ -77,20 +44,13 @@ export default function HomePage() {
 
           <div className="footlinks">
             <h4>Connect</h4>
-            <div className="social">
-              <a href="#" target="_blank">
-                <i className="bx bxl-facebook"></i>
-              </a>
-              <a href="#" target="_blank">
-                <i className="bx bxl-instagram"></i>
-              </a>
-              <a href="#" target="_blank">
-                <i className="bx bxl-twitter"></i>
-              </a>
-              <a href="#" target="_blank">
-                <i className="bx bxl-linkedin"></i>
-              </a>
-            </div>
+            <a
+              href="https://github.com/jabbacalvin56/adventur-chats"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub size={40}/>
+            </a>
           </div>
         </div>
         <div className="end">

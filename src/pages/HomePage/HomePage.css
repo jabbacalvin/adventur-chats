@@ -186,7 +186,7 @@ body {
 
 /* Hero section styles */
 .hero {
-  background-image: url("https://as2.ftcdn.net/v2/jpg/05/68/63/11/1000_F_568631153_ygTLlsjLeVtMrGDSUbqia6VD2GsdbHJx.jpg");
+  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80");
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -228,7 +228,7 @@ body {
 .card-2 {
   height: 400px; /* Adjust height as needed */
   width: 220%; /* Adjust width as needed */
-  background-image: url("https://wallpaperaccess.com/full/124518.jpg");
+  background-image: url("https://wallpapercrafter.com/th8001/534071-dubai-4k-wallpaper-most-downloaded-building-exterior.jpg");
 }
 
 .card-2 .card-text {
@@ -263,6 +263,7 @@ body {
   text-decoration: none;
   color: #fff;
   transition: color 0.3s;
+  font-size: 20px;
 }
 
 .footlinks a:hover {
@@ -272,7 +273,7 @@ body {
 .social a {
   color: #fff;
   margin-right: 10px;
-  font-size: 24px;
+  font-size: 54px;
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -284,4 +285,5 @@ body {
 .end {
   text-align: center;
   margin-top: 20px;
+  font-size: 22px;
 }
