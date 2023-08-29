@@ -205,23 +205,27 @@ export default function NavBar({
           <Stack direction="row">
             {user ? (
               <>
-                <IconButton
-                  size="large"
-                  color="inherit"
-                  sx={{ "&:hover": { backgroundColor: "transparent" } }}
-                >
-                  <Badge badgeContent={unreadCount} color="error">
-                    <Avatar
-                      onClick={() => {
-                        toggleChatVisible();
-                        setUnreadCount(0);
-                      }}
-                      sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
-                    >
-                      <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
-                    </Avatar>
-                  </Badge>
-                </IconButton>
+                {profile.isMessageable ? (
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    sx={{ "&:hover": { backgroundColor: "transparent" } }}
+                  >
+                    <Badge badgeContent={unreadCount} color="error">
+                      <Avatar
+                        onClick={() => {
+                          toggleChatVisible();
+                          setUnreadCount(0);
+                        }}
+                        sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+                      >
+                        <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
+                      </Avatar>
+                    </Badge>
+                  </IconButton>
+                ) : (
+                  ""
+                )}
                 <IconButton
                   size="large"
                   color="inherit"

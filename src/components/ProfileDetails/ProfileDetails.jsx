@@ -19,7 +19,17 @@ export default function ProfilePage({
   setUpdatingProfile,
   profile,
   setProfile,
+  unreadCount,
+  setUnreadCount,
+  chatVisible,
+  setChatVisible,
 }) {
+  const toggleChatVisible = () => {
+    setChatVisible(!chatVisible);
+    if (chatVisible) {
+      setUnreadCount(0);
+    }
+  };
   return (
     <>
       <Typography variant="h3" gutterBottom align="center">
@@ -109,7 +119,13 @@ export default function ProfilePage({
         <Grid item xs={4}>
           <Typography variant="h6" gutterBottom>
             {profile.isMessageable ? (
-              <IconButton color="info">
+              <IconButton
+                color="info"
+                onClick={() => {
+                  toggleChatVisible();
+                  setUnreadCount(0);
+                }}
+              >
                 <ChatIcon fontSize="large" />
               </IconButton>
             ) : (

@@ -26,6 +26,10 @@ export default function ProfilePage({
   setUpdatingProfile,
   profile,
   setProfile,
+  unreadCount,
+  setUnreadCount,
+  chatVisible,
+  setChatVisible,
 }) {
   return (
     <Box sx={{ ...backgroundStyles, p: 3 }}>
@@ -46,6 +50,10 @@ export default function ProfilePage({
             }}
           >
             <ProfileDetails
+              chatVisible={chatVisible}
+              setChatVisible={setChatVisible}
+              unreadCount={unreadCount}
+              setUnreadCount={setUnreadCount}
               updatingProfile={updatingProfile}
               setUpdatingProfile={setUpdatingProfile}
               profile={profile}
