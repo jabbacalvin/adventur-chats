@@ -47,7 +47,6 @@ function PostContainer({ profile, profileId = null }) {
 
     try {
       const response = await create(newPost);
-      console.log(response);
       console.log("Post added:", response.data);
 
       // Clear form fields after successful submission

@@ -44,7 +44,6 @@ export default function VisitPage() {
   const addVisit = async (newVisit) => {
     try {
       const response = await create(newVisit);
-      console.log(response);
       console.log("Visit added:", response.data);
       fetchVisits();
     } catch (error) {

@@ -4,10 +4,8 @@ const Category = require("./models/category");
 
 (async function () {
   try {
-    console.log("Deleting existing categories...");
     await Category.deleteMany();
 
-    console.log("Creating new categories...");
     const categories = await Category.create([
       { name: "Outdoors/Nature 🌲" },
       { name: "Beaches 🏖️" },

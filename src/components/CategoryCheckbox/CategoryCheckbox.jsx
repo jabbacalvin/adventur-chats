@@ -23,14 +23,6 @@ export default function CategoryCheckbox({ activeCat, setActiveCat }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const options = [];
 
-  // const handleCategoryChange = (event) => {
-  //   console.log("handleCategoryChange called with categoryId:", event.target);
-
-  //   activeCat.includes(event.target.value)
-  //     ? setActiveCat(activeCat)
-  //     : setActiveCat(...activeCat, event.target.value);
-  // };
-
   useEffect(() => {
     getCategories();
   }, []);
@@ -46,18 +38,14 @@ export default function CategoryCheckbox({ activeCat, setActiveCat }) {
 
   const handleChange = (event) => {
     let option = [];
-    console.log(event.target.value);
     setSelectedCategories(event.target.value);
-    console.log(categories);
     event.target.value.forEach(
       (val) =>
         (option = categories.filter((cat) => {
           return cat.name === val;
         }))
     );
-    console.log("hello", option[0]._id);
     options.push(option[0]._id);
-    console.log("options ", options);
     setActiveCat([...activeCat, option[0]._id]);
   };
 

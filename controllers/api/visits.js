@@ -11,7 +11,6 @@ module.exports = {
 };
 
 function checkToken(req, res) {
-  console.log("req.user", req.user);
   res.json(req.exp);
 }
 
@@ -24,7 +23,6 @@ async function index(req, res) {
 
 async function createVisit(req, res) {
   const visit = await Visit.create(req.body);
-  console.log(visit);
   res.status(201).json(visit);
 }
 
