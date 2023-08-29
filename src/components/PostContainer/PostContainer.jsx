@@ -65,7 +65,7 @@ function PostContainer({ profile, profileId = null }) {
 
   return (
     <div>
-      <Container maxWidth="md" className="post-container">
+      <Container className="post-container">
         {profile ? (
           <Box
             sx={{

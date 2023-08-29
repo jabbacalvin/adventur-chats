@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PlacesAutocomplete from "../PlacesAutocomplete/PlacesAutocomplete";
 import CategoryCheckbox from "../CategoryCheckbox/CategoryCheckbox";
+import ImageUpload from "../ImageUpload/ImageUpload";
 
 import {
   Button,
@@ -10,9 +11,14 @@ import {
   Typography,
   Grid,
   Paper,
+  Modal,
+  IconButton,
+  CircularProgress,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 function CreatePostForm({
+  profile,
   setShowForm,
   title,
   setTitle,
@@ -24,6 +30,13 @@ function CreatePostForm({
   locationData,
   setLocationData,
 }) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [imagesChanged, setImagesChanged] = useState(false);
+  const [postImages, setPostImages] = useState([]);
+
   return (
     <form onSubmit={addPost}>
       <Container
@@ -44,6 +57,71 @@ function CreatePostForm({
             width: "100%",
           }}
         >
+          <Grid sx={{ marginBottom: 2 }}>
+            <Button variant="outlined" onClick={handleOpen}>
+              Add Images
+            </Button>
+          </Grid>
+          <Modal
+            open={open}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 450,
+                bgcolor: "background.paper",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6" component="h2">
+                Add Pictures
+              </Typography>
+              {imagesChanged ? (
+                ""
+              ) : (
+                <IconButton
+                  onClick={handleClose}
+                  sx={{ position: "absolute", right: 8, top: 8 }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              )}
+              <>
+                <ImageUpload
+                  imageFor={"profile"}
+                  id={0}
+                  imageListColumns={3}
+                  imageListHeight={"150"}
+                  imageListWidth={"400"}
+                  progressBarWidth={"25.5rem"}
+                  alertBoxWidth={"23.5rem"}
+                  profilePics={postImages}
+                  setProfilePics={setPostImages}
+                  setImagesChanged={setImagesChanged}
+                  getImageList={(imageList) => {
+                    // setFormData({
+                    //   ...formData,
+                    //   profilePicsNew: imageList.map((image) => image._id),
+                    // });
+                  }}
+                />
+                <Button
+                  // onClick={handleSubmit}
+                  variant="contained"
+                  sx={{ m: 1, float: "right" }}
+                >
+                  Save
+                </Button>
+              </>
+            </Box>
+          </Modal>
           <TextField
             label="Title"
             value={title}
