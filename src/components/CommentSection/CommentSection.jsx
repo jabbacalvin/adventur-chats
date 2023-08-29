@@ -15,7 +15,7 @@ function CommentSection({ profile, post, setPost, commented, onCommented }) {
       };
 
       const postWithNewComment = await create(post._id, newCommentObj);
-      setLatestComment(postWithNewComment); //.comments[comments.length - 1]
+      setPost(postWithNewComment); //.comments[comments.length - 1]
 
       setNewComment("");
       onCommented(true);
