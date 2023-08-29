@@ -100,6 +100,7 @@ export default function App() {
               path="/login"
               element={<AuthPage setUser={setUser} setProfile={setProfile} />}
             />
+            <Route path="/posts" element={<PostsPage profile={profile} />} />
           </Routes>
         </>
       )}
