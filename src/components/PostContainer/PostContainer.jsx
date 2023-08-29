@@ -4,7 +4,7 @@ import { Container, Button, Box } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
 import PostList from "../PostList/PostList";
 
-function PostContainer({ profile }) {
+function PostContainer({ profile, profileId = null }) {
   const [posts, setPosts] = useState([]); // Define the posts state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -95,12 +95,12 @@ function PostContainer({ profile }) {
             setActiveCat={setActiveCat}
           />
         )}
+
         <PostList
           profile={profile}
+          profileId={profileId}
           posts={posts}
           fetchPosts={fetchPosts}
-          commented={commented}
-          onCommented={(state) => setCommented(state)}
         />
       </Container>
     </div>

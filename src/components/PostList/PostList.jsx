@@ -17,7 +17,14 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
+function PostList({
+  profile,
+  profileId,
+  posts,
+  fetchPosts,
+  commented,
+  onCommented,
+}) {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -28,6 +35,7 @@ function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
   useEffect(() => {
     fetchCategories();
   }, []);
+
   const fetchCategories = async () => {
     try {
       const categoriesData = await getAllCategories();
@@ -36,6 +44,7 @@ function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
       console.error("Error fetching categories:", error);
     }
   };
+
   const handleDeletePost = async (postId) => {
     try {
       await deletePost(postId);
@@ -45,18 +54,21 @@ function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
       console.error("Error deleting Post:", error);
     }
   };
+
   const handleOpenDialog = (post) => {
     setSelectedPost(post);
     setUpdatedTitleValue(post.title);
     setUpdatedContentValue(post.content);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setSelectedPost(null);
     setOpenDialog(false);
     setUpdatedTitleValue("");
     setUpdatedContentValue("");
   };
+
   const handleUpdatePost = async () => {
     try {
       const updatedPost = {
@@ -71,10 +83,15 @@ function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
       console.error("Error updating Post:", error);
     }
   };
+
+  const filteredPosts = profileId
+    ? posts.filter((post) => post.profile._id === profileId)
+    : posts;
+  console.log(filteredPosts);
+
   return (
     <div>
-      <h2>Posts</h2>
-      {posts.map((post) => (
+      {filteredPosts.map((post) => (
         <Card
           key={post._id}
           variant="outlined"
@@ -183,12 +200,16 @@ function PostList({ profile, posts, fetchPosts, commented, onCommented }) {
               justifyContent: "flex-end",
             }}
           >
-            <Button onClick={() => handleOpenDialog(post)}>
-              <EditIcon />
-            </Button>
-            <Button onClick={() => handleDeletePost(post._id)}>
-              <DeleteIcon />
-            </Button>
+            {post.profile && post.profile._id === profile._id ? (
+              <Button onClick={() => handleOpenDialog(post)}>
+                <EditIcon />
+              </Button>
+            ) : null}
+            {post.profile && post.profile._id === profile._id ? (
+              <Button onClick={() => handleDeletePost(post._id)}>
+                <DeleteIcon />
+              </Button>
+            ) : null}
           </CardActions>
         </Card>
       ))}
