@@ -3,7 +3,6 @@ import CreatePostForm from "../CreatePostForm/CreatePostForm";
 import { Container, Button, Box } from "@mui/material";
 import { getAll, create } from "../../utilities/posts-api";
 import PostList from "../PostList/PostList";
-import PostList from "../PostList/PostList";
 
 function PostContainer() {
   const [posts, setPosts] = useState([]); // Define the posts state
@@ -89,7 +88,8 @@ function PostContainer() {
             activeCat={activeCat}
             setActiveCat={setActiveCat}
           />
-        </Paper>
+        )}
+
         <PostList posts={posts} fetchPosts={fetchPosts} />
       </Container>
     </div>
