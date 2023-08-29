@@ -1,3 +1,3 @@
-# MERN-Stack Infrastructure
+# Adventur Chats
 
-Clone this repo to provide the starter code for a comprehensive MERN-Stack project including token-based authentication.
+https://adventur-chats-fef2b7b95dbc.herokuapp.com/
