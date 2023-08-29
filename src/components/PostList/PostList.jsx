@@ -97,7 +97,7 @@ function PostList({
           sx={{
             borderRadius: 6,
             padding: "16px",
-            maxWidth: 500,
+            maxWidth: 600,
             margin: "0 auto",
             position: "relative", // Set the position of the card to relative
             marginBottom: "10px",
