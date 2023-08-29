@@ -34,6 +34,7 @@ async function index(req, res) {
     const posts = await Post.find()
       .populate("categories")
       .populate("location")
+      .populate("images")
       .populate({
         path: "profile",
         populate: { path: "profilePics", model: "Image" },
