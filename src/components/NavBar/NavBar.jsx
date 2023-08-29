@@ -203,37 +203,44 @@ export default function NavBar({
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
+
           <Stack direction="row">
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-              sx={{ "&:hover": { backgroundColor: "transparent" } }}
-            >
-              <Badge badgeContent={unreadCount} color="error">
-                <Avatar
-                  onClick={() => {
-                    toggleChatVisible();
-                    setUnreadCount(0);
-                  }}
-                  sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+            {user ? (
+              <>
+                <IconButton
+                  size="large"
+                  color="inherit"
+                  sx={{ "&:hover": { backgroundColor: "transparent" } }}
                 >
-                  <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
-                </Avatar>
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              sx={{ "&:hover": { backgroundColor: "transparent" } }}
-            >
-              <Badge badgeContent={17} color="error">
-                <Avatar sx={{ "&:hover": { backgroundColor: "lightgrey" } }}>
-                  <NotificationsIcon sx={{ color: "#303841" }} />
-                </Avatar>
-              </Badge>
-            </IconButton>
+                  <Badge badgeContent={unreadCount} color="error">
+                    <Avatar
+                      onClick={() => {
+                        toggleChatVisible();
+                        setUnreadCount(0);
+                      }}
+                      sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+                    >
+                      <ChatBubbleOutlineIcon sx={{ color: "#303841" }} />
+                    </Avatar>
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  color="inherit"
+                  sx={{ "&:hover": { backgroundColor: "transparent" } }}
+                >
+                  <Badge badgeContent={17} color="error">
+                    <Avatar
+                      sx={{ "&:hover": { backgroundColor: "lightgrey" } }}
+                    >
+                      <NotificationsIcon sx={{ color: "#303841" }} />
+                    </Avatar>
+                  </Badge>
+                </IconButton>
+              </>
+            ) : (
+              ""
+            )}
             {user ? (
               <Tooltip title="Open menu">
                 <IconButton
