@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
-import "./HomePage.css"; 
+import "./HomePage.css";
 
 export default function HomePage() {
   return (
     <div className="home-page">
       <section className="hero">
         <h1>Welcome to AdventurChats</h1>
-        <p>Your Ultimate Travel Experience Awaits</p>
+        <p>Travel Tales, Real-Time Advice</p>
         <Link to="/posts" className="explore-button">
           Explore Posts
         </Link>

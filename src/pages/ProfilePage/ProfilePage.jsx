@@ -28,7 +28,7 @@ export default function ProfilePage({
         <Grid item xs={9}>
           <PostContainer profile={profile} profileId={profile._id} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{ p: 8 }}>
           <Paper sx={{ p: 2 }}>
             <ProfileDetails
               updatingProfile={updatingProfile}
