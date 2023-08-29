@@ -82,7 +82,7 @@ export default function ChatWindow({
   }, [messages, chatVisible]);
 
   useEffect(() => {
-    // Scroll to the bottom of the messages box when messages change
+    
     if (messagesBoxRef.current) {
       messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
     }
@@ -90,11 +90,10 @@ export default function ChatWindow({
 
   useEffect(() => {
     if (chatVisible) {
-      // Scroll to the bottom of the messages box when the chat is opened
+      
       if (messagesBoxRef.current) {
         messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
       }
-      // Reset the unread message count since the chat is now visible
       setUnreadCount(0);
     }
   }, [chatVisible]);
@@ -131,8 +130,8 @@ export default function ChatWindow({
           <div
             style={{
               display: "flex",
-              justifyContent: "d-between", // Adjusted alignment
-              alignItems: "center", // Center the message icon vertically
+              justifyContent: "d-between", 
+              alignItems: "center", 
               padding: "10px 20px",
               borderBottom: "1px solid rgba(0, 0, 0, 0.4)",
               backgroundColor: "#f1f1f1",
@@ -150,7 +149,7 @@ export default function ChatWindow({
               display: "flex",
               flexDirection: "column",
               gap: "10px",
-              maxHeight: "calc(70% - 60px)", // Adjusted to account for header height
+              maxHeight: "calc(70% - 60px)", 
               overflowY: "auto",
               backgroundColor: "lightgray",
             }}

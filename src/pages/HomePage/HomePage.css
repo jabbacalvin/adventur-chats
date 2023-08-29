@@ -4,7 +4,6 @@ body, h1, h2, h3, p, ul, li {
   padding: 0;
 }
 
-/* Basic styling */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -106,7 +105,6 @@ body {
   color: #fff;
 }
 
-/* Position the text at the bottom left/middle */
 .location-text {
   position: absolute;
   bottom: 20px;
@@ -115,7 +113,6 @@ body {
   text-align: center;
 }
 
-/* Specific styles for each location */
 .Dubai {
   background-image: url("https://www.wallpapers13.com/wp-content/uploads/2016/02/Dubai-city-night-amazing-facilities-Burj-Khalifa-Hd-wallpaper-840x525.jpg");
 }

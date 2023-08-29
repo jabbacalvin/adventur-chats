@@ -72,7 +72,7 @@ export default function EditProfileSettingsForm({
       setProfilePics(profile.profilePics);
       setCurrentProfilePicUrl(profile.profilePics[0].url);
     } else {
-      setCurrentProfilePicUrl(""); // Reset the avatar URL when no profile picture is available
+      setCurrentProfilePicUrl(""); 
     }
   }, [profile, updatingProfile]);
 
@@ -87,7 +87,7 @@ export default function EditProfileSettingsForm({
 
   const fetchProfile = async () => {
     try {
-      const response = await getProfile(profile._id); // Replace with your API endpoint
+      const response = await getProfile(profile._id); 
 
       setFormData(response.data);
       if (response.data.profilePics) {
@@ -141,7 +141,6 @@ export default function EditProfileSettingsForm({
   };
 
   useEffect(() => {
-    // Check if locationData has changed
     if (
       locationData.googlePlaceId !== formData.googlePlaceId ||
       locationData.placeName !== formData.placeName

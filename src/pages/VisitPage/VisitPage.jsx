@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import "./VisitPage.css";
@@ -90,7 +91,7 @@ export default function VisitPage() {
         location,
       });
       console.log(updatedVisit);
-      setEditVisit(null); // Reset editing state
+      setEditVisit(null);
     } else {
       const newVisit = {
         title,
@@ -138,16 +139,21 @@ export default function VisitPage() {
       />
 
       <Container>
-        <Paper elevation={3} sx={{ padding: 3 }}>
+        <Paper elevation={3} sx={{ padding: 3, border: "2px solid black" }}>
           <div style={{ maxHeight: "40vh", overflow: "auto" }}>
-            <Typography variant="h3">Added Visits</Typography>
+            <Typography
+              variant="h3"
+              style={{ fontWeight: "bold", fontSize: "44px" }}
+            >
+              Trips
+            </Typography>
             <List>
               {visits.map((visit) => (
                 <ListItem
                   key={visit._id}
                   disablePadding
                   sx={{
-                    border: "1px solid #ccc",
+                    border: "3px solid black",
                     borderRadius: "8px",
                     marginBottom: "10px",
                   }}
@@ -156,29 +162,53 @@ export default function VisitPage() {
                     primary={`Title: ${visit.title}`}
                     secondary={
                       <React.Fragment>
-                        <Typography variant="body2">
-                          Description: {visit.description}{" "}
+                        <Typography
+                          variant="body2"
+                          style={{ fontSize: "22px" }}
+                        >
+                          Description: {visit.description}
                         </Typography>{" "}
-                        <Typography variant="body2">
-                          Start Date: {visit.startDate}{" "}
+                        <Typography
+                          variant="body2"
+                          style={{ fontSize: "22px" }}
+                        >
+                          Start Date: {visit.startDate}
                         </Typography>{" "}
-                        <Typography variant="body2">
-                          End Date: {visit.endDate}{" "}
+                        <Typography
+                          variant="body2"
+                          style={{ fontSize: "22px" }}
+                        >
+                          End Date: {visit.endDate}
                         </Typography>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => deleteVisit(visit._id)}
-                        >
-                          Delete
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => initiateUpdate(visit)}
-                        >
-                          Edit
-                        </Button>
+                        <div style={{ marginTop: "10px" }}>
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={() => deleteVisit(visit._id)}
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              marginRight: "10px",
+                              padding: "5px 10px",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <DeleteIcon style={{ marginRight: "5px" }} /> Delete
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => initiateUpdate(visit)}
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              padding: "5px 20px",
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </div>
                       </React.Fragment>
                     }
                   />
@@ -187,10 +217,18 @@ export default function VisitPage() {
             </List>
           </div>
         </Paper>
-
-        <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
-          <Typography variant="h3">
-            {editVisit ? "Edit Visit" : "Add a Visit"}
+        <br />
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 3,
+            marginBottom: 3,
+            border: "3px solid black",
+            borderRadius: "8px",
+          }}
+        >
+          <Typography variant="h3" style={{ fontWeight: "bold" }}>
+            {editVisit ? "Edit Trip" : "Add a Trip"}
           </Typography>
           <form onSubmit={submitForm}>
             <TextField

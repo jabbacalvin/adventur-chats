@@ -65,7 +65,7 @@ function CreatePostForm({
             <CategoryCheckbox
               activeCat={activeCat}
               setActiveCat={setActiveCat}
-              sx={{ backgroundColor: "#ffffff" }} // Set background color to white
+              sx={{ backgroundColor: "#ffffff" }} 
             />
           </Grid>
 
