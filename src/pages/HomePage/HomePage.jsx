@@ -1,9 +1,7 @@
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
-import "./HomePage.css"; // Make sure to import your CSS file
+import "./HomePage.css"; 
 
 export default function HomePage() {
   return (
@@ -16,11 +14,41 @@ export default function HomePage() {
         </Link>
       </section>
 
-      <div className="card-container">
-        <Link to="/posts" className="card card-2">
-          <span className="card-text">Posts</span>
-        </Link>
-      </div>
+      {/* Locations Section */}
+      <section className="locations" id="locations">
+        <div className="package-title">
+          <h2>Locations</h2>
+        </div>
+
+        <div className="location-content">
+          <a href="./locations" target="_blank">
+            <div className="ATL">
+              <h5>USA</h5>
+              <p>Atlanta</p>
+            </div>
+          </a>
+
+          <div className="location-content">
+            <a href="./locations" target="_blank">
+              <div className="Dubai">
+                <h5>United Arab Emirates</h5>
+                <p>Dubai</p>
+              </div>
+            </a>
+            <div className="location-content">
+              <a href="./locations" target="_blank">
+                <div className="Bangkok">
+                  <h5>Thailand</h5>
+                  <p>Bangkok</p>
+                </div>
+              </a>
+
+              {/* Repeat similar blocks for other locations */}
+              {/* ... */}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="footer">
         <div className="footer-content">
@@ -49,7 +77,7 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGithub size={40}/>
+              <FaGithub size={40} />
             </a>
           </div>
         </div>
