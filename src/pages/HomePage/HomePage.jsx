@@ -17,26 +17,26 @@ export default function HomePage() {
       {/* Locations Section */}
       <section className="locations" id="locations">
         <div className="package-title">
-          <h2 className="title" >Locations</h2>
+          <h2 className="title">Locations</h2>
         </div>
 
         <div className="location-content">
-  <div className="location Bangkok" href="#">
-    <h5>Thailand</h5>
-    <p>Bangkok</p>
-  </div>
-  <div className="location Dubai" href="#">
-    <h5>United Arab Emirates</h5>
-    <p>Dubai</p>
-  </div>
-  <div className="location ATL" href="#">
-    <h5>United States</h5>
-    <p>  Atlanta</p>
-  </div>
-</div>
+          <div className="location Dubai" href="#">
+            <h5>United Arab Emirates</h5>
+            <p>Dubai</p>
+          </div>
+          <div className="location Bangkok" href="#">
+            <h5>Thailand</h5>
+            <p>Bangkok</p>
+          </div>
+          <div className="location Paris" href="#">
+            <h5>France</h5>
+            <p> Paris</p>
+          </div>
+        </div>
 
-              {/* Repeat similar blocks for other locations */}
-              {/* ... */}
+        {/* Repeat similar blocks for other locations */}
+        {/* ... */}
       </section>
 
       <section className="footer">
