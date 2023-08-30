@@ -156,6 +156,7 @@ export default function NavBar({
             onClick={() => {
               handleLogOut();
               handleMenuClose();
+              navigate("/");
             }}
           >
             Logout
