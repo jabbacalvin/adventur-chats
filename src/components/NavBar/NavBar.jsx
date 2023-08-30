@@ -206,7 +206,7 @@ export default function NavBar({
           <Stack direction="row">
             {user ? (
               <>
-                {profile.isMessageable ? (
+                {profile && profile.isMessageable ? (
                   <IconButton
                     size="large"
                     color="inherit"
