@@ -18,7 +18,8 @@ import {
   getAllChatMessages,
 } from "../../utilities/chat-api";
 
-const socket = io.connect("http://localhost:3001");
+// const socket = io.connect("http://localhost:3001");
+const socket = io.connect("https://adventur-chats-fef2b7b95dbc.herokuapp.com/");
 
 export default function ChatWindow({
   profile,
@@ -168,10 +169,11 @@ export default function ChatWindow({
                 key={i}
               >
                 {m.nameOfUser !== chatName && (
-                  <Avatar 
-                  src={m.avatar} 
-                  alt={m.nameOfUser} 
-                  style={{ marginRight: "2px" }} />
+                  <Avatar
+                    src={m.avatar}
+                    alt={m.nameOfUser}
+                    style={{ marginRight: "2px" }}
+                  />
                 )}
                 <div
                   style={{
