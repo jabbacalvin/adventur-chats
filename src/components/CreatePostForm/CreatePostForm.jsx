@@ -95,7 +95,7 @@ function CreatePostForm({
               )}
               <>
                 <ImageUpload
-                  imageFor={"profile"}
+                  imageFor={"post"}
                   id={0}
                   imageListColumns={3}
                   imageListHeight={"150"}
